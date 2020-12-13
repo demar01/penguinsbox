@@ -1,0 +1,12 @@
+name: 02-Peptides_predictions
+title: 02-Peptides_predictions
+username:
+account: clif
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3376625
+bundleId: 3964471
+url: https://clif.shinyapps.io/02-Peptides_predictions/
+when: 1607499678.45089
+asMultiple: FALSE
+asStatic: FALSE

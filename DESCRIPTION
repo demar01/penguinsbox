@@ -1,0 +1,13 @@
+Package: penguinsbox
+Type: Package
+Title: DS exercises with penguins in a Box
+Version: 0.1.0
+Author: c(
+    person("Maria", "Dermit", email = "mariadermit.rstudio@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6287-8367"))
+Maintainer: The package maintainer <mariadermit.rstudio@gmail.com>
+Description: Proteomics datasets accompanying Proteomics in a Box Course, an 
+    introductory data science course for proteomics for students who are familiar to R, data 
+    science, and statistics but are not familiar to proteomics tools.
+License: CC BY 4.0
+Encoding: UTF-8
+LazyData: true

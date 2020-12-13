@@ -1,0 +1,12 @@
+name: 01-Peptides
+title: 01-Peptides
+username:
+account: clif
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3376618
+bundleId: 3964403
+url: https://clif.shinyapps.io/01-Peptides/
+when: 1607498608.8547
+asMultiple: FALSE
+asStatic: FALSE

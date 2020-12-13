@@ -1,0 +1,12 @@
+name: 01-Replacement
+title: 01-Replacement
+username:
+account: clif
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3376825
+bundleId: 3965747
+url: https://clif.shinyapps.io/01-Replacement/
+when: 1607520507.61137
+asMultiple: FALSE
+asStatic: FALSE
