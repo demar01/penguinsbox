@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Introducción
 
 ```{r protein-structure, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Imagen de Allison Horst"}
-knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/lter_penguins.png")
+knitr::include_graphics("https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/penguinses.png")
 ```
 
 ### Objetivos de aprendizaje
