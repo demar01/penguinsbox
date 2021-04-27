@@ -26,6 +26,16 @@ nuevos_pinguinos<- tibble(
      alto_pico_mm  = c(15,15,20,20),
      largo_pico_mm = c(39.1, 42, 39.5, 37.4))
 
+nuevos_pinguinos2<- tibble(
+     anio = c(2018, 2019, 2020,2018, 2019, 2020),
+     morfologia=c("alto_pico_mm","alto_pico_mm","alto_pico_mm","largo_pico_mm","largo_pico_mm","largo_pico_mm"),
+     valor  = c(15,15,20,39.1, 42, 39.5))
+
+nuevos_pinguinos3<-tibble(
+    isla=c("Biscoe","Dream"),
+    `2019`=c("3000","4000"),
+    `2020`=c("3500","4500"))
+
 mas_pinguinos<- tibble(
      especie  = c( "Adelia",    "Adelie",     "Adelie",    "Adelie"),
      isla  = c( "Biscoe",    "Dream",     "Dream",    "Torgersen"),
@@ -44,12 +54,11 @@ knitr::opts_chunk$set(echo = FALSE)
 knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/lter_penguins.png")
 ```
 
-
 ### Objetivos de aprendizaje
 
-El objetivo de este tutorial es mostrar cómo reconocer datos desordenados, así como manejar datos desordenados para obtener datos ordenados utilizando las funciones `pivot_longer` y `pivot_wider` de tidyr.
+El objetivo de este tutorial es mostrar cómo reconocer datos desordenados, así como ordenar datos desordenados utilizando las funciones `pivot_longer` y `pivot_wider` de tidyr.
 
-### Datos ordenados 
+## Datos ordenados 
 
 Existen tres reglas interrelacionadas que hacen que un conjunto de datos sea ordenado:
 
@@ -87,55 +96,110 @@ mas_pinguinos
 ```
 
 ```{r test2, echo = FALSE}
-question("Does the data above contain the variables **country**, **year**, **cases**, and **population**?",
-         answer("No", correct = TRUE, message = "If you look closely, you will see that this is the same data set as before, but organized in a new way."),
-         answer("Si", message = "Don't be mislead by the two new column names: a variable and a column name are not necessarily the same thing."),
+question("¿Está esta tabla ordenada? ",
+         answer("No", correct = TRUE, message = "Si se fija hay variables distintas en una misma columna."),
+         answer("Si", message = "No se deje equivocar por que las observaciones esten en una columna distinta de las medidas."),
          allow_retry = TRUE
 )
 ```
 
-## Pivotar
+## Pivotar a lo ancho
 
-Recordemos los nuevos pinguinos
+Los datos desordenados son bastante comunes en datasets. Un caso de datos desordenados es cuando una observación aparece en múltiples filas, como por ejemplo en este caso:
+
+```{r echo = TRUE}
+nuevos_pinguinos2
+```
+En este caso cada año tiene una observación, pero la información morfológica está __escondida__ en la columna morfología, de modo que cada observación morfológica aparece en dos filas. En este caso, tenemos que incrementar el  número de columnas y disminuir el número de filas, generando una tabla más ancha pivotando a lo ancho usando `pivot_wider()` para obtener una tabla ordenada. 
+
+```{r}
+nuevos_pinguinos2 %>%
+    pivot_wider(names_from = morfologia, values_from = valor)
+```
+
+## Pivotar a lo largo
+
+Por otra parte, una variable puede estar extendida por varias columnas.
+```{r}
+nuevos_pinguinos3
+```
+En este caso tenemos que que angostar la tabla haciendola más larga usando la función `pivot_longer()` 
+```{r}
+nuevos_pinguinos3 %>% 
+  pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "masa_corporal_g")
+```
+Nótese que en este caso hay que dar nombre a las columnas renombradas.
+
+### 
+
+Podemos pivotar a lo ancho y a lo largo consecutivamente para volver a tener datos ordenados. Si recordamos los nuevos pinguinos:
 ```{r echo = TRUE}
 nuevos_pinguinos
 ```
+Podemos achatar los datos con `pivot_wider()`:
 
-Podemos pivotar a lo ancho y a lo largo consecutivamente para volver a tener datos ordenados.
+```{r}
+nuevos_pinguinos %>%
+  pivot_wider(names_from = anio, values_from = largo_pico_mm)
+```
+Y volver a un formato ordenado con `pivot_longer()`:
 ```{r echo = TRUE}
 nuevos_pinguinos %>%
   pivot_wider(names_from = anio, values_from = largo_pico_mm) %>%
   pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "largo_pico_mm",
                names_transform = list(anio = as.numeric))
 ```
-Si desgranamos el ejercicio vemos que pivot_wider toma... y los pone .... 
-Estos datos no están ordenados porque...
-```{r}
-nuevos_pinguinos %>%
-  pivot_wider(names_from = anio, values_from = largo_pico_mm) 
+
+## Ejercicio- Reconstruye los datos
+
+```{r echo = FALSE}
+nuevos_pinguinos %>% mutate(Sample_Number=1:nrow(nuevos_pinguinos)) %>% pivot_longer(alto_pico_mm:largo_pico_mm)
+```
+Para crear la tabla mostrada arriba, em primer lugar he aniadido una columna id con el numero de fila. Despues he pivotado los datos para obtener una table larga. 
+
+Use tidyr functions para recrear este proceso en el chunk de abajo.
+
+```{r ex3, exercise = TRUE}
+
 ```
 
-Pivot_longer coloca ..
-
-
-
-```{r}
+```{r ex3-hint-1}
 nuevos_pinguinos %>%
-  pivot_wider(names_from = anio, values_from = largo_pico_mm) %>%
-  pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "largo_pico_mm",
-               names_transform = list(anio = as.numeric))
+  mutate(Sample_Number=1:nrow(nuevos_pinguinos))
+```
+
+
+```{r ex3-solution,eval=FALSE}
+nuevos_pinguinos %>%
+  mutate(Sample_Number=1:nrow(nuevos_pinguinos)) %>% 
+  pivot_longer(anio:largo_pico_mm, names_to = "variable", values_to = "valor")
+```
+
+###
+
+Nótese que esta tabla no esta ordenada; sin embargo puede resultar fácil filtrar valores en esta tabla, como por ejemplo, selectionar `largo_pico_mm`:
+
+```{r ex4, exercise = TRUE}
+
+```
+
+
+```{r ex4-solution,eval=FALSE}
+nuevos_pinguinos %>%
+  mutate(Sample_Number=1:nrow(nuevos_pinguinos)) %>%
+  pivot_longer(anio:largo_pico_mm, names_to = "variable", values_to = "valor") %>% 
+  filter(variable=="largo_pico_mm")
 ```
 
 ## En resumen
 
-Será más fácil trabajar con datos ordenados en R. Puede ordenarlos al comienzo de su análisis. Los datos están ordenados si:
+Trabajar con datos ordenados en R permite utilizar al máximo las functiones vectoriales de R (e.g. mutate y separate y muchas funciones más). Puede ordenar los datos al comienzo de su análisis. Los datos están ordenados si:
 
 - Cada variable debe tener su propia columna.
 - Cada observación debe tener su propia fila.
 - Cada valor debe tener su propia celda.
 
-Puede usar pivot_wider() y pivot_longer(). 
-You can use gather() and spread(), o alguna secuencia iterativa de los dos, para remodelar sus datos de manera que:
+Puede usar `pivot_wider()` y `pivot_longer()` o alguna sequencia iterativa de los dos, para remodelar sus datos de manera que:
 
 - Se conserven todos los valores de su conjunto de datos original
 - Se retengan todas las relaciones entre valores en su conjunto de datos original.
