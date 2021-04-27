@@ -1,0 +1,171 @@
+---
+title: "Iteración"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Utiliza iteración para reducir duplicación en tu código.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(datos)
+
+# set options for exercises and checking ---------------------------------------
+
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introducción
+
+```{r imagen-peng, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Unsplash: Andrea Gradilone"}
+knitr::include_graphics("https://images.unsplash.com/photo-1506842605307-bbcbd9ea121f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1267&q=80")
+```
+
+### Objetivos de aprendizaje
+
+En este tutorial vas a aprender como resolver problemas de iteración en R. En concreto, vas a aprender a diferenciar como resolver este tipo de problemas con:
+
+* Bucles
+* Funciones preconstruidas para situaciones especificas como colMeans() 
+* Funciones echas a medida con `purrr`
+
+Al final de este tutorial habrás perfeccionado el uso de herramientas para hacer programación funcional en R.
+
+## Iteracion con bucles
+
+Imagina que tienes estos nuevos datos de pinguinos y quieres hacer la media aritmética de cada una de las columnas. 
+
+```{r, echo=TRUE}
+pinguino_pesos <- tibble(
+  pinguino_1 = c(1000,2000,3000),
+  pinguino_2 = c(2000,4000,6000),
+  pinguino_3 = c(4000,8000,12000))
+```
+
+Puedes hacer la media de cada una de las columnas por separado:
+```{r, echo=TRUE}
+mean(pinguino_pesos$pinguino_1)
+mean(pinguino_pesos$pinguino_2)
+mean(pinguino_pesos$pinguino_3)
+```
+
+Pero nos  repitiendo a nosotros mismos (recuerda la norma de oro de no copiar y pegar más de dos veces). Para evitar esto, podríamos usar un bucle for.
+
+###
+
+Recordemos que las 3 cosas que tiene un bucle son:
+
+* `output`: La parte del código que asigna suficiente espacio para guardar el resultado. 
+* `secuencia`: La parte del código que determina cuantas veces hay que ejecutar el bucle.
+* `cuerpo`: La parte del código que hace el trabajo.
+
+De esta manera podemos construir un bucle para iterar sobre los nuevos pinguinos.
+```{r, echo=TRUE}
+salida_media <- vector("double", ncol(pinguino_pesos)) 
+
+for (i in seq_along(pinguino_pesos)) {    
+    salida_media[[i]] <- mean(pinguino_pesos[[i]])}      
+```
+
+```{r, echo=TRUE}
+salida_media
+```
+
+###
+
+¿Cómo escribirías una función para calcular la mediana? ¡Inténtalo!
+
+```{r ex1, exercise = TRUE}
+salida_mediana <- vector("double", ncol(pinguino_pesos)) 
+
+for (i in seq_along(pinguino_pesos)) {    
+    salida_media[[i]] <- ___(pinguino_pesos[[i]])}      
+salida_mediana
+```
+
+```{r ex1-solution}
+salida_mediana <- vector("double", ncol(pinguino_pesos)) 
+
+for (i in seq_along(pinguino_pesos)) {    
+    salida_mediana[[i]] <- median(pinguino_pesos[[i]])}      
+salida_mediana
+```
+
+### Vectorization
+
+En lugar de escribir un bucle for, podemos hacer uso de vectorizacion en R y calcular la media de todas las columnas con la function predefinida `colMeans`:
+
+```{r, echo=TRUE}
+colMeans(pinguino_pesos)
+```
+Vemos que esta function se aplica a todas las columnas del dataset, y así no tenemos que utilizar un bucle for.
+
+
+### Purrr
+
+Podemos utilizar funciones del paquete purr para ejecutar este tipo de iteraciones, de manera sencilla y flexible.
+
+Por ejemplo, podriamos calcular la media de todas las columnas:
+
+```{r, echo=TRUE}
+map(pinguino_pesos,mean)
+```
+Como vemos el patrón es aplicar la function `mean` a todas las columnas de pinguino_pesos.
+
+Think of `map()` like this. Each circle of squares represents a vector, and each square represents an element of the vector:
+
+```{r echo=FALSE, out.width = "70%"}
+knitr::include_graphics("https://github.com/rstudio-education/primers/blob/master/iterate/map/www/images/map.png
+")
+```
+
+
+
+
+```{r, echo=TRUE}
+pinguino_pesos %>% map(mean)
+```
+
+
+###
+
+¿Qué tendrías que poner para calcular la mediana de cada una de las columnas?
+
+```{r ex2, exercise = TRUE}
+spinguino_pesos %>% map(___)
+
+```
+
+```{r ex2-solution}
+pinguino_pesos %>% map(sd)
+
+```
+
+
+```{r, warning=FALSE}
+map_dbl(pinguino_pesos, ~mean(.x,na.rm=TRUE))
+```
+
+```{r ex3-check}
+"¡Muy bien! Vamos a ver Now let's cement our knowledge of `map()` by using it to solve a data wrangling challenge."
+```
+
+
+### Variaciones de map 
+
+
+### List Columns 
+
+
