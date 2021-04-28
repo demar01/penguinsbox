@@ -106,6 +106,7 @@ question("¿Está esta tabla ordenada? ",
 ## Pivotar a lo ancho
 
 Los datos desordenados son bastante comunes en datasets. Un caso de datos desordenados es cuando una observación aparece en múltiples filas, como por ejemplo en este caso:
+<<<<<<< HEAD
 
 ```{r echo = TRUE}
 nuevos_pinguinos2
@@ -132,6 +133,34 @@ Nótese que en este caso hay que dar nombre a las columnas renombradas.
 
 ### 
 
+=======
+
+```{r echo = TRUE}
+nuevos_pinguinos2
+```
+En este caso cada año tiene una observación, pero la información morfológica está __escondida__ en la columna morfología, de modo que cada observación morfológica aparece en dos filas. En este caso, tenemos que incrementar el  número de columnas y disminuir el número de filas, generando una tabla más ancha pivotando a lo ancho usando `pivot_wider()` para obtener una tabla ordenada. 
+
+```{r}
+nuevos_pinguinos2 %>%
+    pivot_wider(names_from = morfologia, values_from = valor)
+```
+
+## Pivotar a lo largo
+
+Por otra parte, una variable puede estar extendida por varias columnas.
+```{r}
+nuevos_pinguinos3
+```
+En este caso tenemos que que angostar la tabla haciendola más larga usando la función `pivot_longer()` 
+```{r}
+nuevos_pinguinos3 %>% 
+  pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "masa_corporal_g")
+```
+Nótese que en este caso hay que dar nombre a las columnas renombradas.
+
+### 
+
+>>>>>>> d55c3841bf6876e00b16c5839788ed44ff0c24f0
 Podemos pivotar a lo ancho y a lo largo consecutivamente para volver a tener datos ordenados. Si recordamos los nuevos pinguinos:
 ```{r echo = TRUE}
 nuevos_pinguinos
@@ -155,15 +184,33 @@ nuevos_pinguinos %>%
 ```{r echo = FALSE}
 nuevos_pinguinos %>% mutate(Sample_Number=1:nrow(nuevos_pinguinos)) %>% pivot_longer(alto_pico_mm:largo_pico_mm)
 ```
+<<<<<<< HEAD
 Para crear la tabla mostrada arriba, en primer lugar he aniadido una columna id con el número de fila. Después he pivotado los datos para obtener una table larga. 
 
 Usa functions tidyr para recrear este proceso en el chunk de abajo.
+=======
+Para crear la tabla mostrada arriba, em primer lugar he aniadido una columna id con el numero de fila. Despues he pivotado los datos para obtener una table larga. 
+
+Use tidyr functions para recrear este proceso en el chunk de abajo.
+>>>>>>> d55c3841bf6876e00b16c5839788ed44ff0c24f0
 
 ```{r ex3, exercise = TRUE}
 
 ```
 
 ```{r ex3-hint-1}
+<<<<<<< HEAD
+nuevos_pinguinos %>%
+  mutate(Sample_Number=1:nrow(nuevos_pinguinos))
+```
+
+
+```{r ex3-solution,eval=FALSE}
+nuevos_pinguinos %>%
+  mutate(Sample_Number=1:nrow(nuevos_pinguinos)) %>% 
+  pivot_longer(anio:largo_pico_mm, names_to = "variable", values_to = "valor")
+```
+=======
 nuevos_pinguinos %>%
   mutate(Sample_Number=1:nrow(nuevos_pinguinos))
 ```
@@ -175,7 +222,14 @@ nuevos_pinguinos %>%
   pivot_longer(anio:largo_pico_mm, names_to = "variable", values_to = "valor")
 ```
 
+###
 
+Nótese que esta tabla no esta ordenada; sin embargo puede resultar fácil filtrar valores en esta tabla, como por ejemplo, selectionar `largo_pico_mm`:
+>>>>>>> d55c3841bf6876e00b16c5839788ed44ff0c24f0
+
+```{r ex4, exercise = TRUE}
+
+<<<<<<< HEAD
 
 ###
 
@@ -183,6 +237,8 @@ Nótese que esta tabla no esta ordenada; sin embargo puede resultar fácil filtr
 
 ```{r ex4, exercise = TRUE}
 
+=======
+>>>>>>> d55c3841bf6876e00b16c5839788ed44ff0c24f0
 ```
 
 

@@ -20,7 +20,10 @@ library(tidyverse)
 library(datos)
 
 # set options for exercises and checking ---------------------------------------
-
+pinguino_medidas <- tibble(
+  pico = c(100,200,300),
+  aletas= c(200,400,600),
+  cabeza = c(400,800,1200))
 
 # hide non-exercise code chunks ------------------------------------------------
 tutorial_options(exercise.timelimit = 60)
@@ -47,18 +50,20 @@ Al final de este tutorial habrás perfeccionado el uso de herramientas para hace
 
 Imagina que tienes estos nuevos datos de pinguinos y quieres hacer la media aritmética de cada una de las columnas. 
 
-```{r, echo=TRUE}
-pinguino_pesos <- tibble(
-  pinguino_1 = c(1000,2000,3000),
-  pinguino_2 = c(2000,4000,6000),
-  pinguino_3 = c(4000,8000,12000))
+```{r pinguino_medidas1, exercise = TRUE}
+pinguino_medidas
 ```
+
+```{r pinguino_medidas1-check}
+" Estos son los datos que vas a explorar. pinguino_medidas es una dataset reducida con las observaciones de ...."
+```
+
 
 Puedes hacer la media de cada una de las columnas por separado:
 ```{r, echo=TRUE}
-mean(pinguino_pesos$pinguino_1)
-mean(pinguino_pesos$pinguino_2)
-mean(pinguino_pesos$pinguino_3)
+mean(pinguino_medidas$pico)
+mean(pinguino_medidas$aletas)
+mean(pinguino_medidas$cabeza)
 ```
 
 Pero nos  repitiendo a nosotros mismos (recuerda la norma de oro de no copiar y pegar más de dos veces). Para evitar esto, podríamos usar un bucle for.
@@ -73,10 +78,10 @@ Recordemos que las 3 cosas que tiene un bucle son:
 
 De esta manera podemos construir un bucle para iterar sobre los nuevos pinguinos.
 ```{r, echo=TRUE}
-salida_media <- vector("double", ncol(pinguino_pesos)) 
+salida_media <- vector("double", ncol(pinguino_medidas)) 
 
-for (i in seq_along(pinguino_pesos)) {    
-    salida_media[[i]] <- mean(pinguino_pesos[[i]])}      
+for (i in seq_along(pinguino_medidas)) {    
+    salida_media[[i]] <- mean(pinguino_medidas[[i]])}      
 ```
 
 ```{r, echo=TRUE}
@@ -88,18 +93,18 @@ salida_media
 ¿Cómo escribirías una función para calcular la mediana? ¡Inténtalo!
 
 ```{r ex1, exercise = TRUE}
-salida_mediana <- vector("double", ncol(pinguino_pesos)) 
+salida_mediana <- vector("double", ncol(pinguino_medidas)) 
 
-for (i in seq_along(pinguino_pesos)) {    
-    salida_media[[i]] <- ___(pinguino_pesos[[i]])}      
+for (i in seq_along(pinguino_medidas)) {    
+    salida_media[[i]] <- ___(pinguino_medidas[[i]])}      
 salida_mediana
 ```
 
 ```{r ex1-solution}
-salida_mediana <- vector("double", ncol(pinguino_pesos)) 
+salida_mediana <- vector("double", ncol(pinguino_medidas)) 
 
-for (i in seq_along(pinguino_pesos)) {    
-    salida_mediana[[i]] <- median(pinguino_pesos[[i]])}      
+for (i in seq_along(pinguino_medidas)) {    
+    salida_mediana[[i]] <- median(pinguino_medidas[[i]])}      
 salida_mediana
 ```
 
@@ -108,7 +113,7 @@ salida_mediana
 En lugar de escribir un bucle for, podemos hacer uso de vectorizacion en R y calcular la media de todas las columnas con la function predefinida `colMeans`:
 
 ```{r, echo=TRUE}
-colMeans(pinguino_pesos)
+colMeans(pinguino_medidas)
 ```
 Vemos que esta function se aplica a todas las columnas del dataset, y así no tenemos que utilizar un bucle for.
 
@@ -120,22 +125,18 @@ Podemos utilizar funciones del paquete purr para ejecutar este tipo de iteracion
 Por ejemplo, podriamos calcular la media de todas las columnas:
 
 ```{r, echo=TRUE}
-map(pinguino_pesos,mean)
+map(pinguino_medidas,mean)
 ```
-Como vemos el patrón es aplicar la function `mean` a todas las columnas de pinguino_pesos.
-
-Think of `map()` like this. Each circle of squares represents a vector, and each square represents an element of the vector:
+Como vemos map aplica la functión `mean` a todas las columnas de pinguino_medidas.
 
 ```{r echo=FALSE, out.width = "70%"}
 knitr::include_graphics("https://github.com/rstudio-education/primers/blob/master/iterate/map/www/images/map.png
 ")
 ```
 
-
-
-
+Y esto puesto con el pipe
 ```{r, echo=TRUE}
-pinguino_pesos %>% map(mean)
+pinguino_medidas %>% map(mean)
 ```
 
 
@@ -144,19 +145,59 @@ pinguino_pesos %>% map(mean)
 ¿Qué tendrías que poner para calcular la mediana de cada una de las columnas?
 
 ```{r ex2, exercise = TRUE}
-spinguino_pesos %>% map(___)
+pinguino_medidas %>% map(___)
 
 ```
 
 ```{r ex2-solution}
-pinguino_pesos %>% map(sd)
-
+pinguino_medidas %>% map(median)
 ```
+
+```{r ex2-check}
+ "Excellente. En este caso la media y la mediana tienen el mismo valor."
+```
+
+### Las funciones map
+
+Como vemos esto retorna una lista. Hay una función para cada tipo de output:
+* `map()`
+* `map_dbl()`
+* `map_chr()`
+* `map_int()`
+* `map_lgl()`
+
+```{r, echo=TRUE}
+pinguino_medidas %>% map_dbl(mean)
+```
+
+### Aplicar nuestra funccion. 
+
+Imagina que escribes esta function media_armonica para aplicarla a los datos esta function media_armonica a los datos
+
+media_armonica <- function(x){ 1/mean(1/x)}
+
+###  
+
+Para pasar esta function a map, tienes que seguir dos reglas. 
+
+### Regla 1 - ~
+
+En primer lugar, coloca `~` justo antes de tu función. Esto informa a  `map()` de que tiene que ejecutar la función dada.
+
+Para cada elemento, haz `~harmonic_mean`
+
+### Regla 2 - .x
+
+En primer lugar, reemplaza  _el nombre de lo que haya que manipular_ with `.x` 
 
 
 ```{r, warning=FALSE}
-map_dbl(pinguino_pesos, ~mean(.x,na.rm=TRUE))
+map_dbl(pinguino_medidas, ~harmonic_mean(.x))
 ```
+
+###  
+
+
 
 ```{r ex3-check}
 "¡Muy bien! Vamos a ver Now let's cement our knowledge of `map()` by using it to solve a data wrangling challenge."
