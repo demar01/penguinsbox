@@ -1,0 +1,159 @@
+---
+title: "Factors"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Use forcats functions to manipulate factors in R.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(palmerpenguins)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+# set options for exercises and checking ---------------------------------------
+
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Introduction
+
+<iframe src="https://giphy.com/embed/cGzafVX6A8ewSRruJA" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/natgeochannel-nat-geo-national-geographic-hostile-planet-cGzafVX6A8ewSRruJA">via GIPHY</a></p>
+
+
+This chapter will focus on the **forcats** package for categorical variables manipulation, which is part of the core tidyverse.
+
+
+### Learning objectives
+
+In this tutorial you are going to practice some forcats functions that let you:
+
+
+* Inspect the levels of a factor.
+* Display the levels of a factor as they are. 
+* Reorder the levels.
+* Collapse the levels.
+
+###
+
+
+## Find levels
+```{r test-factor, echo = FALSE}
+question("How could you determine the levels of species factor? Select all options that apply",
+         answer("factors(penguins$species)", message="Close! But there is a typo in this answer"),
+         answer("levels(penguins$species)", correct = TRUE),
+         answer("levels(factor(penguins$species))", correct = TRUE),
+         allow_retry = TRUE )
+```
+
+###
+As we see the order of the levels does not need to match the order in which the data is passed in a dataframe. 
+
+```{r}
+ggplot(penguins, aes(species,body_mass_g)) +
+    geom_boxplot()
+```
+
+
+## Reorder factors
+
+Now that we know which are the levels, we can start reordering them. For example, lets make a geom_boxplot to plot `body_mass_g` for each species
+
+```{r}
+ggplot(penguins, aes(species, body_mass_g)) +
+    geom_boxplot()
+```
+
+As we see the factors are plotted in the order of the levels. What if we want to plot in the order of appeared?
+
+```{r str-fct-inorder, exercise=TRUE}
+ggplot(penguins, aes(___(species), body_mass_g)) +
+    geom_boxplot()
+```
+
+
+```{r str-fct-inorder-solution}
+ggplot(penguins, aes(fct_inorder(species), body_mass_g)) +
+    geom_boxplot()
+```
+
+###
+
+Fantastic! We can also reorder the species based on body_mass_g values
+
+```{r str-fct-reorder, exercise=TRUE}
+ggplot(penguins, aes(___(species, body_mass_g),body_mass_g)) +
+    geom_boxplot()
+```
+
+
+```{r str-fct-reorder-solution}
+ggplot(penguins, aes(fct_reorder(species, body_mass_g),body_mass_g)) +
+    geom_boxplot()
+```
+
+Awesome! As we see the mean body_mass_g for Adelie species is slighly smaller than for Chinstrap, and therefore this plot sorts Adelie specie gets sorted.
+
+
+## Collapse factors
+
+```{r}
+penguins %>%
+  count(species)
+```
+
+
+
+```{r}
+penguins %>%
+  mutate(species = fct_lump(species,1)) %>% 
+  count(species) 
+```
+Other will be a factor...
+
+
+```{r}
+penguins %>%
+  mutate(species = fct_lump(species,1)) %>% 
+ggplot(aes(species, body_mass_g)) +
+    geom_boxplot()
+  
+```
+
+We can also lump to a minimum number of lumps like this 
+  
+```{r}
+penguins %>%
+  mutate(species = fct_lump_min(species,min=70)) %>% 
+  ggplot(aes(species, body_mass_g)) +
+    geom_boxplot()
+```
+
+
+
+## Relevel factors
+
+We can reorder factor levels by hand using `fct_relevel`. For example, we can move Gentoo to be the first level position in species.  
+
+```{r}
+penguins %>%
+    mutate(species= fct_relevel(species, "Gentoo", after=0)) %>% 
+    ggplot(aes(species, body_mass_g)) +
+    geom_boxplot()
+```

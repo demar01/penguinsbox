@@ -1,0 +1,161 @@
+---
+title: "Strings"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Use string functions to manipulate string character vectors in R .
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(palmerpenguins)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+# set options for exercises and checking ---------------------------------------
+
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Introduction
+
+<iframe src="https://giphy.com/embed/C9AuY1VOvurxm" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/C9AuY1VOvurxm">via GIPHY</a></p>
+
+This chapter will focus on the **stringr** package for string manipulation, which is part of the core tidyverse.
+We recomend you to practice with tutorial 04-dplyr before starting with this tutorial.
+
+### Learning objectives
+
+This tutorial has few fading exercises for you to practice some stringr functions that let you:
+
+* Find the length of matches.
+* Extract the content of matches.
+* Determine which strings match a pattern.
+* Replace matches with new values
+
+
+## Exercises 
+
+### 1st exercise
+
+Calculate the number of letters of the `species` variable of the `penguins` dataset:
+
+
+```{r str-length, exercise=TRUE}
+penguins %>% 
+   mutate(length_species=___(species)) %>%
+    group_by(species) %>% 
+    summarise(length_species=unique(length_species))
+
+```
+
+```{r str-length-solution}
+penguins %>% 
+   mutate(length_species=str_length(species)) %>%
+    group_by(species) %>% 
+    summarise(length_species=unique(length_species))  
+```
+
+```{r str-length-check}
+grade_code("You've successfully count the number of characters in `species` variable!")
+```
+
+###
+
+### 2nd exercise
+
+Extract the last two letters of `species` variable and add result to variable called `species_last_twoletter`, which is placed after species variable:
+
+```{r str-sub, exercise=TRUE}
+penguins %>% 
+    mutate(species_last_twoletter= ___(species,start=___,end=-1), .after=species)
+```
+
+```{r str-sub-hint-1}
+penguins %>% 
+    mutate(species_last_twoletter= ___(species,start=-2,end=-1), .after=species)
+```
+
+```{r str-sub-solution}
+penguins %>% 
+    mutate(species_last_twoletter= str_sub(species,start=-2,end=-1), .after=species) 
+```
+
+```{r str-sub-check}
+grade_code("Using str_sub you can extract the values of  character vector from the start position to the end position both inclusive")
+```
+
+###
+
+### 3rd exercise
+
+Add a column called `oo_species` that contains `oo` if the pattern `oo` is found in `species`. Then use a filter function to keep the species that contain  `oo`.
+
+```{r str-extract, exercise=TRUE}
+mutate(penguins,oo_species= ___(species,"___"), .after=species) %>% 
+    filter(___(oo_especies))
+```
+
+```{r str-extract-hint-1}
+mutate(penguins,oo_species= ___(species,"oo"), .after=species) %>% 
+    filter(___(oo_especies))
+```
+
+```{r str-extract-hint-2}
+mutate(penguins,oo_species= ___(species,"oo"), .after=species) %>% 
+    filter(!is.na(oo_especies))
+```
+
+```{r str-extract-hint-3}
+mutate(penguins,oo_species= str_extract(species,"oo"), .after=species) %>% 
+    filter(!is.na(oo_especies))
+```
+
+
+```{r str-extract-solution}
+mutate(penguins, oo_species= str_extract(species,"oo"), .after=species) %>% 
+    filter(!is.na(oo_species))
+```
+
+```{r str-extract-check}
+grade_code("As you've seen str_extract will add na if it doesn't find a match to extract")
+```
+
+###
+
+### 4rd exercise
+
+Add a column called `oo_species` that contains the character string `oo` if the pattern `oo` is found in species. Then use a filter function to keep the species that contain  `oo`.
+
+```{r str-detect, exercise=TRUE}
+mutate(penguins, oo_species= ___(species,"oo$"), .after=species) %>% 
+filter(oo_species)
+```
+
+
+```{r str-detect-solution}
+mutate(penguins, oo_species= str_detect(species,"oo$"), .after=species) %>% 
+filter(oo_species)
+```
+
+```{r str-detect-check}
+grade_code("str_detect adds FALSE where it doesn't find a match to extract.")
+```
+
+
+
+
+

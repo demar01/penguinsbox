@@ -1,0 +1,185 @@
+---
+title: "Tidy: pivot_longer & pivot_wider"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Recognise whether your data is tidy and tidy it up if necesary.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+#library(gradethis)
+library(tidyverse)
+library(palmerpenguins)
+
+# set options for exercises and checking ---------------------------------------
+
+new_penguins<- tibble(
+     year = c(2020, 2019, 2019, 2020),
+     bill_depth_mm  = c(15,15,20,20),
+     bill_length_mm = c(39.1, 42, 39.5, 37.4))
+
+new_penguins2<- tibble(
+     year = c(2018, 2019, 2020,2018, 2019, 2020),
+     morphology=c("bill_length_mm","bill_length_mm","bill_length_mm","bill_depth_mm","bill_depth_mm","bill_depth_mm"),
+     value  = c(15,15,20,39.1, 42, 39.5))
+
+new_penguins3<-tibble(
+    island=c("Biscoe","Dream"),
+    `2019`=c("3000","4000"),
+    `2020`=c("3500","4500"))
+
+more_penguins<- tibble(
+     specie  = c( "Adelia",    "Adelie",     "Adelie",    "Adelie"),
+     island  = c( "Biscoe",    "Dream",     "Dream",    "Torgersen"),
+     sex= c("male",NA,NA,"female"),
+     measurement = c( "alto_pico_mm",    "alto_pico_mm",     "largo_aleta_mm",    "masa_corporal_g"),
+     observations=c(39.1,27,180,3750))
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+```{r protein-structure, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Image by Allison Horst"}
+knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/lter_penguins.png")
+```
+
+### Learning goals
+
+The goal of this tutorial is to show how to recognize messy data and tidy data using tidyr's `pivot_longer()` and `pivot_wider()` functions.
+
+
+## Tidy data
+
+There are three interrelated rules that make a dataset ordered:
+
+- Each variable must have its own column.
+- Each observation must have its own row.
+- Each value must have its own cell.
+
+```{r tidy-data, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Figure 12.1: The three rules of a tidy dataset: variables are in columns, observations are in rows, and values are in cells."}
+knitr::include_graphics("https://github.com/hadley/r4ds/blob/master/images/tidy-1.png?raw=true")
+```
+
+Remember that working with tidy data principles will make your data science analysis more effective and consistent with R tools for data science.
+
+###
+
+Imagine that we have this `new_penguins` dataset:
+```{r echo = TRUE}
+new_penguins
+```
+
+### Test 1 - Recognize the variables
+
+```{r test1, echo = FALSE}
+question("What are the variables in the data set above? Check all that apply.",
+         answer("year", correct = TRUE),
+         answer("bill_depth_mm", correct = TRUE),
+         answer("bill_length_mm", correct = TRUE),
+         answer("int"),
+         answer("dbl"),
+         allow_retry = TRUE,
+         correct = "Very well! new_penguins contains four observations measured with three variables: year,bill_depth_mm, bill_length_mm"
+)
+```
+### Test 2 - Recognize tidy data
+
+Consider this other penguins dataset called `more_penguins`:
+
+```{r echo = TRUE}
+more_penguins
+```
+
+```{r test2, echo = FALSE}
+question("Is this tibble ordered?",
+         answer("No", correct = TRUE, message = "If you look carefully there are different variables in the same column (i.e. column measurement)."),
+         answer("Yes", message = "Don't be fooled because the numerical values are in a column (`observations`)  and the variables are in another column (`measurement`). Look at  `measurement` column, does it have more than one variable?"),
+         allow_retry = TRUE
+)
+```
+
+## Pivot wider
+
+Messy data is quite common in datasets. An example of messy data is when an observation appears in multiple rows, like in the example below:
+
+```{r echo = TRUE}
+new_penguins2
+```
+Each year has an observation, but the morphological information is __hidden__ in the column called `morphology` , so that each morphological observation appears in two rows. To get tidy data from this tibble we'd have to increase the number of columns and decrease the number of rows, generating a wider table using `pivot_wider()`.
+
+
+```{r}
+new_penguins2 %>%
+    pivot_wider(names_from = morphology, values_from = value)
+```
+
+## Pivot longer
+
+On the other hand, a variable can be spread over several columns like in the example below.
+```{r}
+new_penguins3
+```
+
+In this case we have to narrow the table by making it longer. To do this we can use `pivot_longer()`; remember that when using `pivot_longer()` is up to us to decide the name of the new columns.  In the next exercise replace the ___ with the names of the new column being `year` and `body_mass_g`.
+
+```{r expl, exercise = TRUE}
+new_penguins3%>%
+  pivot_longer(`2019`:`2020`, names_to = "___", values_to = "___")
+```
+
+```{r expl-hint-1}
+new_penguins3%>%
+  pivot_longer(`2019`:`2020`, names_to = "year", values_to = "___")
+```
+
+
+```{r expl-solution,eval=FALSE}
+new_penguins3%>%
+  pivot_longer(`2019`:`2020`, names_to = "year", values_to = "body_mass_g")
+```
+
+## Exercise - Reconstruct the data 
+
+We can use `pivot_longer` and `pivot_wider` consecutively to untidy data and then get a final tidy data. For example starting with `new_penguins`:
+```{r echo = TRUE}
+new_penguins
+```
+
+We can flatten the data with `pivot_wider()`:
+```{r}
+new_penguins%>%
+  pivot_wider(names_from = year, values_from = bill_length_mm)
+```
+
+And return to an ordered format with `pivot_longer()`:
+```{r echo = TRUE}
+new_penguins %>%
+  pivot_wider(names_from = year, values_from = bill_length_mm) %>%
+  pivot_longer(`2019`:`2020`, names_to = "year", values_to = "bill_length_mm",
+               names_transform = list(year = as.numeric))
+```
+
+## Wrap up
+
+Working with ordered data in R allows you to fully utilize R's vector functions (e.g. `mutate()`, `separate()` and many more functions). You can sort the data at the beginning of your analysis to facilitate downstream actions. Your data is ordered if:
+
+- Each variable has its own column.
+- Each observation has its own row.
+- Each value has its own cell.
+
+You can use `pivot_wider` and `pivot_longer` or some iterative sequence of the two, to reshape your data so that:
+
+- All values from your original dataset are preserved.
+- All relationships between values are retained in your original data set.

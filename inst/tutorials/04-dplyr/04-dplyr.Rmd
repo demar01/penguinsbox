@@ -1,0 +1,364 @@
+---
+title: "Transform your data con dplyr"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Practica las funciones de dplyr para aislar variables, añadir nuevas variables y reordenar las filas de un tibble.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(palmerpenguins)
+library(gradethis)
+library(parsons)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+# set options for exercises and checking ---------------------------------------
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+<iframe src="https://giphy.com/embed/J2tNIOLEHELkY" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/penguin-funny-J2tNIOLEHELkY">via GIPHY</a></p>
+
+
+### Learning objectives
+
+In this tutorial you will have the opportunity to practice basic dplyr tasks with our beloved penguins.
+
+## filter()
+
+`filter()` extracts rows from a tibble, without modifying the columns. `filter()` works through logical tests; returning each row for which the logical test is true.
+
+### filter() example
+
+In the code below we select the Adelie penguins.
+
+```{r echo = TRUE}
+filter(penguins, species == "Adelie")
+```
+
+To do this filtering we have used the logical operator `==`. As we see the output tibble only contains penguins which specie is Adelie.
+
+###
+We can also use `filter()` with  pipe operator `%>%`. In the next Parson problem, you can build the statement structure to use filter and %>% ( hint: you may not need to use all the words in the exercise).
+
+```{r pinguinos-parson}
+question_parsons(
+  initial = c(
+    "penguins",
+    "filter(...)",
+    "print()"
+  ),
+  pass_if(
+    c(
+      "penguins",
+      "filter(...)"
+    )
+  ),
+  fail_if(
+    ~length(.) < 2,
+    message = "You need to include at least two words."
+  ),
+  fail_if(
+    function(x){"print()" %in% x},
+    message = "You dont need to include print() in your answer"
+  ),
+  fail_if(
+    ~{.[1] != "penguins"},
+    message = "Your answer must start with 'penguins'"
+  ),
+  problem_type = "tidyverse"
+)
+```
+
+
+### Other logical operators
+
+All the logical operators of R - that can be used in combination with `filter()` - are:
+
+Logical operator | tests                                | Example
+---------------- | ------------------------------------ | ---------
+**>**            | Is `x` greater than `y`?             | `x > y`
+**>=**           | Is `x` greater than or equal to `y`? | `x >= y`
+**<**            | Is `x` less than `y`?                | `x < y`
+**<=**           | Is `x` less than or equal to `y`?    | `x <= y`
+**==**           | Is `x` equal to `y`?                 | `x == y`
+**!=**           | Is `x` not equal to `y`?             | `x != y`
+**is.na()**      | Is `x` an `NA`?                      | `is.na(x)`
+**!is.na()**     | Is `x` not an `NA`?                  | `!is.na(x)`
+
+### Exercise 1 - Logical operators
+
+Let's do some exercises with logical operators, to select:
+
+* Penguins whose flipper length (mm) is less than 200
+* Penguins whose body mass (g) is greater than or equal to 3000
+* Penguins having a missing value for their body mass
+* Penguins whose body mass (g) is greater than the mean weight of their species
+
+```{r filter-0, exercise = TRUE, exercise.setup = "pinguins"}
+filter(penguins, species == "Adelie")
+```
+
+```{r filter-0-solution}
+filter(penguins, flipper_length_mm < 200)
+filter(penguins, body_mass_g >=3000)
+filter(penguins, is.na(body_mass_g >=3000))
+penguins %>%  group_by(species) %>% filter(body_mass_g > mean(body_mass_g,na.rm=TRUE))
+```
+
+###  Exercises 2 - Detect common mistakes
+
+When using logical tests, it is fairly easy to make some common mistakes. In the next quiz your job is to not fail for those those common mistakes. Can you find the correct answers among the common mistakes? 
+
+```{r test1, echo = FALSE}
+question("How could you select the penguins on Torgersen island? Check all the correct answers (2).",
+         answer("filter(penguins, island == \"Torgersen\")", correct = TRUE),
+         answer("penguins %>% filter(island == \"Torgersen\")", correct = TRUE),
+         answer("filter(penguins, island = Torgersen)", message = "Make sure you use == instead of ="),
+         answer("filter(penguins, isla = \"Torgersen\")", message = "Make sure you use a logical operation"),
+         allow_retry = TRUE,
+         correct = "Great job! This is how we filter Torgersen islands on the penguins dataset."
+)
+```
+
+
+### Combining logical operations
+
+We can combine several logical operations, to make a more complex filter. For example, we can select the Adelie penguins from Torgersen island.
+
+```{r echo =  TRUE}
+filter (penguins, especie == "Adelie" & isla== "Torgersen")
+```
+
+We can combine complicated logical subsets in a simplified way if we remember __De Morgan__'s law::
+
+```{r imagen-morgan, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="
+Complete set of Boolean operators"}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/01f4b6d39d2be8269740a3ad7946faa79f7243cf/8369a/diagrams/transform-logical.png")
+```
+
+[De Morgan's laws](https://en.wikipedia.org/wiki/De_Morgan%27s_laws) state that !(x & y) is the same as !x | !y, y !(x | y) and is the same as !x & !y.
+
+###
+
+### Exercise 3 - Multiple logical operators
+
+Brainstorm as many ways as possible to select penguins that have a flipper length shorter than 200 mm and a body mass smaller than 3000 g:
+
+```{r filter-1, exercise = TRUE, exercise.setup = "pinguins"}
+penguins %>%  filter (!(flipper_length_mm>=200 | body_mass_g>=3000))
+
+```
+
+```{r filter-1-solution}
+penguins %>%  filter (!(flipper_length_mm>=200 | body_mass_g>=3000))
+penguins %>%  filter (!(flipper_length_mm>=200) , !(body_mass_g>=3000))
+penguins %>%  filter (!(flipper_length_mm>=200) & !(body_mass_g>=3000))
+```
+
+###  Exercises 4 - Detect common mistakes
+
+Let's spot some of the most common mistakes we all make when using filter and multiple logical operators.
+
+```{r test2, echo = FALSE}
+question("How could you select penguins whose body mass is 3000, 3400 or 3800 g? Select the easiest option to do this task",
+         answer("filter(penguins, body_mass_g == 3000 | body_mass_g == 3400 | body_mass_g == 3800)",message = "Although the code works, you can make your code more concise by collapsing multiple statements or into a %in% statement when possible. Try another option."),
+         answer("filter(penguins, body_mass_g %in% c(3000,3400,3800))", correct = TRUE),
+         answer("filter(penguins, body_mass_g == 3000 & body_mass_g == 3400 & body_mass_g == 3800)", message = "This code is selecting penguins with body mass 3000, 3400 __ and __ 3800, which is impossible"),
+         answer("filter(penguins, body_mass_g == 3000 ,  body_mass_g == 3400, body_mass_g == 3800)", message = "This code is selecting penguins with body mass 3000, 3400 __ and __ 3800, which is impossible"),
+         allow_retry = TRUE,
+         correct = " We can select penguins with various weights using various logical tests"
+)
+```
+
+## select()
+
+`select ()` extracts columns from a tibble, without modifying the rows `filter ()` works by specifying names of the columns to extract __without quotation.
+
+### select() example
+
+In the code below we are going to select the columns species, island and body_mass_g of the tibble penguins.
+
+```{r echo = TRUE}
+select(penguins, species, island, body_mass_g)
+```
+
+### Exercise 1 - select()
+
+Can you just extract the column "species" ? How about the "species" and "island" columns? How about all the columns except "year"? Write your answers in the box below.
+
+```{r select-1, exercise = TRUE, exercise.eval = TRUE, exercise.setup = "pinguins"}
+select(penguins, species, island, body_mass_g)
+```
+
+```{r select-1-solution}
+select(penguins, species)
+select(penguins, species, island)
+select(penguins, -year)
+```
+
+
+### select() helpers
+
+In addition to selecting columns using the explicit name, select has a number of helper functions for specifying column names.
+
+The table below summarizes the other `select()` helpers that are available in dplyr. Study it, and then click "Continue" to test your understanding.
+
+Helper Function   | Use                                               | Example
+----------------- | ------------------------------------------------- | -------
+**-**             | Columns except                               | `select(penguins, -year)`
+**:**             | Columns between (inclusive)                  | `select(penguins, species:flipper_length_mm)`
+**contains()**    | Columns that contains a string               | `select(penguins, contains("bill"))`
+**ends_with()**   | Columns that ends with a string              | `select(penguins, ends_with("mm"))`
+**matches()**     | Columns that matches a regex                 | `select(penguins, matches("bill_length"))`
+**num_range()**   | Columns with a numerical suffix in the range | Not applicable with `penguins`
+**one_of()**      | Columns whose name appear in the given set     | `select(penguins, one_of(c("bill_length_mm", "flipper_length_mm")))`
+**starts_with()** | Columns that starts with a string            | `select(penguins, starts_with("bill"))`
+
+
+### Exercise 2 - select()
+
+
+ 
+
+## arrange()
+
+`arrange()` return all the row of a tibie after sorting the tibble by the values of a chosen column. As for `select()`, the first argument of `arrange()` is a tibble and the other arguments are the numbers of the columns. As we are going to see, you can short the nibble choosing multiple columns. 
+
+### Exercise 1- arrange()
+
+How can you short `penguins` tibble putting the shortest `bill_length_mm` at the beginning of the tibble? 
+
+```{r arrange-1, exercise=TRUE}
+arrange(penguins, ___)
+```
+
+```{r arrange-1-solution, eval=FALSE}
+arrange(penguins, bill_length_mm)
+```
+
+```{r arrange-1-check}
+"Good job! The smallest bill_length_mm appear first in the ordered tibble."
+```
+### Ejercicio 2- arrange()
+
+How can you short `penguins` tibble putting the shortest `bill_length_mm` at the end of the tibble? 
+
+```{r arrange-2, exercise = TRUE, exercise.setup = "penguns"}
+arrange(penguins, ___(bill_length_mm))
+```
+
+```{r arrange-2-solution}
+arrange(penguins, desc(bill_length_mm))
+```
+
+```{r arrange-2-check}
+"Fantastic! In this case, the smallest bill_length_mm appear at the end of the tibble."
+```
+
+### Exercise 3- arrange()
+
+
+```{r test3, echo = FALSE}
+question("Sort penguins tibble so that penguins without body_mass_g values are at the beginning of the tibble  ",
+         answer("penguins %>%  arrange(is.na(masa_corporal_g))", message = "
+This will put the NA at the end of the tibble"),
+         answer("penguins %>%  arrange(desc(is.na(masa_corporal_g)))", correct = TRUE),
+         answer("penguins %>%  arrange(is.na(desc(masa_corporal_g))) ", message = "
+This will put the NA at the end of the tibble"),
+         correct = "Good job! This is how we can order the tibble by putting the penguins that have no body mass value at the beginning of the tibble."
+)
+```
+
+## mutate()
+
+`mutate ()` adds columns to a tibble, after passing an expression in each of the rows. This expression can be arithmetric, classification or logical, among others.
+
+### mutate example
+
+In the code below we add a column that we call `dim_pico_mm` that we calculate by multiplying bill_length_mm x bill_depth_mm
+
+```{r echo = TRUE}
+mutate(penguins, dim_bill_mm=bill_length_mm * bill_depth_mm, .after =bill_depth_mm)
+```
+Look at the result `dim_pico_mm`. What if one of the `peak_length_mm` or` peak_mm_high` variables is NA?
+
+
+## Final exercise
+
+For the `Chinstrap` penguins, calculate the bill dimension by multiplying `bill_length_mm` and `bill_depth_mm`. Add this value in a column called `dim_bill_mm` and sort highest `dim_pico_mm` at the top of the tibble. Report only the variables `species`,`island`, `year` and` dim_bill_mm`.
+
+
+```{r final-1, exercise = TRUE}
+penguins %>% 
+    ___(species ___ "Chinstrap") %>% 
+    ___(dim_pico_mm = bill_length_mm * bill_depth_mm) %>% 
+    arrange(___(dim_bill_mm)) %>% 
+    ___(species, island, year, dim_bill_mm)
+```
+
+```{r final-1-hint-1}
+penguins %>% 
+    ___(species == "Chinstrap") %>% 
+    ___(dim_pico_mm = bill_length_mm * bill_depth_mm) %>% 
+    arrange(___(dim_bill_mm)) %>% 
+    ___(species, island, year, dim_bill_mm)
+```
+
+```{r final-1-hint-2}
+penguins %>% 
+    filter(species == "Chinstrap") %>% 
+    ___(dim_pico_mm = bill_length_mm * bill_depth_mm) %>% 
+    arrange(___(dim_bill_mm)) %>% 
+    ___(species, island, year, dim_bill_mm)
+```
+
+```{r final-1-hint-3}
+penguins %>% 
+    filter(species == "Chinstrap") %>% 
+    mutate(dim_pico_mm = bill_length_mm * bill_depth_mm) %>% 
+    arrange(___(dim_bill_mm)) %>% 
+    ___(species, island, year, dim_bill_mm)
+```
+
+```{r final-1-hint-4}
+penguins %>% 
+    filter(species == "Chinstrap") %>% 
+    mutate(dim_pico_mm = bill_length_mm * bill_depth_mm) %>% 
+    arrange(desc(dim_bill_mm)) %>% 
+    ___(species, island, year, dim_bill_mm)
+```
+
+```{r final-1-hint-5}
+penguins %>% 
+    filter(species == "Chinstrap") %>% 
+    mutate(dim_pico_mm = bill_length_mm * bill_depth_mm) %>% 
+    arrange(desc(dim_bill_mm)) %>% 
+    select(species, island, year, dim_bill_mm)
+```
+
+```{r final-1-solution}
+penguins %>% 
+    filter(species == "Chinstrap") %>% 
+    mutate(dim_pico_mm = bill_length_mm * bill_depth_mm) %>% 
+    arrange(desc(dim_bill_mm)) %>% 
+    select(species, island, year, dim_bill_mm)
+```
+
+```{r final-1-check}
+"Congratulations! You have completed the dplyr tutorial with penguins."
+```
+

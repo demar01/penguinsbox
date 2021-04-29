@@ -1,0 +1,161 @@
+---
+title: "Cadenas de caracteres"
+output: 
+  learnr::tutorial:
+    language: es
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Usa las funciones de string para manipular cadenas de caracteres en R.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(datos)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+# set options for exercises and checking ---------------------------------------
+
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Introducción
+
+<iframe src="https://giphy.com/embed/C9AuY1VOvurxm" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/C9AuY1VOvurxm">via GIPHY</a></p>
+
+Este capítulo se centrará en el paquete **stringr** para manipular de cadenas. String es parte del núcleo tidyverse. Te recomendamos completar el tutorial 04-dplyr-ES antes de empezar este ejercicio.
+
+
+### Objetivos de aprendizaje
+
+Este tutorial tiene varios ejercicios para practicar funciones de stringr que te permitirán:
+
+* Determinar la longuitud de una coincidencia
+* Extraer el contenido de las coincidencias
+* Determinar qué cadenas de caracteres coinciden con una coincidencias
+* Reemplazar coincidencias con nuevos valores
+
+
+## Ejercicios 
+
+### Primer ejercicio
+
+Calcula el número de letras de los valores `especie` del dataset `pinguinos`:
+
+```{r str-length, exercise=TRUE}
+pinguinos %>% 
+   mutate(longitud_nombre_especie=___(especie)) %>%
+    group_by(especie) %>% 
+    summarise(longitud_nombre_especie=unique(longitud_nombre_especie))
+
+```
+
+```{r str-length-solution}
+pinguinos%>% 
+   mutate(longitud_nombre_especie=str_length(especie)) %>%
+    group_by(especie) %>% 
+    summarise(longitud_nombre_especie=unique(longitud_nombre_especie))
+```
+
+```{r str-length-check}
+grade_code("Has contado con éxito el número de caracteres de las tres especies de pinguinos!")
+```
+
+### Segundo ejercicio
+
+Extrae las dos últimas letras de la variable de `especie` y añade el resultado a una columna llamada `dosultimasletras_especies`. Coloca la nueva columna después de la columna `especie`:
+
+```{r str-sub, exercise=TRUE}
+pinguinos %>% 
+    mutate(dosultimasletras_especies= ___(especie,start=___,end=-1), .after=especie) 
+```
+
+```{r str-sub-hint-1}
+pinguinos %>% 
+    mutate(dosultimasletras_especies= ___(especie,start=-2,end=-1), .after=especie) 
+```
+
+```{r str-sub-solution}
+pinguinos %>% 
+    mutate(dosultimasletras_especies= str_sub(especie,start=-2,end=-1), .after=especie) 
+```
+
+```{r str-sub-check}
+grade_code("Con str_sub puedes extraer los valores del vector de caracteres desde la posición inicial hasta la posición final, ambos inclusive")
+```
+
+
+### Tercer ejercicio
+
+Añade una columna llamada `oo_species` que contenga la cadena de caracteres `oo` si la coincidencia `oo` se encuentra en la  variable `especie`. Después usa una función de filtro para filtrar las especies que contienen `oo`.
+
+```{r str-extract, exercise=TRUE}
+pinguinos %>% 
+    mutate(oo_especies= ___(especie,"__"), .after=especie) %>% 
+    filter(___(oo_especies))
+```
+
+```{r str-extract-hint-1}
+pinguinos %>% 
+    mutate(oo_species= ___(especie,"oo"), .after=especie) %>% 
+    filter(___(oo_especies))
+```
+
+```{r str-extract-hint-2}
+pinguinos %>% 
+    mutate(oo_species= ___(especie,"oo"), .after=especie) %>% 
+    filter(!is.na(oo_especies))
+```
+
+```{r str-extract-hint-3}
+pinguinos %>% 
+    mutate(oo_species= str_extract(especie,"oo"), .after=especie) %>% 
+    filter(!is.na(oo_especies))
+```
+
+```{r str-extract-solution}
+pinguinos %>% 
+    mutate(oo_species= str_extract(especie,"oo"), .after=especie) %>% 
+    filter(!is.na(oo_especies))
+```
+
+```{r str-extract-check}
+grade_code(" Como has visto, str_extract agregará `na` si no encuentra una coincidencia")
+```
+
+### Cuarto ejercicio
+
+Añade una columna llamada `oo_species` que contenga `oo` si la coincidencia `oo` se encuentra en la especie. Después usa una función de filtro para mantener las especies que contienen `oo`.
+
+```{r str-detect, exercise=TRUE}
+mutate(pinguinos, oo_especies= ___(especie,"oo$"), .after=especie) %>% 
+    filter(oo_especies)
+```
+
+
+```{r str-detect-solution}
+mutate(pinguinos, oo_especies= str_detect(especie,"oo$"), .after=especie) %>% 
+    filter(oo_especies)
+```
+
+```{r str-detect-check}
+grade_code("¡Gran trabajo! Como ha visto, str_detect agrega FALSE donde no encuentre una coincidencia.")
+```
+
+
+
+
+
+
