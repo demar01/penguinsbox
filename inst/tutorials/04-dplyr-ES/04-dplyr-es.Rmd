@@ -1,0 +1,365 @@
+---
+title: "Transforma tus datos con dplyr"
+output:
+  learnr::tutorial:
+    language: es
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Practica las funciones de dplyr para aislar variables, añadir nuevas variables y reordenar las filas de un tibble.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(datos)
+library(gradethis)
+library(parsons)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+# set options for exercises and checking ---------------------------------------
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introducción
+
+<iframe src="https://giphy.com/embed/J2tNIOLEHELkY" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/penguin-funny-J2tNIOLEHELkY">via GIPHY</a></p>
+
+
+### Objetivos de aprendizaje
+
+En este tutorial vas a tener la oportunidad de practicar tareas básicas de **dplyr** con nuestros queridos **pingüinos**.
+
+
+## filter()
+
+`filter()` extrae filas de un tibble, sin modificar las columnas. `filter()` funciona a través de test lógicos; devolviendo cada fila para la que el test lógico sea verdadera.
+
+### Ejemplo de filter()
+
+En el código de abajo seleccionamos los pingüinos de la especia Adelia.
+
+```{r echo = TRUE}
+filter(pinguinos, especie == "Adelia")
+```
+
+Para hacer este filtrado hemos usado el operador lógico `==`. Como vemos el tibble de salida sólo tiene pinguinos de la especie Adelia.
+
+###
+También se puede utilizar `filter()` con el pipe. En el siguiente ejercicio de Parson puedes construir el orden en el que usarias `filter()` con el pipe ( pista: no tienes porque utilizar todas las piezas del ejercicio si no las necesitas). 
+
+```{r pinguinos-parson}
+question_parsons(
+  initial = c(
+    "pinguinos",
+    "filter(...)",
+    "print()"
+  ),
+  pass_if(
+    c(
+      "pinguinos",
+      "filter(...)"
+    )
+  ),
+  fail_if(
+    ~length(.) < 2,
+    message = "Debes incluir 2 palabras"
+  ),
+  fail_if(
+    function(x){"print()" %in% x},
+    message = "No tienes que incluir print() en tu respuesta"
+  ),
+  fail_if(
+    ~{.[1] != "pinguinos"},
+    message = "Tu solution debe empezar con 'pinguinos'"
+  ),
+  problem_type = "tidyverse"
+)
+```
+
+### Otros operadores lógicos
+
+Todos los operadores lógicos de R - con los que `filter()` puede funcionar - son:
+
+Operadores lógicos | tests                                | Ejemplo
+---------------- | ------------------------------------ | ---------
+**==**           | ¿Es `x` igual a `y`?                 | `x == y`
+**!=**           | ¿Es `x` no igual a to `y`?             | `x != y`
+**>**            | ¿Es `x` mayor que `y`?             | `x > y`
+**>=**           | ¿Es `x` mayor o igual que `y`? | `x >= y`
+**<**            | ¿Es `x` menor que `y`?                | `x < y`
+**<=**           | ¿Es `x` menor o igual que `y`?    | `x <= y`
+**is.na()**      | ¿Es `x` un `NA`?                      | `is.na(x)`
+**!is.na()**     | ¿Es `x` no un `NA`?                  | `!is.na(x)`
+
+
+### Ejercicios 1 - Operadores lógicos
+
+Vamos a hacer unos ejercicios con operadores lógicos y `filter()`, para seleccionar:
+
+* Los pinguinos cuyo largo de aleta (mm) sea menor que 200
+* Los pinguinos cuya masa corporal (g) sea mayor o igual que 3000
+* Los pinguinos que tenga un valor faltante para su masa corporal (g)
+* Los pinguinos cuya masa corporal (g) sea mayor que la peso medio de su especie
+
+```{r filter-0, exercise = TRUE}
+
+```
+
+```{r filter-0-solution}
+filter(pinguinos, largo_aleta_mm < 200)
+filter(pinguinos, masa_corporal_g >=3000)
+filter(pinguinos, is.na(masa_corporal_g >=3000))
+pinguinos %>%  group_by(especie) %>% filter(masa_corporal_g > mean(masa_corporal_g,na.rm=TRUE))
+```
+
+###  Ejercicios 2 - Detectar errores
+
+Cuando utilizamos `filter()`, es frequente cometer los mismos tipos de errores (¡incluso si tenemos mucha experiencia con dplyr!). En el siguiente cuestionario intenta no equivocarte y selecciona solamente las respuestas correctas.
+
+```{r test1, echo = FALSE}
+question("¿Cómo podrias seleccionar los pinguinos de la isla Torgersen? Marca las 2 respuestas correctas.",
+         answer("filter(pinguinos, isla == \"Torgersen\")", correct = TRUE),
+         answer("pinguinos %>% filter (isla == \"Torgersen\")", correct = TRUE),
+         answer("filter(pinguinos, isla = Torgersen)", message = "Asegúrate de usar == en lugar de ="),
+         answer("filter(pinguinos, isla = \"Torgersen\")", message = "Asegúrate de usar comillas el la operación lógica"),
+         allow_retry = TRUE,
+         correct = "¡Muy bien! Así es como podemos filtrar las islas correctamente."
+)
+```
+
+
+### Combinando operaciones lógicas
+
+Podemos combinar varias operaciones lógicas para hacer un fitrado más complejo. Por ejemplo, podemos seleccionar los pinguinos de la especia Adelia de la isla Torgersen.
+
+```{r filter-1, exercise = TRUE}
+filter (pinguinos, especie == "Adelia" ___ isla=="Torgersen")
+```
+
+```{r filter-1-solution}
+filter (pinguinos, especie == "Adelia" & isla=="Torgersen")
+```
+
+###
+
+Podemos combinar multiples subconjuntos lógicos complicados. Si recordamos la ley de __De Morgan__ nos facilita esta tarea :
+
+```{r imagen-morgan, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Set completo de operadores booleanos"}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/01f4b6d39d2be8269740a3ad7946faa79f7243cf/8369a/diagrams/transform-logical.png")
+```
+
+Las [Leyes de De Morgan](https://es.wikipedia.org/wiki/Leyes_de_De_Morgan) dicen que !(x & y) es lo mismo que !x | !y, y !(x | y) es lo mismo que !x & !y.
+
+###
+
+### Ejercicio 3 - Múltiples operadores lógicos
+
+Haz una lluvia de ideas sobre tantas maneras como sea posible para seleccionar pinguinos que tengan un largo de aleta menor que 200 mm y una masa corporal por debajo de 3000 g :
+
+```{r filter-2, exercise = TRUE}
+pinguinos %>%  filter (!(largo_aleta_mm>=200 | masa_corporal_g>=3000))
+
+```
+
+```{r filter-2-solution}
+pinguinos %>%  filter (!(largo_aleta_mm>=200 | masa_corporal_g>=3000))
+pinguinos %>%  filter (!(largo_aleta_mm>=200) , !(masa_corporal_g>=3000))
+pinguinos %>%  filter (!(largo_aleta_mm>=200) & !(masa_corporal_g>=3000))
+```
+
+###  Ejercicios 4 - Detectar errores
+
+Veamos si puedes detectar algunos errores más comunes al utilizar `filter()` y múltiples operadores lógicos.
+
+```{r test2, echo = FALSE}
+question("¿Cómo podrias seleccionar los pinguinos cuya masa corporal sea 3000, 3400 o 3800 g? Selecciona la opción más sencilla para hacer esta tarea ",
+         answer("filter(pinguinos, masa_corporal_g == 3000 | masa_corporal_g == 3400 | masa_corporal_g == 3800)",message = "Aunque el código funciona, puedes hacer un código más conciso colapsando múltiples declaraciones o en una declaración %in% cuando sea posible. Intenta otra opción."),
+         answer("filter(pinguinos, masa_corporal_g %in% c(3000,3400,3800))", correct = TRUE),
+         answer("filter(pinguinos, masa_corporal_g == 3000 & masa_corporal_g == 3400 & masa_corporal_g == 3800)", message = "Este código esta seleccionando pinguinos con masa corporal 3000, 3400 __y__ 3800, lo cual es imposible"),
+         answer("filter(pinguinos, masa_corporal_g == 3000 ,  masa_corporal_g == 3400, masa_corporal_g == 3800)", message = "Este código esta seleccionando pinguinos con masa corporal 3000, 3400 __y__ 3800, lo cual es imposible"),
+         allow_retry = TRUE,
+         correct = "¡Bien hecho! Podemos seleccionar pinguinos con varios pesos utilizando varios test lógicos"
+)
+```
+
+## select()
+
+`select()` extrae columnas de un tibble, sin modificar las filas `filter()`. Funciona especificando nombres de las columnas que queremos extraer  __sin comillas__.
+
+### Ejemplo de select()
+
+En el código de abajo vamos a seleccionar las columnas `especie`, `isla` y `masa_corporal_g` del tibble pinguinos.
+
+```{r echo = TRUE}
+select(pinguinos, especie, isla, masa_corporal_g)
+```
+
+###
+
+### Ejercicio 1 - select()
+
+Practica con la función `select()`. ¿Puedes extraer solo la columna "especie"? ¿Y las columnas "especie" y "isla"? ¿Y todas las columnas excepto "anio"? Escribe tus soluciones en el cuadrado de abajo.
+
+```{r select-1, exercise = TRUE, exercise.eval = TRUE}
+
+```
+
+```{r select-1-solution}
+select(pinguinos, especie)
+select(pinguinos, especie, isla)
+select(pinguinos, -anio)
+```
+
+
+### funciones auxiliares de select()
+
+Además de seleccionar columnas utilizando el nombre explicito, `select()` tiene una serie de funciones auxiliares para especificar nombres de columnas. En la tabla de abajo se recogen estas funciones auxiliares de select. Estudiala y podrás hacer seleccionado mas complejo con `select()`. 
+
+
+Función auxiliar   | Uso                                               | Ejemplo
+----------------- | ------------------------------------------------- | -------
+**-**             | Columnas excepto                              | `select(pinguinos, -anio))`
+**:**             | Columnas entre (inclusivo)                  | `select(pinguinos,especie:largo_aleta_mm)`
+**contains()**    | Columnas que tienen la cadena de caracteres               | `select(pinguinos, contains("pico"))`
+**ends_with()**   | Columnas que terminan con una cadena de caracteres              | `select(pinguinos, ends_with("mm"))`
+**matches()**     | Columnas que coincidan con una expresion regular o regex                 | `select(pinguinos, matches("largo_pico"))`
+**num_range()**   | Columnas con un sufijo numérico en el rango | No aplicable with `pinguinos`
+**one_of()**      | Columnas cuyo nombre aparece en el conjunto dado     | `select(pinguinos, one_of(c("largo_pico_mm", "largo_aleta_mm")))`
+**starts_with()** | Columnas que empiezan con una cadena de caracteres            | `select(pinguinos, starts_with("largo"))`
+
+
+## arrange()
+
+`arrange()` devuelve todas las filas de un tibble reordenadas por los valores de una columna. Como con `select()`, el primer argumento de `arrange()` es un tibble y los otros argumentos son los nombres de las columnas. También podemos ordenar el tibble utilizando varias columnas.
+
+### Ejercicio 1- arrange()
+
+¿Cómo podriamos ordenar los pinguinos mostrando los pinguinos con largo_pico_mm más corto al inicio del tibble?
+
+```{r arrange-1, exercise=TRUE}
+arrange(pinguinos, ___)
+```
+
+```{r arrange-1-solution, eval=FALSE}
+arrange(pinguinos, largo_pico_mm)
+```
+
+```{r arrange-1-check}
+"Muy bien! Como vemos los largo_pico_mm mas pequeños aparecen primero en el tibble ordenado."
+```
+### Ejercicio 2- arrange()
+
+¿Cómo podriamos ordenar los pinguinos mostrando los pinguinos con mayor valor en largo_pico_mm al inicio del tibble?
+
+```{r arrange-2, exercise = TRUE}
+arrange(pinguinos, ___(largo_pico_mm))
+```
+
+```{r arrange-2-solution}
+arrange(pinguinos, desc(largo_pico_mm))
+```
+
+```{r arrange-2-check}
+"Muy bien! Como ves los largo_pico_mm mas pequeños aparecen al final en el tibble ordenado."
+```
+
+### Ejercicio 3- arrange()
+
+
+```{r test3, echo = FALSE}
+question("Muestra los pingüinos que no tengan valor de masa corporal al principio del tibble",
+         answer("pinguinos %>%  arrange(is.na(masa_corporal_g))", message = "Esto va a poner los NA al final del tibble"),
+         answer("pinguinos %>%  arrange(desc(is.na(masa_corporal_g)))", correct = TRUE),
+         answer("pinguinos %>%  arrange(is.na(desc(masa_corporal_g))) ", message = "Esto va a poner los NA al final del tibble"),
+         correct = "Muy bien! Así es como podemos ordenar el tibble poniendo los pinguinos que no tengan valor de masa corporal al principio del tibble."
+)
+```
+
+## mutate()
+
+`mutate()` añade columnas a un tibble, después de pasar una expresión en cada de las filas. Esta expresión puede ser aritmétrica, de clasificación o lógica, entre otras.
+
+### Ejemplo de mutate()
+
+En el código de abajo añadimos una columna a la que llamamos `dim_pico_mm` que calculamos multiplicando largo_pico_mm x alto_pico_mm
+
+```{r echo = TRUE}
+mutate(pinguinos, dim_pico_mm=largo_pico_mm * alto_pico_mm, .after =alto_pico_mm)
+```
+Fíjate en el resultado `dim_pico_mm`. ¿Qué  pasa si una de las varibles `largo_pico_mm` o `alto_pico_mm` es NA?
+
+## Ejercicio final 
+
+Para los pinguinos `Barbijo`, calcula la dimension del pico multiplicando `largo_pico_mm` y `alto_pico_mm`. Añade este valor en una columna llamada `dim_pico_mm` y ordena los datos poniendo los mayores valores de `dim_pico_mm` al principio de la tabla. Reporta solo las variables `especie`, `isla`, `anio ` y `dim_pico_mm`.
+
+
+```{r final-1, exercise = TRUE}
+pinguinos %>% 
+    ___(especie ___ "Barbijo") %>% 
+    ___(dim_pico_mm = largo_pico_mm * alto_pico_mm) %>% 
+    arrange(___(dim_pico_mm)) %>% 
+    ___(especie,isla,anio, dim_pico_mm)
+```
+
+```{r final-1-hint-1}
+pinguinos %>% 
+    ___(especie == "Barbijo") %>% 
+    ___(dim_pico_mm = largo_pico_mm * alto_pico_mm) %>% 
+    arrange(___(dim_pico_mm)) %>% 
+    ___(especie,isla,anio, dim_pico_mm)
+```
+
+```{r final-1-hint-2}
+pinguinos %>% 
+    filter(especie == "Barbijo") %>% 
+    ___(dim_pico_mm = largo_pico_mm * alto_pico_mm) %>% 
+    arrange(___(dim_pico_mm)) %>% 
+    ___(especie,isla,anio, dim_pico_mm)
+```
+
+```{r final-1-hint-3}
+pinguinos %>% 
+    filter(especie == "Barbijo") %>% 
+    mutate(dim_pico_mm = largo_pico_mm * alto_pico_mm) %>% 
+    arrange(___(dim_pico_mm)) %>% 
+    ___(especie,isla,anio, dim_pico_mm)
+```
+
+```{r final-1-hint-4}
+pinguinos %>% 
+    filter(especie == "Barbijo") %>% 
+    mutate(dim_pico_mm = largo_pico_mm * alto_pico_mm) %>% 
+    arrange(desc(dim_pico_mm)) %>% 
+    ___(especie,isla,anio, dim_pico_mm)
+```
+
+```{r final-1-hint-5}
+pinguinos %>% 
+    filter(especie == "Barbijo") %>% 
+    mutate(dim_pico_mm = largo_pico_mm * alto_pico_mm) %>% 
+    arrange(desc(dim_pico_mm)) %>% 
+    select(especie,isla,anio, dim_pico_mm)
+```
+
+```{r final-1-solution}
+pinguinos %>% 
+    filter(especie=="Barbijo") %>% 
+    mutate(dim_pico_mm=largo_pico_mm * alto_pico_mm) %>% 
+    arrange(desc(dim_pico_mm)) %>% 
+    select(especie,isla,anio, dim_pico_mm)
+```
+
+```{r final-1-check}
+"¡Enhorabuena! Has completado el tutorial de dplyr con pinguinos."
+```
+

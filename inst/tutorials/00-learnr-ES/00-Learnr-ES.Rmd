@@ -1,0 +1,115 @@
+---
+title: "Ejercicios de learnr en penguinsbox"
+output:
+  learnr::tutorial:
+    language: es
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Tipos de ejercicios learnr disponibles en learnr.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(parsons)
+library(tidyverse)
+library(datos)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+# set options for exercises and checking ---------------------------------------
+
+# hide non-exercise code chunks ------------------------------------------------
+```
+
+## Introducción: ejercicios interactivos 
+
+<iframe src="https://giphy.com/embed/l0E9CrSVVI3g4" width="480" height="204" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/movie-film-cute-l0E9CrSVVI3g4">via GIPHY</a></p>
+
+
+Los ejercicios que vamos a resolver en `penguinsbox` han sido construidos con el paquete [learnr](https://github.com/rstudio/learnr), el paquete [gradethis](https://github.com/rstudio/gradethis) y el paquete [parsons](https://github.com/rstudio/parsons).
+
+### Objetivos de aprendizaje
+
+Practicar con los tipos de ejercicios interactivos de `penguinsbox`.
+
+## Rellenar los espacios en blanco
+
+Junto con el paquete `penguinsbox` usaremos dos paquetes principales, el meta-paquete de R para ciencia de datos [tidyverse](https://www.tidyverse.org/) y el paquete [datos](https://github.com/cienciadedatos/datos) que contiene el conjunto de datos de pingüinos en español. A continuación, podemos cargar los dos paquetes (primero tidyverse y luego datos) reemplazando las lineas `___` con los nombres de los paquetes. Puedes escribir directamente sobre las lines `___` en el cuadro de abajo; si no conoces la respuesta, puedes hacer clic en "Solución", copiar la solución en el `Portapapeles` y luego mandar la respuesta seleccionando `Enviar respuesta`. Si seleccionas `Ejecutar código` se correrá el código, pero no habrás enviado tu respuesta.
+
+```{r library-tidyverse, exercise=TRUE}
+# carga los paquetes tidyverse y datos
+library(___)
+library(___)
+```
+
+```{r library-tidyverse-hint-1}
+# carga los paquetes tidyverse y datos
+library(tidyverse)
+library(___)
+```
+
+
+```{r library-tidyverse-solution}
+#  carga los paquetes tidyverse y datos
+library(tidyverse)
+library(datos)
+```
+
+```{r library-tidyverse-check}
+grade_code("Completaste el primer ejercicio de llenar los espacios en blanco")
+```
+
+## Preguntas de opcion múltiple
+
+En estos ejercicios se nos presentarán preguntas de opción múltiple. Algunas de las preguntas pueden requerir múltiples respuestas como la que se muestra a continuación.
+
+```{r quiz-1}
+question('¿Cuáles son la primera y la última letra de la palabra Pingüinos? (seleccione AMBAS primera y última letra)',
+         answer("P", correct = TRUE),
+         answer("s", correct = TRUE),
+         answer("i"),
+         answer("o"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "¿Estás seguro de que estas son las primeras y últimas letras de la palabra pingüinos?",
+         correct = "¡Correcto! Estas son las primeras y últimas letras de la palabra Pingüinos."
+)
+```
+
+## Problemas de Parson
+
+En el paquete `penguinsbox` también tendremos que resolver problemas de Parsons. En estos ejercicios, se nos presentarán las soluciones, pero puede que las soluciones no esten en el orden correcto. Para resolver estos problemas, tendremos que arrastrar las palabras y poner la solución en el order correcto. Por ejemplo, para poner `¡Hola Pinguinos!` tenemos que arrastrar las palabras desde el panel de la izquierda al panel de la derecha para producir `¡Hola Pinguinos!` .
+
+
+```{r explain-1}
+question_parsons(
+  initial = c(
+    "Pinguinos!",
+    "¡Hola"
+  ),
+  answer(
+    c(
+    "¡Hola",
+    "Pinguinos!"
+    ),
+    correct = TRUE
+  ),
+  problem_type = "base"
+)
+```
+
+
+## En resumen
+
+En el paquete `penguinsbox` nos vamos a encontrar con tres tipos de ejercicios: 
+
+- Ejercicions para rellenar los espacios en blanco o ejemplo desvanecido. 
+- Preguntas de opcion múltiple.
+- Problemas de Parsons.

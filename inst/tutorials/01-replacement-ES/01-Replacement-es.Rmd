@@ -1,0 +1,133 @@
+---
+title: "Reemplazo: if_else y case_when"
+output: 
+  learnr::tutorial:
+    language: es
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Usa remplazamiento vectorial para cambiar valores.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(gradethis)
+library(tidyverse)
+library(datos)
+
+# set options for exercises and checking ---------------------------------------
+
+
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introducción
+
+```{r protein-structure, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Imagen de Allison Horst"}
+knitr::include_graphics("https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/penguinses.png")
+```
+
+### Objetivos de aprendizaje
+
+El objetivo de este tutorial es darte la oportunidad de explorar y usar los vectores de reemplazamiento `if_else` - para reemplazamiento cuando en un vector se chequea una condicion para el remplazo- y `case_when` (caso cuando) para reemplazamiento cuando en un vector se chequean multiples condiciones para el reemplazo.
+
+### Paquetes
+
+Usaremos el paquete **tidyverse** para utilizar funciones de reemplazamiento vectorial dentro de dplyr y el paquete **datos** que contiene los datos de pinguinos. 
+
+### Datos 
+Vamos a cargar tidyverse los datos de pinguinos.
+```{r load-packages, exercise=TRUE}
+library(tidyverse)
+library(datos)
+```
+
+```{r load-packages-solution}
+library(tidyverse)
+library(datos)
+```
+
+```{r load-packages-check}
+grade_code("Los paquetes tidyverse y datos están cargados!")
+```
+
+## Reemplazamiento: 1 condición
+
+### if_else 
+
+Reemplaza los valores que faltan (NA, del inglés non available) en `masa_corporal_g` por la media de `masa_corporal_g`.
+
+```{r if-else, exercise=TRUE}
+pinguinos %>% 
+group_by(especie) %>%
+mutate(media_masa_corporal_g= mean(masa_corporal_g,na.rm = TRUE)) %>%
+mutate(masa_corporal_g= ___(is.na(masa_corporal_g), ___, masa_corporal_g))
+```
+
+```{r if-else-hint-1}
+pinguinos %>% 
+group_by(especie) %>%
+mutate(media_masa_corporal_g= mean(masa_corporal_g,na.rm = TRUE)) %>%
+mutate(masa_corporal_g= ___(is.na(masa_corporal_g), media_masa_corporal_g, masa_corporal_g))
+```
+
+```{r if-else-solution,eval=FALSE}
+pinguinos %>% 
+group_by(especie) %>%
+mutate(media_masa_corporal_g= mean(masa_corporal_g,na.rm = TRUE)) %>%
+mutate(masa_corporal_g= ifelse(is.na(masa_corporal_g), media_masa_corporal_g, masa_corporal_g))
+```
+
+```{r if-else-check}
+grade_code("Has reemplazado los valores faltantes con éxito!")
+```
+
+## Reemplazamiento: 2 o más condiciones
+
+### case_when 
+
+Reemplaza los valores faltantes en `sexo` por "ND" (no determinado) y hembra por "H" y macho por "M.
+
+```{r case-when, exercise=TRUE}
+pinguinos %>% 
+mutate(  
+	sexo=___( 
+	sexo=="hembra" ~ "H",
+	sexo=="macho" ~ "M",  
+	___(sexo) ~"ND"))  
+```
+
+```{r case-when-hint-1}
+pinguinos %>% 
+mutate(  
+	sexo=___( 
+	sexo=="hembra" ~ "H",
+	sexo=="macho" ~ "M",  
+	is.na(sexo) ~"ND")) 
+```
+
+```{r case-when-solution}
+pinguinos %>% 
+mutate(  
+	sexo=case_when( 
+	sexo=="hembra" ~ "H",
+	sexo=="macho" ~ "M",  
+	is.na(sexo) ~"ND"))  
+```
+
+```{r case-when-check}
+grade_code("Reemplazaste con éxito cómo se informa la variable sexo!")
+```
+
+## Conclusión
+
+Enhorabuena, has reemplazado valores de pingüinos con if_else and case_when!

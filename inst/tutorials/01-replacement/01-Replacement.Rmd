@@ -1,0 +1,133 @@
+---
+title: "Replacement: if_else & case_when"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Use vectorise replacement to change values.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(palmerpenguins)
+
+# set options for exercises and checking ---------------------------------------
+
+
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+```{r protein-structure, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Imagen de Allison Horst"}
+knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/lter_penguins.png")
+```
+
+
+### Learning goals
+
+The goal of this tutorial is to give you the chance to explore if_else and case_when vectorise replacements and use if_else for replacement when testing a vector against a single condition and case_when when testing a vector against multiple conditions.
+
+### Packages
+
+We'll use the **tidyverse** package for dplyr vectorised replacement function and the **palmerpenguins** package for penguin data . 
+
+### Data 
+We are going to explore penguin data.
+
+```{r load-packages, exercise=TRUE}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+```{r load-packages-solution}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+```{r load-packages-check}
+#grade_code("The tidyverse and palmerpenguins packages are now loaded!")
+```
+
+## Replacement 1 condition
+
+### if_else 
+
+Replace NA values in `body_mass_g` with with average `body_mass_g`
+
+```{r if-else, exercise=TRUE}
+penguins %>% 
+group_by(species) %>%
+mutate(mean_body_mass_g= mean(body_mass_g,na.rm = TRUE)) %>%
+mutate(body_mass_g= ___(is.na(body_mass_g), ___, body_mass_g))
+```
+
+```{r if-else-hint-1}
+penguins %>% 
+group_by(species) %>%
+mutate(mean_body_mass_g= mean(body_mass_g,na.rm = TRUE)) %>%
+mutate(body_mass_g= ___(is.na(body_mass_g), mean_body_mass_g, body_mass_g))
+```
+
+```{r if-else-solution,eval=FALSE}
+penguins %>% 
+group_by(species) %>%
+mutate(mean_body_mass_g= mean(body_mass_g,na.rm = TRUE)) %>%
+mutate(body_mass_g= ifelse(is.na(body_mass_g), mean_body_mass_g, body_mass_g))
+```
+
+```{r if-else-check}
+#grade_code("You've successfully replace Na values!")
+```
+
+## Replacement 2 or more conditions
+
+### case_when 
+
+Replace NA values in `sex` with "NB" and replace male to "M" and female to "F"
+
+```{r case-when, exercise=TRUE}
+penguins %>% 
+mutate(  
+	sex=___( 
+	sex=="male" ~ "M",
+	sex=="female" ~ "F",  
+	___(sex) ~"NB"))  
+```
+
+```{r case-when-hint-1}
+penguins %>% 
+mutate(  
+	sex=___( 
+	sex=="male" ~ "M",
+	sex=="female" ~ "F",  
+	is.na(sex) ~"NB"))  
+```
+
+```{r case-when-solution}
+penguins %>% 
+mutate(  
+	sex=case_when( 
+	sex=="male" ~ "M",
+	 sex=="female" ~ "F",  
+	is.na(sex) ~"NB"))  
+```
+
+```{r case-when-check}
+#grade_code("You've successfully replace how sex variable is reported!")
+```
+
+## Wrap up
+
+Congratulations, you've you replaced values using if_else and case_when!

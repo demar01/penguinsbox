@@ -1,0 +1,231 @@
+---
+title: "Iteraction"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Use iteration to reduce duplication in your code.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(palmerpenguins)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+# set options for exercises and checking ---------------------------------------
+penguins_measurements <- tibble(
+  bill = c(100,200,300),
+  fins= c(200,400,600),
+  head = c(400,800,1200))
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+```{r imagen-peng, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Unsplash: Andrea Gradilone"}
+knitr::include_graphics("https://images.unsplash.com/photo-1506842605307-bbcbd9ea121f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1267&q=80")
+```
+
+### Learning objectives
+
+In this tutorial you will learn how to solve iteration problems in R. Specifically, you will learn to solve these types of problems with:
+
+* For loops
+* Pre-built functions for specific situations like `colMeans()`
+* Tailored functions of `purrr` package
+
+By the end of this tutorial you will have practice using tools to do functional programming in R.
+
+## Manual repetition
+
+We are going to work with some a penguin dataset called `penguin_measures` with variables,`bill`, `fins` and ` head`. 
+
+```{r pinguino_medidas1, exercise = TRUE}
+penguins_measurements
+```
+Suppose you want to average each of the three variables in `penguin_measures`. Calculate the mean of each of the columns separately on the box below:
+
+```{r meansep,exercise = TRUE}
+___(penguins_measurements$bill)
+___(penguins_measurements$fins)
+___(penguins_measurements$head)
+```
+
+```{r meansep-hint-1}
+mean(penguins_measurements$bill)
+___(penguins_measurements$fins)
+___(penguins_measurements$head)
+```
+
+```{r meansep-hint-2}
+mean(penguins_measurements$bill)
+mean(penguins_measurements$fins)
+___(penguins_measurements$head)
+```
+
+```{r mean-sep-hint-3}
+mean(penguins_measurements$bill)
+mean(penguins_measurements$fins)
+mean(penguins_measurements$head)
+```
+
+```{r meansep-solution}
+mean(penguins_measurements$bill)
+mean(penguins_measurements$fins)
+mean(penguins_measurements$head)
+```
+
+###
+
+You can calculate the means in this way, but you would be repeating your code (remember the grule of thumb: never copy and paste more than twice). To avoid this, you could use  **a for loop** 
+
+
+## Iteraction with for loops
+
+Remember the three components of a for loop:
+
+* `output`: The part of the code that allocates enough space to save the resulto. 
+* `sequence`: The part of the code that determines how many times to execute the loop.
+* `body`: The part of the code that does the job.
+
+You could build a for loop to iterate over the `penguins_measurements` and calculate the mean of each variable.
+
+```{r, echo=TRUE}
+output_mean <- vector("double", ncol(penguins_measurements)) 
+
+for (i in seq_along(penguins_measurements)) {    
+    output_mean[[i]] <- mean(penguins_measurements[[i]])}      
+```
+
+```{r, echo=TRUE}
+output_mean
+```
+
+###
+
+Imagine that instead of the mean you want to calculate the median of each variable, what would your for loop look like? Give it a try!
+
+```{r ex1, exercise = TRUE}
+output_median <- vector("double", ncol(penguins_measurements)) 
+
+for (i in seq_along(penguins_measurements)) {    
+    output_median[[i]] <- ___(penguins_measurements[[i]])}      
+output_median
+```
+
+```{r ex1-solution}
+output_median <- vector("double", ncol(penguins_measurements)) 
+
+for (i in seq_along(penguins_measurements)) {    
+    output_median[[i]] <- median(penguins_measurements[[i]])}      
+output_median
+```
+
+###
+
+Although for loops allow us to reduce the code, they are more cumbersome because you have to initialize the output at the beginning, specify the number of times that the loop is to be executed, and write the loop itself. Next we will see how we can use vectorization to simplify this task.
+
+### Vectorization
+
+Instead of writing a for loop, we can make use [the power of vectorization in R](https://swcarpentry.github.io/r-novice-gapminder/09-vectorization/) and calculate the mean of all columns with the predefined function `colMeans()`:
+
+```{r, echo=TRUE}
+colMeans(penguins_measurements)
+```
+As you can see, `colMeans ()` executes the average of all the columns in the dataset, and in this way we do not need to write a for loop. This function uses the principles of vectorization, which makes code writing more concise, easier to read, and less error prone.
+
+### Purrr
+
+The `purrr` package offers another more flexible alternative that allows us to execute iterations _without having to write for_ loops. For example, you can calculate the mean of all the columns of `penguin_measures` like this:
+
+```{r, echo=TRUE}
+map(penguins_measurements,mean)
+```
+
+###
+The diagram below will help you remember how map works. In the `penguins_measurements` example map applies the `mean()` function to all variables.
+
+```{r echo=FALSE, out.width = "70%"}
+knitr::include_graphics("https://github.com/rstudio-education/primers/blob/master/iterate/map/www/images/map.png
+")
+```
+
+You can use map with the pipe: 
+
+```{r, echo=TRUE}
+penguins_measurements %>% map(mean)
+```
+
+###
+
+How would you calculate the median of each `penguins_measurements` column?
+```{r ex2, exercise = TRUE}
+penguins_measurements %>% map(___)
+
+```
+
+```{r ex2-solution}
+penguins_measurements %>% map(median)
+```
+
+```{r ex2-check}
+"Excellent. In this case the mean and median have the same value."
+```
+
+###
+
+You can also pass your own function to map. For example, you can create a function that calculates the mean after removing NAs.
+
+```{r, echo= TRUE}
+mi_mean_wo_nas <- function(x) {
+  x %>%
+    mean(na.rm = TRUE)}
+```
+
+And calculate the mean for the numerical variables of penguins using your new function.
+
+```{r, echo=TRUE}
+penguins %>% 
+  select_if(is.numeric) %>%
+  map(mi_mean_wo_nas)
+```
+
+
+### Map functions
+
+You may have notice that the default output of map is a list. There are similar functions to map that return different types of output.
+
+Map function    | Output                                               | Example
+----------------- | ------------------------------------------------- | -------
+**map**             | Lista                         | `map(penguins_measurements, mean)`
+**map_dbl**             | Vector de dobles                  | `map_dbl(penguins_measurements, mean)`
+**map_chr**             | Vector de caracteres                         | `map_chr(penguins_measurements, mean)`
+**map_int**             | Vector de enteros                         | `map_int(penguins_measurements, length)`
+**map_lgl**             | Vector lógico                         | `map_lgl(penguins_measurements, is.numeric)`
+
+
+¿Cómo podrías retornar el resultado anterior ....
+
+```{r ex3, exercise = TRUE}
+pinguinos %>% select_if(is.numeric) %>% ___(mi_mean_wo_nas)
+
+```
+
+```{r ex3-solution}
+penguins %>% select_if(is.numeric) %>% map_dbl(mi_mean_wo_nas)
+```
+
+
+## Wrap up

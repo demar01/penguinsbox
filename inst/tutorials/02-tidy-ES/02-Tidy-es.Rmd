@@ -1,0 +1,185 @@
+---
+title: "Datos ordenados: pivotar a lo largo y pivotar a lo ancho"
+output: 
+  learnr::tutorial:
+    language: es
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Reconoce si tus datos están ordenados y ordénelos si es necesario.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(datos)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+# set options for exercises and checking ---------------------------------------
+
+nuevos_pinguinos<- tibble(
+     anio = c(2020, 2019, 2019, 2020),
+     alto_pico_mm  = c(15,15,20,20),
+     largo_pico_mm = c(39.1, 42, 39.5, 37.4))
+
+nuevos_pinguinos2<- tibble(
+     anio = c(2018, 2019, 2020,2018, 2019, 2020),
+     morfologia=c("alto_pico_mm","alto_pico_mm","alto_pico_mm","largo_pico_mm","largo_pico_mm","largo_pico_mm"),
+     valor  = c(15,15,20,39.1, 42, 39.5))
+
+nuevos_pinguinos3<-tibble(
+    isla=c("Biscoe","Dream"),
+    `2019`=c("3000","4000"),
+    `2020`=c("3500","4500"))
+
+mas_pinguinos<- tibble(
+     especie  = c( "Adelia",    "Adelie",     "Adelie",    "Adelie"),
+     isla  = c( "Biscoe",    "Dream",     "Dream",    "Torgersen"),
+     sexo= c("male",NA,NA,"female"),
+     medida = c( "alto_pico_mm",    "alto_pico_mm",     "largo_aleta_mm",    "masa_corporal_g"),
+     observaciones=c(39.1,27,180,3750))
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introducción
+
+```{r imagen-peng, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Imagen de Allison Horst"}
+knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/lter_penguins.png")
+```
+
+### Objetivos de aprendizaje
+
+El objetivo de este tutorial es mostrar cómo reconocer datos desordenados, así como ordenar datos desordenados utilizando las funciones `pivot_longer` y `pivot_wider` de tidyr.
+
+## Datos ordenados 
+
+Existen tres reglas interrelacionadas que hacen que un conjunto de datos sea ordenado:
+
+- Cada variable debe tener su propia columna.
+- Cada observación debe tener su propia fila.
+- Cada valor debe tener su propia celda.
+
+```{r datos-ordenados, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Figura 12.1 del libro R para ciencia de datos"}
+knitr::include_graphics("https://es.r4ds.hadley.nz/diagrams_w_text_as_path/es/tidy-1.svg")
+```
+
+```{r echo = TRUE}
+nuevos_pinguinos
+```
+
+### Test 1 - Reconoce las variables
+
+```{r test1, echo = FALSE}
+question("¿Cuáles son las variables de `nuevos_pinguinos`? Marca todo lo que corresponda.",
+         answer("anio", correct = TRUE),
+         answer("alto_pico_mm", correct = TRUE),
+         answer("largo_pico_mm", correct = TRUE),
+         answer("int"),
+         answer("dbl"),
+         allow_retry = TRUE, 
+         correct = "Muy bien! El tibble `nuevos_pinguinos` tiene cuatro observaciones medidas con tres variables: anio,alto_pico_mm, largo_pico_mm."
+)
+```
+### Test 2 - Reconoce datos ordenados
+
+Considera estos nuevos datos de pinguinos `mas_pinguinos`:
+
+```{r echo = TRUE}
+mas_pinguinos
+```
+
+```{r test2, echo = FALSE}
+question("¿Está esta tabla ordenada? ",
+         answer("No", correct = TRUE, message = "Si te fijas hay variables distintas en una misma columna (medida)."),
+         answer("Si", message = "No te dejes engañar porque los valores esten en la columna `observaciones` y las variables enten en la columna `medida`. Fíjate en la columna medida, ¿tiene mas de una variable?"),
+         allow_retry = TRUE
+)
+```
+
+## Pivotar a lo ancho
+
+Los datos desordenados son bastante comunes en datasets. Un caso de datos desordenados es cuando una observación aparece en múltiples filas, como en este ejemplo:
+
+```{r echo = TRUE}
+nuevos_pinguinos2
+```
+En este caso cada año tiene una observación, pero la información morfológica está __escondida__ en la columna `morfología`, de modo que cada observación morfológica aparece en dos filas. En este caso, tenemos que incrementar el  número de columnas y disminuir el número de filas. Podemos generar una tabla más ancha pivotando a lo ancho usando `pivot_wider()` para así obtener una tabla ordenada. 
+
+```{r}
+nuevos_pinguinos2 %>%
+    pivot_wider(names_from = morfologia, values_from = valor)
+```
+
+## Pivotar a lo largo
+
+Por otra parte, una variable puede estar extendida por varias columnas.
+```{r}
+nuevos_pinguinos3
+```
+En este caso tenemos que que angostar la tabla haciendola más larga usando la función `pivot_longer()` 
+
+To do this we can use `pivot_longer`:
+
+```{r expl, exercise = TRUE}
+nuevos_pinguinos3 %>%
+  pivot_longer(`2019`:`2020`, names_to = "___", values_to = "___")
+```
+
+```{r expl-hint-1}
+nuevos_pinguinos3 %>%
+  pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "___")
+```
+
+
+```{r expl-solution,eval=FALSE}
+nuevos_pinguinos3 %>%
+  pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "masa_corporal_g")
+```
+
+Fijate que en este caso decidimos el nombre que darle a las nuevas columnas.
+
+## Ejercicio- Reconstruye los datos
+
+Podemos usar `pivot_longer()` y` pivot_wider()` consecutivamente para desordenar los datos y obtener los datos finales ordenados. Por ejemplo, comenzando con los datos `nuevos_pinguinos`:
+```{r echo = TRUE}
+nuevos_pinguinos
+```
+
+Podemos reducir la longitud del tibble con `pivot_wider()`:
+```{r}
+nuevos_pinguinos%>%
+  pivot_wider(names_from = anio, values_from = largo_pico_mm)
+```
+
+Y volver a un formato ordenado utilizando `pivot_longer()`:
+```{r echo = TRUE}
+nuevos_pinguinos %>%
+  pivot_wider(names_from = anio, values_from = largo_pico_mm) %>%
+  pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "largo_pico_mm",
+               names_transform = list(anio = as.numeric))
+```
+
+## En resumen
+
+Trabajar con datos ordenados en R permite utilizar al máximo las functiones vectoriales de R (e.g. `mutate()`, `separate()` y muchas funciones más). Puedes ordenar tus datos al comienzo de tu análisis de datos; tus datos estarán ordenados si:
+
+- Cada variable tiene su propia columna.
+- Cada observación tiene  su propia fila.
+- Cada valor tiene su propia celda.
+
+Puedes usar `pivot_wider` y `pivot_longer` o alguna sequencia iterativa de los dos, para remodelar tus datos de manera que:
+
+- Se conserven todos los valores de su conjunto de datos original.
+- Se retengan todas las relaciones entre valores en su conjunto de datos original.
+
+

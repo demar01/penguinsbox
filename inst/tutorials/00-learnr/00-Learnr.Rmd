@@ -1,0 +1,107 @@
+---
+title: "Learnr exercises in penguinsbox"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Types of exercises of learnr available in penguinsbox.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(parsons)
+library(tidyverse)
+library(palmerpenguins)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+# set options for exercises and checking ---------------------------------------
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction: learning learnr
+
+<iframe src="https://giphy.com/embed/l0E9CrSVVI3g4" width="480" height="204" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/movie-film-cute-l0E9CrSVVI3g4">via GIPHY</a></p>
+
+Let's take the first penguin steps into [learnr](https://github.com/rstudio/learnr) exercises.
+
+### Learning goals
+
+Show you the types of exercises available in `penguinsbox`.
+
+
+## Filling the blanks
+
+Along the exercises of `penguinsbox` package we will be using two main packages the [tidyverse](https://www.tidyverse.org/) metapackage for data science and [palmerpenguins](https://github.com/allisonhorst/palmerpenguins/) package which contains the penguins dataset. We can load the two packages below (first tidyverse, and then palmerpenguins) by replacing the `___` with the package names. You can type directly on to of `___` in the box below; if you do not know the answer, you can click `Solution`, copy the solution to Clipboard and then Submit the answer.
+
+```{r library-tidyverse, exercise=TRUE}
+# load the tidyverse and palmerpenguins packages
+library(___)
+library(___)
+```
+
+```{r library-tidyverse-solution}
+# load the tidyverse and palmerpenguins packages
+library(tidyverse)
+library(palmerpenguins)
+```
+
+```{r library-tidyverse-check}
+grade_code("You completed the first filling the blanks exercise.")
+```
+
+## MCQ
+
+In these exercises we will be presented with Multiple choice questions (MCQ) in multiple quizes. Some of the questions may require multiple answers like the one below.
+
+```{r sentiment-quiz}
+question('What are the first and the last letters of the word Penguins? (select BOTH first and last lettes)',
+         answer("P", correct = TRUE),
+         answer("s", correct = TRUE),
+         answer("e"),
+         answer("n"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "Are you sure these are the first and last letters of the word Penguins?",
+         correct = "Correct! These are the first and last letters of the word Penguins"
+)
+```
+
+## Parsons problems
+```{r explain-1}
+question_parsons(
+  initial = c(
+    "count(...)",
+    "filter(...)",
+    "penguins"
+  ),
+  answer(
+    c(
+    "penguins",
+    "filter(...)",
+    "count(...)"
+    ),
+    correct = TRUE
+  ),
+  problem_type = "base"
+)
+```
+
+
+## Wrap up
+
+In the `penguinsbox` package we will encounter three types of exercises:
+
+- Filling in the blanks or fading exercises. 
+- Multiple choice questions.
+- Parsons problems.

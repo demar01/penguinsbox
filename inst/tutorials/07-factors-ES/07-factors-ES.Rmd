@@ -1,0 +1,145 @@
+---
+title: "Factores"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Usa funciones del paquete __forcats__ para manipular factores en R.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(tidyverse)
+library(datos)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
+# set options for exercises and checking ---------------------------------------
+
+
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Introduction
+
+<iframe src="https://giphy.com/embed/cGzafVX6A8ewSRruJA" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/natgeochannel-nat-geo-national-geographic-hostile-planet-cGzafVX6A8ewSRruJA">via GIPHY</a></p>
+
+
+En este tutorial vas a practicar funciones del paquete **forcats** para manipular variables categóricas.
+
+
+### Objetivos de aprendizaje
+
+En este tutorial vas a practicar algunas funciones de forcats que te permiten:
+
+* Inspecciona los niveles de un factor.
+* Muestra los niveles de un factor tal como aparecen.
+* Reordena los niveles.
+* Collapsa los niveles.
+
+###
+
+
+## Encuentra los niveles
+```{r test-factor, echo = FALSE}
+question("¿Cómo podrías determinar los niveles del factor especie? Selecciona todas las opciones que correspondan",
+         answer("factors(pinguinos$species)", message="¡Cerca! Pero hay un error tipográfico en esta respuesta."),
+         answer("levels(pinguinos$especie)", correct = TRUE),
+         answer("levels(factor(pinguinos$especie))", correct = TRUE),
+         allow_retry = TRUE )
+```
+
+###
+
+Inspeccionemos cuáles son los valores de las `especies` de pinguinos: 
+
+```{r, echo=TRUE}
+unique(pinguinos$especie)
+```
+Como vemos el orden de los niveles no tine porque corresponder con su primera aparición en los datos.
+
+###
+
+Ahora que sabemos cuáles son los niveles del factor `especie`, veamos cómo R trata los factores. Por ejemplo, hagamos un diagrama de caja para trazar `masa_corporal_g` para cada especie.
+```{r, echo=TRUE}
+ggplot(pinguinos, aes(especie,masa_corporal_g)) +
+    geom_boxplot()
+```
+Como vemos R ordena las especie según el orden de los niveles, no según el orden que aparecen en los datos.
+
+## Reordenando los factores
+
+Ahora que sabemos cuáles son los niveles de `especies` y cómo ggplot2 trata a los factores, podemos empezar a reordenar los factores. Por ejemplo, ¿cómo podriamos hacer ordenar las especies en el orden de su aparición?.
+
+```{r str-fct-inorder, exercise=TRUE}
+ggplot(pinguinos, aes(___(especie), masa_corporal_g)) +
+    geom_boxplot()
+```
+
+
+```{r str-fct-inorder-solution}
+ggplot(pinguinos, aes(fct_inorder(especie), masa_corporal_g)) +
+    geom_boxplot()
+```
+
+###
+
+¡Fantástico! También podemos reordenar las especies en función de los valores `masa_corporal_g` en el siguente ejercicio:
+
+```{r str-fct-reorder, exercise=TRUE}
+ggplot(pinguinos, aes(___(especie, masa_corporal_g),masa_corporal_g)) +
+    geom_boxplot()
+```
+
+
+```{r str-fct-reorder-solution}
+ggplot(pinguinos, aes(fct_reorder(especie, masa_corporal_g),masa_corporal_g)) +
+    geom_boxplot()
+```
+
+###
+
+También podemos cambiar los niveles manualmente; por ejemplo, podemos mover Papúa al principio de los factores usando `fct_relevel`.
+
+```{r, echo= TRUE }
+pinguinos %>%
+    mutate(species= fct_relevel(especie, "Papúa", after=0)) %>% 
+    ggplot(aes(species, masa_corporal_g)) +
+    geom_boxplot()
+```
+
+## Collapsa los niveles
+
+Veamos cuantos pinguinos tenemos en cada especie. 
+```{r}
+pinguinos %>%
+  count(especie)
+```
+
+Podemos agrupar las especies con la función `fct_lump()` (agrupar factores).
+
+```{r}
+pinguinos %>%
+  mutate(especie = fct_lump(especie,1)) %>% 
+  count(especie) 
+```
+Como vemos `fct_lump()` conserva el numero de niveles que especificamos y agrupa los niveles restantes en otros (_Others_ en inglés)
+
+Podemos cambiar las especies y renombrar los factores restantes como "Agrupados".
+```{r}
+pinguinos %>%
+  mutate(especie = fct_lump(especie,1, other_level = "Agrupados")) %>% 
+ggplot(aes(especie, masa_corporal_g)) +
+    geom_boxplot()
+```
+
