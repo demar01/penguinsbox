@@ -19,8 +19,7 @@ library(learnr)
 library(parsons)
 library(tidyverse)
 library(palmerpenguins)
-library(gradethis)
-knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+
 
 # set options for exercises and checking ---------------------------------------
 
