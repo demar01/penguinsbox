@@ -59,7 +59,10 @@ penguins %>%
    mutate(length_species=___(species)) %>%
     group_by(species) %>% 
     summarise(length_species=unique(length_species))
+```
 
+```{r str-length-hint-1}
+Which function of stringr package returns the number of characters?
 ```
 
 ```{r str-length-solution}
@@ -80,18 +83,21 @@ grade_code("You've successfully count the number of characters in `species` vari
 Extract the last two letters of `species` variable and add result to variable called `species_last_twoletter`, which is placed after species variable:
 
 ```{r str-sub, exercise=TRUE}
-penguins %>% 
-    mutate(species_last_twoletter= ___(species,start=___,end=-1), .after=species)
+mutate(penguins,species_last_twoletter= ___(species,start=___,end=-1), .after=species)
 ```
 
 ```{r str-sub-hint-1}
-penguins %>% 
-    mutate(species_last_twoletter= ___(species,start=-2,end=-1), .after=species)
+mutate(penguins,species_last_twoletter= ___(species,start=-2,end=-1), .after=species)
 ```
 
+```{r str-sub-hint-2}
+Which function of stringr extracts and replaces substrings from a character vector?
+```
+
+
 ```{r str-sub-solution}
-penguins %>% 
-    mutate(species_last_twoletter= str_sub(species,start=-2,end=-1), .after=species) 
+mutate(penguins,species_last_twoletter= str_sub(species,start=-2,end=-1), .after=species) 
+
 ```
 
 ```{r str-sub-check}
@@ -105,29 +111,23 @@ grade_code("Using str_sub you can extract the values of  character vector from t
 Add a column called `oo_species` that contains `oo` if the pattern `oo` is found in `species`. Then use a filter function to keep the species that contain  `oo`.
 
 ```{r str-extract, exercise=TRUE}
-mutate(penguins,oo_species= ___(species,"___"), .after=species) %>% 
-    filter(___(oo_especies))
+filter(mutate(penguins, oo_species= ___(species,"___"), .after=species), ___(oo_species))
 ```
 
 ```{r str-extract-hint-1}
-mutate(penguins,oo_species= ___(species,"oo"), .after=species) %>% 
-    filter(___(oo_especies))
+filter(mutate(penguins, oo_species= ___(species,"___"), .after=species), !is.na(oo_species))
 ```
 
 ```{r str-extract-hint-2}
-mutate(penguins,oo_species= ___(species,"oo"), .after=species) %>% 
-    filter(!is.na(oo_especies))
+filter(mutate(penguins, oo_species= ___(species,"oo"), .after=species), !is.na(oo_species))
 ```
 
 ```{r str-extract-hint-3}
-mutate(penguins,oo_species= str_extract(species,"oo"), .after=species) %>% 
-    filter(!is.na(oo_especies))
+Which function of stringr extracts matching patterns from a string?
 ```
 
-
 ```{r str-extract-solution}
-mutate(penguins, oo_species= str_extract(species,"oo"), .after=species) %>% 
-    filter(!is.na(oo_species))
+filter(mutate(penguins, oo_species= str_extract(species,"oo"), .after=species), !is.na(oo_species))
 ```
 
 ```{r str-extract-check}
@@ -144,7 +144,6 @@ Add a column called `oo_species` that contains the character string `oo` if the 
 mutate(penguins, oo_species= ___(species,"oo$"), .after=species) %>% 
 filter(oo_species)
 ```
-
 
 ```{r str-detect-solution}
 mutate(penguins, oo_species= str_detect(species,"oo$"), .after=species) %>% 

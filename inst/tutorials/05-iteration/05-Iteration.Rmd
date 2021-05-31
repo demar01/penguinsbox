@@ -217,10 +217,10 @@ You may have notice that the default output of map is a list. There are similar 
 Map function    | Output                                               | Example
 ----------------- | ------------------------------------------------- | -------
 **map**             | List                        | `map(penguins_measurements, mean)`
-**map_dbl**             | Vector de dobles                  | `map_dbl(penguins_measurements, mean)`
-**map_chr**             | Vector de caracteres                         | `map_chr(penguins_measurements, mean)`
-**map_int**             | Vector de enteros                         | `map_int(penguins_measurements, length)`
-**map_lgl**             | Vector lógico                         | `map_lgl(penguins_measurements, is.numeric)`
+**map_dbl**             | Double vector                 | `map_dbl(penguins_measurements, mean)`
+**map_chr**             | Character vector                        | `map_chr(penguins_measurements, mean)`
+**map_int**             |  Integer vector                         | `map_int(penguins_measurements, length)`
+**map_lgl**             | Logical vector                         | `map_lgl(penguins_measurements, is.numeric)`
 
 
 How you could get the output of the previous operation as double vector? 
@@ -229,7 +229,10 @@ How you could get the output of the previous operation as double vector?
 penguins %>%
   select_if(is.numeric) %>%
   ___(my_mean_wo_nas)
+```
 
+```{r ex3-hint-1}
+"Check on the previous table which map function returns double vector."
 ```
 
 ```{r ex3-solution}

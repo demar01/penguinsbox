@@ -252,7 +252,7 @@ arrange(penguins, bill_length_mm)
 ```
 
 ```{r arrange-1-check}
-"Good job! The smallest bill_length_mm appear first in the ordered tibble."
+grade_code( "The smallest bill_length_mm appear first in the ordered tibble.")
 ```
 ### Exercise 2- arrange()
 
@@ -267,7 +267,7 @@ arrange(penguins, desc(bill_length_mm))
 ```
 
 ```{r arrange-2-check}
-"Fantastic! In this case, the smallest bill_length_mm appear at the end of the tibble."
+grade_code("In this case, the smallest bill_length_mm appear at the end of the tibble.")
 ```
 
 ### Exercise 3- arrange()

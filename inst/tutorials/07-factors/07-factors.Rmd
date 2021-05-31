@@ -19,16 +19,12 @@ library(learnr)
 library(tidyverse)
 library(palmerpenguins)
 library(gradethis)
-knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
-knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
-
-knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr,warnings= FALSE)
 # set options for exercises and checking ---------------------------------------
 
 
 # hide non-exercise code chunks ------------------------------------------------
 tutorial_options(exercise.timelimit = 60)
-knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
@@ -43,7 +39,6 @@ This chapter will focus on the **forcats** package for categorical variables man
 ### Learning objectives
 
 In this tutorial you are going to practice some forcats functions that let you:
-
 
 * Inspect the levels of a factor.
 * Display the levels of a factor as they are. 
@@ -65,20 +60,21 @@ question("How could you determine the levels of species factor? Select all optio
 ###
 As we see the order of the levels does not need to match the order in which the data is passed in a dataframe. 
 
-```{r}
+```{r, echo=TRUE, warning = FALSE}
 ggplot(penguins, aes(species,body_mass_g)) +
     geom_boxplot()
 ```
 
-
 ## Reorder factors
 
-Now that we know which are the levels, we can start reordering them. For example, lets make a geom_boxplot to plot `body_mass_g` for each species
+Now that we know which are the levels of `species`, we can start reordering them. For example, lets make a geom_boxplot to plot `body_mass_g` for each species
 
-```{r}
+```{r, echo=TRUE}
 ggplot(penguins, aes(species, body_mass_g)) +
     geom_boxplot()
 ```
+
+###
 
 As we see the factors are plotted in the order of the levels. What if we want to plot in the order of appeared?
 
@@ -87,73 +83,111 @@ ggplot(penguins, aes(___(species), body_mass_g)) +
     geom_boxplot()
 ```
 
+```{r str-fct-inorder-hint-1}
+Which function of forcats could reorder factor levels by first appearance?
+```
+
 
 ```{r str-fct-inorder-solution}
 ggplot(penguins, aes(fct_inorder(species), body_mass_g)) +
     geom_boxplot()
 ```
 
+```{r str-fct-inorder-check}
+grade_code("fct_inorder reorders factor levels by order of appearance.")
+```
+
 ###
 
-Fantastic! We can also reorder the species based on body_mass_g values
+We can also reorder the species based on `body_mass_g` values:
 
 ```{r str-fct-reorder, exercise=TRUE}
-ggplot(penguins, aes(___(species, body_mass_g),body_mass_g)) +
+ggplot(penguins, aes(___(___, ___),___)) +
     geom_boxplot()
 ```
 
+```{r str-fct-reorder-hint-1}
+ggplot(penguins, aes(fct_reorder(___, ___),___)) +
+    geom_boxplot()
+```
+
+```{r str-fct-reorder-hint-2}
+Check `??forcats::fct_reorder`
+```
 
 ```{r str-fct-reorder-solution}
 ggplot(penguins, aes(fct_reorder(species, body_mass_g),body_mass_g)) +
     geom_boxplot()
 ```
 
-Awesome! As we see the mean body_mass_g for Adelie species is slighly smaller than for Chinstrap, and therefore this plot sorts Adelie specie gets sorted.
-
 
 ## Collapse factors
 
-```{r}
+Next thing we are going to do is lumping together factors. Let's see how many penguins of each specie there are in the palmerpenguins dataset:
+
+```{r penguins-species, exercise = TRUE}
 penguins %>%
   count(species)
 ```
 
+###
 
+```{r penguins-species-solution}
+penguins %>%
+  count(species)
+```
 
-```{r}
+###
+
+We could retain the specie with more number of penguins (i.e. Adelie) and lump together the other species into a level called "other".  
+
+```{r penguins-species-fctlump, exercise = TRUE}
 penguins %>%
   mutate(species = fct_lump(species,1)) %>% 
   count(species) 
 ```
-Other will be a factor...
 
-
-```{r}
+```{r penguins-species-fctlump-solution}
 penguins %>%
   mutate(species = fct_lump(species,1)) %>% 
-ggplot(aes(species, body_mass_g)) +
-    geom_boxplot()
-  
+  count(species) 
 ```
 
-We can also lump to a minimum number of lumps like this 
-  
-```{r}
+###
+
+We can also lump into level other levels that levels that appear fewer than min times like this:
+
+```{r penguins-species-fctlump-min, exercise = TRUE}
 penguins %>%
-  mutate(species = fct_lump_min(species,min=70)) %>% 
-  ggplot(aes(species, body_mass_g)) +
-    geom_boxplot()
+  mutate(species = fct_lump_min(species,min=70, other_level = "less_70")) %>% 
+  count(species) 
 ```
 
+```{r penguins-species-fctlump-min-solution}
+penguins %>%
+  mutate(species = fct_lump_min(species,min=70, other_level = "less_70")) %>% 
+  count(species) 
+```
+
+```{r penguins-species-fctlump-min-check}
+grade_code("Species with less than 70 penguins are grouped to less_70 level")
+```
 
 
 ## Relevel factors
 
-We can reorder factor levels by hand using `fct_relevel`. For example, we can move Gentoo to be the first level position in species.  
+We can manually reorder factor levels using `fct_relevel`. For example, we can move Gentoo to be the first level position in species.  
 
-```{r}
+```{r, echo =TRUE}
 penguins %>%
     mutate(species= fct_relevel(species, "Gentoo", after=0)) %>% 
     ggplot(aes(species, body_mass_g)) +
     geom_boxplot()
 ```
+
+## Wrap up 
+
+You have practice some of the tools for working with categorical variables (Factors).  
+
+
+

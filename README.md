@@ -41,8 +41,20 @@ desde GitHub con:
 devtools::install_github("demar01/penguinsbox")
 ```
 
-Todo el material de `penguinsbox` tiene licencia Creative Commons
-Attribution Share Alike 4.0 International.
+Esta instalación debería ser suficiente para ejecutar `penguinsbox`. Sin
+embargo, `penguinsbox` depende de paquetes en desarrollo como
+`gradethis` y `parsons`. En caso de que tengas algún problema con la
+instalación, intenta installar los paquetes individualmente con los
+siguientes links:
+
+``` r
+remotes::install_github("rstudio/parsons")
+remotes::install_github("rstudio/gradethis")
+```
+
+En caso de que no consigas instalar `penguinsbox` en tu computadora, por
+favor escribenos tu [problema
+aqui](https://github.com/rstudio-education/dsbox/issues)
 
 EN: *penguinsbox is not yet on CRAN. For now, you can install it from
 GitHub with:*
@@ -52,8 +64,20 @@ GitHub with:*
 devtools::install_github("demar01/penguinsbox")
 ```
 
-*Note that all materials are released with [Creative Commons Attribution
-Share Alike 4.0 International](LICENSE.md) license.*
+*This installation should be enough to run `penguinsbox`. However,
+`penguinsbox` depends on packages on development state such as
+`gradethis` and `parsons`. In case you have any problems with the
+installation, try to install those packages individually with the
+following links:*
+
+``` r
+remotes::install_github("rstudio/parsons")
+remotes::install_github("rstudio/gradethis")
+```
+
+In case you cannot install `penguinsbox` on your computer, please write
+us your [problem
+here](https://github.com/rstudio-education/dsbox/issues)
 
 ## ¿Cómo ejecutar cada tutorial? How to run each individual tutorial?
 
@@ -148,28 +172,25 @@ learning data science using R and:
 <img src="man/figures/penguinsstructure.png" align="left" height="500"/>
 
 ES: ¿Por qué pinguinos?  
-- The dataset is available in the palmerpenguins package  
-- The have missing values  
-- There is cute art ( thanks to Hallison Host)  
-- There was a Tidytuesday content (2020-07-28)  
-- They are avaiblable in Spanish in datos package (pinguinos) and in
-Portuguese in dados package (pingui ns). This utorial could be easily
-translated to Portuguese ( and hopefully to other languag es).
+- El conjunto de datos está disponible en el paquete datos - Tienen
+valores faltantes  
+- Hay un arte adorable (gracias a Hallison Host)  
+- Hubo un Tidytuesday con estos datos (2020-07-28)  
+- Están disponibles en español en el paquete datos (pinguinos) y en
+portugués en el paquete dados (pinguins). Este tutorial podría
+traducirse fácilmente al portugués (y con suerte a otros idiomas)
 
 ¿Por qué learnr?  
-- A learnr tutorial is just a rmarkdown file - Follow the teaching rules
-( formative assessment  
-- Easy to scale  
-- Great documentati on
+- Learnr es simplemente un fichero Rmarkdown y es fácil de desarrollar -
+Se puede hacer evaluación formativa a lo largo del tutorial - Extensa
+documentación sobre como desarrollar learnr.
 
 ¿Por qué Rstudio/shiny?
 
--   Easy to tech remote/assincronic  
--   Complement other available teaching materials (Data scienc e
+-   Permite el estudio asincrónico
+-   Complementa recursos disponibles para estudiar CD.
 
-EN:
-
-Why penguins?
+EN: Why penguins?
 
 -   Penguins is a nice dataset alternative to iris
 -   The dataset is available in the palmerpenguins package  
@@ -180,11 +201,16 @@ Why penguins?
     dados package in Portuguese (pinguins); tutorial could be easily
     translated to Portuguese.
 
-Why learnr? A learnr tutorial is just a rmarkdown file Follow the
-teaching rules ( formative assessment, Easy to scale Great documentation
+Why learnr?
 
-Why Rstudio/shiny? Easy to tech remote/assincronic Complement other
-available teaching materials (Data science
+-   Learnr is simply a Rmarkdown file and is easy to develop
+-   Se puede hacer evaluación formativa a lo largo del tutorial
+-   Extensa documentación sobre como desarrollar learnr.
+
+Why Rstudio/shiny?
+
+-   It allows asynchronous teaching/learning
+-   Complements other available data science study resources.
 
 ## ¿Cómo hacer ejercicios de learnr? - How to do learnr exercises?
 
@@ -196,10 +222,10 @@ rstudio::conf 2020 para ver los criterios a tener en cuenta al
 desarroyar un tutorial learnr. También te recomendamos los otros links
 en español para aprender a construir tutoriales de learnr:
 
-📽 [Construyendo tutoriales con
+🎥 [Construyendo tutoriales con
 learnr](https://www.youtube.com/watch?v=EBAvQkP9Kycw)
 
-📁 [Aprendiendo learnr](https://learning-learnr.netlify.app/)
+📂 [Aprendiendo learnr](https://learning-learnr.netlify.app/)
 
 🔗 [Taller de learnr](https://github.com/yabellini/curso_learnr)
 
@@ -209,21 +235,21 @@ so you can see how we did the first types of exercises. Besides that,
 you can check the linksbelow with interesting information about building
 and sharing learnr tutorials:*
 
-📃[Learning
+📄[Learning
 learnr](https://education.rstudio.com/blog/2020/07/learning-learnr/)
 
-📃 [Learnr for
+📝 [Learnr for
 remote](https://education.rstudio.com/blog/2020/05/learnr-for-remote/?utm_content=buffer94d2c&utm_medium=social&utm_source=facebook&utm_campaign=buffer)
 
-📝 [Interactive tutorials with
+📄 [Interactive tutorials with
 learnr](https://desiree.rbind.io/post/2020/learnr-iframes/)
 
 🔗 [Learnr repo](https://rstudio.github.io/learnr/)
 
-📹 [Friendly learnr
+📷 [Friendly learnr
 tutorials](https://www.rstudio.com/resources/rstudioconf-2020/of-teacups-giraffes-r-markdown/)
 
-📼 [Feedback for learnr
+📸 [Feedback for learnr
 tutorials](https://www.rstudio.com/resources/rstudioconf-2018/adaptive-feedback-for-learnr-tutorials-daniel-kaplan/)
 
 ## Preguntas, errores, solicitudes de funciones - Questions, bugs, feature requests
@@ -279,3 +305,11 @@ EN: *Please note that the penguinsbox project is released with a
 [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.*
+
+## Licencia - license
+
+ES: Todo el material de `penguinsbox` tiene licencia Creative Commons
+Attribution Share Alike 4.0 International.
+
+EN: *Note that all materials are released with [Creative Commons
+Attribution Share Alike 4.0 International](LICENSE.md) license.*

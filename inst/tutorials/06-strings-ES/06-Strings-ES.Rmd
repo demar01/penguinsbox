@@ -87,6 +87,10 @@ pinguinos %>%
     mutate(dosultimasletras_especies= ___(especie,start=-2,end=-1), .after=especie) 
 ```
 
+```{r str-sub-hint-2}
+¿Qué función de stringr extrae y reemplaza subcadenas de un vector de caracteres?
+```
+
 ```{r str-sub-solution}
 pinguinos %>% 
     mutate(dosultimasletras_especies= str_sub(especie,start=-2,end=-1), .after=especie) 
@@ -102,33 +106,25 @@ grade_code("Con str_sub puedes extraer los valores del vector de caracteres desd
 Añade una columna llamada `oo_species` que contenga la cadena de caracteres `oo` si la coincidencia `oo` se encuentra en la  variable `especie`. Después usa una función de filtro para filtrar las especies que contienen `oo`.
 
 ```{r str-extract, exercise=TRUE}
-pinguinos %>% 
-    mutate(oo_especies= ___(especie,"__"), .after=especie) %>% 
-    filter(___(oo_especies))
+filter(mutate(pinguinos, oo_species= ___(especie,"___"), .after=especie), ___(oo_species))
+
 ```
 
 ```{r str-extract-hint-1}
-pinguinos %>% 
-    mutate(oo_species= ___(especie,"oo"), .after=especie) %>% 
-    filter(___(oo_especies))
+filter(mutate(pinguinos, oo_species= ___(especie,"___"), .after=especie), !is.na(oo_species))
+
 ```
 
 ```{r str-extract-hint-2}
-pinguinos %>% 
-    mutate(oo_species= ___(especie,"oo"), .after=especie) %>% 
-    filter(!is.na(oo_especies))
+filter(mutate(pinguinos, oo_species= ___(especie,"oo"), .after=especie), !is.na(oo_species))
 ```
 
 ```{r str-extract-hint-3}
-pinguinos %>% 
-    mutate(oo_species= str_extract(especie,"oo"), .after=especie) %>% 
-    filter(!is.na(oo_especies))
+¿Qué función de stringr extrae patrones coincidentes de una cadena?
 ```
 
 ```{r str-extract-solution}
-pinguinos %>% 
-    mutate(oo_species= str_extract(especie,"oo"), .after=especie) %>% 
-    filter(!is.na(oo_especies))
+filter(mutate(pinguinos, oo_species= str_extract(especie,"oo"), .after=especie), !is.na(oo_species))
 ```
 
 ```{r str-extract-check}

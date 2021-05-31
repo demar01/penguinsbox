@@ -28,6 +28,10 @@ pinguino_medidas <- tibble(
   aletas= c(200,400,600),
   cabeza = c(400,800,1200))
 
+mi_media_sin_nas <- function(x) {
+  x %>%
+    mean(na.rm = TRUE)}
+
 # hide non-exercise code chunks ------------------------------------------------
 tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(echo = FALSE)
@@ -185,7 +189,7 @@ pinguino_medidas %>% map(median)
 ```
 
 ```{r ex2-check}
-"Excellente. En este caso la media y la mediana tienen el mismo valor."
+grade_code("En este caso la media y la mediana tienen el mismo valor.")
 ```
 
 ###
@@ -208,7 +212,7 @@ pinguinos %>%
 
 ### Las funciones map
 
-Si has estado atenta, habrás visto que map retorna por defecto una lista. Hya otras functiones de map que devuelven distintos tipos de output.
+Si has estado atenta, habrás visto que map retorna por defecto una lista. Hay otras functiones de map que devuelven distintos tipos de output.
 
 Función map    | Output                                               | Ejemplo
 ----------------- | ------------------------------------------------- | -------
@@ -219,16 +223,19 @@ Función map    | Output                                               | Ejemplo
 **map_lgl**             | Vector lógico                         | `map_lgl(pinguino_medidas, is.numeric)`
 
 
-¿Cómo podrías retornar el resultado anterior ....
+¿Cómo podrías retornar el resultado anterior como un vector de dobles?
 
 ```{r ex3, exercise = TRUE}
 pinguinos %>% select_if(is.numeric) %>% ___(mi_media_sin_nas)
-
 ```
 
 ```{r ex3-solution}
 pinguinos %>% select_if(is.numeric) %>% map_dbl(mi_media_sin_nas)
 ```
 
-
 ## En resumen
+
+Enhorabuena. Has practicado iteración con bucles for y con map().
+
+map() tiene más cosas útiles como atajos de sintaxis. Puedes practicar como utilizar tajos de sintaxis en  [este tutorial en ingles](https://rstudio.cloud/learn/primers/5.3).
+
