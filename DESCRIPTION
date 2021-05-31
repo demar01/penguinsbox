@@ -20,6 +20,7 @@ Imports:
     palmerpenguins,
     datos,
     gradethis,
-    learnr
+    learnr,
+    shinytest
 Remotes:
     rstudio-education/gradethis

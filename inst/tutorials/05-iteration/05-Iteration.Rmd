@@ -27,6 +27,10 @@ penguins_measurements <- tibble(
   fins= c(200,400,600),
   head = c(400,800,1200))
 
+my_mean_wo_nas <- function(x) {
+  x %>%
+    mean(na.rm = TRUE)}
+
 # hide non-exercise code chunks ------------------------------------------------
 tutorial_options(exercise.timelimit = 60)
 knitr::opts_chunk$set(echo = FALSE)
@@ -158,8 +162,7 @@ map(penguins_measurements,mean)
 The diagram below will help you remember how map works. In the `penguins_measurements` example map applies the `mean()` function to all variables.
 
 ```{r echo=FALSE, out.width = "70%"}
-knitr::include_graphics("https://github.com/rstudio-education/primers/blob/master/iterate/map/www/images/map.png
-")
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio-education/primers/master/iterate/map/www/images/map.png")
 ```
 
 You can use map with the pipe: 
@@ -171,9 +174,13 @@ penguins_measurements %>% map(mean)
 ###
 
 How would you calculate the median of each `penguins_measurements` column?
-```{r ex2, exercise = TRUE}
-penguins_measurements %>% map(___)
 
+```{r ex2, exercise = TRUE}
+penguins_measurements %>% ___(___)
+```
+
+```{r ex2-hint-1}
+penguins_measurements %>% map(___)
 ```
 
 ```{r ex2-solution}
@@ -181,7 +188,7 @@ penguins_measurements %>% map(median)
 ```
 
 ```{r ex2-check}
-"Excellent. In this case the mean and median have the same value."
+grade_code("Excellent. In this case the mean and median have the same value.")
 ```
 
 ###
@@ -189,7 +196,7 @@ penguins_measurements %>% map(median)
 You can also pass your own function to map. For example, you can create a function that calculates the mean after removing NAs.
 
 ```{r, echo= TRUE}
-mi_mean_wo_nas <- function(x) {
+my_mean_wo_nas <- function(x) {
   x %>%
     mean(na.rm = TRUE)}
 ```
@@ -199,7 +206,7 @@ And calculate the mean for the numerical variables of penguins using your new fu
 ```{r, echo=TRUE}
 penguins %>% 
   select_if(is.numeric) %>%
-  map(mi_mean_wo_nas)
+  map(my_mean_wo_nas)
 ```
 
 
@@ -209,23 +216,32 @@ You may have notice that the default output of map is a list. There are similar 
 
 Map function    | Output                                               | Example
 ----------------- | ------------------------------------------------- | -------
-**map**             | Lista                         | `map(penguins_measurements, mean)`
+**map**             | List                        | `map(penguins_measurements, mean)`
 **map_dbl**             | Vector de dobles                  | `map_dbl(penguins_measurements, mean)`
 **map_chr**             | Vector de caracteres                         | `map_chr(penguins_measurements, mean)`
 **map_int**             | Vector de enteros                         | `map_int(penguins_measurements, length)`
 **map_lgl**             | Vector lógico                         | `map_lgl(penguins_measurements, is.numeric)`
 
 
-¿Cómo podrías retornar el resultado anterior ....
+How you could get the output of the previous operation as double vector? 
 
 ```{r ex3, exercise = TRUE}
-pinguinos %>% select_if(is.numeric) %>% ___(mi_mean_wo_nas)
+penguins %>%
+  select_if(is.numeric) %>%
+  ___(my_mean_wo_nas)
 
 ```
 
 ```{r ex3-solution}
-penguins %>% select_if(is.numeric) %>% map_dbl(mi_mean_wo_nas)
+penguins %>% 
+  select_if(is.numeric) %>%
+  map_dbl(my_mean_wo_nas)
 ```
 
-
 ## Wrap up
+
+Well done! You've practice iteration with for loops and with map(), but there is more to know.
+
+For example, map have some syntax shortcuts. You can learn how to use map shortcuts in [this tutorial](https://rstudio.cloud/learn/primers/5.3).
+
+

@@ -19,8 +19,8 @@ description: >
 library(learnr)
 library(tidyverse)
 library(datos)
-library(gradethis)
 library(parsons)
+library(gradethis)
 knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
 
 # set options for exercises and checking ---------------------------------------
@@ -42,7 +42,7 @@ En este tutorial vas a tener la oportunidad de practicar tareas básicas de **dp
 
 ## filter()
 
-`filter()` extrae filas de un tibble, sin modificar las columnas. `filter()` funciona a través de test lógicos; devolviendo cada fila para la que el test lógico sea verdadera.
+`filter()` extrae filas de un tibble, sin modificar las columnas. `filter()` funciona a través de test lógicos, devolviendo cada fila para la que el test lógico sea verdadera.
 
 ### Ejemplo de filter()
 
@@ -250,7 +250,7 @@ Función auxiliar   | Uso                                               | Ejempl
 arrange(pinguinos, ___)
 ```
 
-```{r arrange-1-solution, eval=FALSE}
+```{r arrange-1-solution}
 arrange(pinguinos, largo_pico_mm)
 ```
 

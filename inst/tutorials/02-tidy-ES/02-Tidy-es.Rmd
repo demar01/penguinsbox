@@ -7,7 +7,7 @@ output:
     allow_skip: true
 runtime: shiny_prerendered
 description: >
-  Reconoce si tus datos están ordenados y ordénelos si es necesario.
+  Reconoce si tus datos están ordenados y ordénalos si es necesario.
 ---
 
 <!-- Add JavaScript code for making the exercise code larger -->
@@ -40,9 +40,9 @@ nuevos_pinguinos3<-tibble(
     `2020`=c("3500","4500"))
 
 mas_pinguinos<- tibble(
-     especie  = c( "Adelia",    "Adelie",     "Adelie",    "Adelie"),
+     especie  = c( "Adelia",    "Adelia",     "Adelia",    "Ad"),
      isla  = c( "Biscoe",    "Dream",     "Dream",    "Torgersen"),
-     sexo= c("male",NA,NA,"female"),
+     sexo= c("macho",NA,NA,"hembra"),
      medida = c( "alto_pico_mm",    "alto_pico_mm",     "largo_aleta_mm",    "masa_corporal_g"),
      observaciones=c(39.1,27,180,3750))
 
@@ -87,7 +87,7 @@ question("¿Cuáles son las variables de `nuevos_pinguinos`? Marca todo lo que c
          answer("int"),
          answer("dbl"),
          allow_retry = TRUE, 
-         correct = "Muy bien! El tibble `nuevos_pinguinos` tiene cuatro observaciones medidas con tres variables: anio,alto_pico_mm, largo_pico_mm."
+         correct = "Muy bien! El tibble `nuevos_pinguinos` tiene cuatro observaciones medidas con tres variables: anio, alto_pico_mm, largo_pico_mm."
 )
 ```
 ### Test 2 - Reconoce datos ordenados
@@ -99,7 +99,7 @@ mas_pinguinos
 ```
 
 ```{r test2, echo = FALSE}
-question("¿Está esta tabla ordenada? ",
+question("¿Está este tibble ordenado? ",
          answer("No", correct = TRUE, message = "Si te fijas hay variables distintas en una misma columna (medida)."),
          answer("Si", message = "No te dejes engañar porque los valores esten en la columna `observaciones` y las variables enten en la columna `medida`. Fíjate en la columna medida, ¿tiene mas de una variable?"),
          allow_retry = TRUE
@@ -126,9 +126,7 @@ Por otra parte, una variable puede estar extendida por varias columnas.
 ```{r}
 nuevos_pinguinos3
 ```
-En este caso tenemos que que angostar la tabla haciendola más larga usando la función `pivot_longer()` 
-
-To do this we can use `pivot_longer`:
+En este caso tenemos que angostar la tabla haciendola más larga usando la función `pivot_longer()`:
 
 ```{r expl, exercise = TRUE}
 nuevos_pinguinos3 %>%
@@ -140,13 +138,12 @@ nuevos_pinguinos3 %>%
   pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "___")
 ```
 
-
 ```{r expl-solution,eval=FALSE}
 nuevos_pinguinos3 %>%
   pivot_longer(`2019`:`2020`, names_to = "anio", values_to = "masa_corporal_g")
 ```
 
-Fijate que en este caso decidimos el nombre que darle a las nuevas columnas.
+Fijate que en este caso nosotras decidimos el nombre que darle a las nuevas columnas.
 
 ## Ejercicio- Reconstruye los datos
 
@@ -154,6 +151,8 @@ Podemos usar `pivot_longer()` y` pivot_wider()` consecutivamente para desordenar
 ```{r echo = TRUE}
 nuevos_pinguinos
 ```
+
+###
 
 Podemos reducir la longitud del tibble con `pivot_wider()`:
 ```{r}

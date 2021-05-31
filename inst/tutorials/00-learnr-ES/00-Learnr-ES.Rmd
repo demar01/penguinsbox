@@ -55,7 +55,6 @@ library(tidyverse)
 library(___)
 ```
 
-
 ```{r library-tidyverse-solution}
 #  carga los paquetes tidyverse y datos
 library(tidyverse)

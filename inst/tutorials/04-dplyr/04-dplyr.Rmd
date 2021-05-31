@@ -41,6 +41,8 @@ In this tutorial you will have the opportunity to practice basic dplyr tasks wit
 
 `filter()` extracts rows from a tibble, without modifying the columns. `filter()` works through logical tests; returning each row for which the logical test is true.
 
+###
+
 ### filter() example
 
 In the code below we select the Adelie penguins.
@@ -108,7 +110,7 @@ Let's do some exercises with logical operators, to select:
 * Penguins having a missing value for their body mass
 * Penguins whose body mass (g) is greater than the mean weight of their species
 
-```{r filter-0, exercise = TRUE, exercise.setup = "pinguins"}
+```{r filter-0, exercise = TRUE}
 filter(penguins, species == "Adelie")
 ```
 
@@ -140,13 +142,12 @@ question("How could you select the penguins on Torgersen island? Check all the c
 We can combine several logical operations, to make a more complex filter. For example, we can select the Adelie penguins from Torgersen island.
 
 ```{r echo =  TRUE}
-filter (penguins, especie == "Adelie" & isla== "Torgersen")
+filter (penguins, species == "Adelie" & island== "Torgersen")
 ```
 
 We can combine complicated logical subsets in a simplified way if we remember __De Morgan__'s law::
 
-```{r imagen-morgan, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="
-Complete set of Boolean operators"}
+```{r imagen-morgan, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Complete set of Boolean operators"}
 knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/01f4b6d39d2be8269740a3ad7946faa79f7243cf/8369a/diagrams/transform-logical.png")
 ```
 
@@ -158,7 +159,7 @@ knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/01f4b6d39d2be8269
 
 Brainstorm as many ways as possible to select penguins that have a flipper length shorter than 200 mm and a body mass smaller than 3000 g:
 
-```{r filter-1, exercise = TRUE, exercise.setup = "pinguins"}
+```{r filter-1, exercise = TRUE}
 penguins %>%  filter (!(flipper_length_mm>=200 | body_mass_g>=3000))
 
 ```
@@ -200,7 +201,7 @@ select(penguins, species, island, body_mass_g)
 
 Can you just extract the column "species" ? How about the "species" and "island" columns? How about all the columns except "year"? Write your answers in the box below.
 
-```{r select-1, exercise = TRUE, exercise.eval = TRUE, exercise.setup = "pinguins"}
+```{r select-1, exercise = TRUE}
 select(penguins, species, island, body_mass_g)
 ```
 
@@ -246,18 +247,18 @@ How can you short `penguins` tibble putting the shortest `bill_length_mm` at the
 arrange(penguins, ___)
 ```
 
-```{r arrange-1-solution, eval=FALSE}
+```{r arrange-1-solution}
 arrange(penguins, bill_length_mm)
 ```
 
 ```{r arrange-1-check}
 "Good job! The smallest bill_length_mm appear first in the ordered tibble."
 ```
-### Ejercicio 2- arrange()
+### Exercise 2- arrange()
 
 How can you short `penguins` tibble putting the shortest `bill_length_mm` at the end of the tibble? 
 
-```{r arrange-2, exercise = TRUE, exercise.setup = "penguns"}
+```{r arrange-2, exercise = TRUE}
 arrange(penguins, ___(bill_length_mm))
 ```
 
@@ -359,6 +360,6 @@ penguins %>%
 ```
 
 ```{r final-1-check}
-"Congratulations! You have completed the dplyr tutorial with penguins."
+grade_code("Congratulations! You have completed the dplyr tutorial with penguins.")
 ```
 

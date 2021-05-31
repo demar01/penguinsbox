@@ -20,6 +20,7 @@ library(learnr)
 library(gradethis)
 library(tidyverse)
 library(datos)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
 
 # set options for exercises and checking ---------------------------------------
 
@@ -80,7 +81,7 @@ mutate(media_masa_corporal_g= mean(masa_corporal_g,na.rm = TRUE)) %>%
 mutate(masa_corporal_g= ___(is.na(masa_corporal_g), media_masa_corporal_g, masa_corporal_g))
 ```
 
-```{r if-else-solution,eval=FALSE}
+```{r if-else-solution}
 pinguinos %>% 
 group_by(especie) %>%
 mutate(media_masa_corporal_g= mean(masa_corporal_g,na.rm = TRUE)) %>%
@@ -131,3 +132,6 @@ grade_code("Reemplazaste con éxito cómo se informa la variable sexo!")
 ## Conclusión
 
 Enhorabuena, has reemplazado valores de pingüinos con if_else and case_when!
+
+
+

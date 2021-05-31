@@ -18,6 +18,8 @@ description: >
 library(learnr)
 library(tidyverse)
 library(palmerpenguins)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
 
 # set options for exercises and checking ---------------------------------------
 
@@ -37,7 +39,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpe
 
 ### Learning goals
 
-The goal of this tutorial is to give you the chance to explore if_else and case_when vectorise replacements and use if_else for replacement when testing a vector against a single condition and case_when when testing a vector against multiple conditions.
+The goal of this tutorial is to give you the chance to explore `if_else` and `case_when` vectorise replacements and use `if_else` for replacement when testing a vector against a single condition and `case_when` when testing a vector against multiple conditions.
 
 ### Packages
 
@@ -57,7 +59,7 @@ library(palmerpenguins)
 ```
 
 ```{r load-packages-check}
-#grade_code("The tidyverse and palmerpenguins packages are now loaded!")
+grade_code("The tidyverse and palmerpenguins packages are now loaded!")
 ```
 
 ## Replacement 1 condition
@@ -88,7 +90,7 @@ mutate(body_mass_g= ifelse(is.na(body_mass_g), mean_body_mass_g, body_mass_g))
 ```
 
 ```{r if-else-check}
-#grade_code("You've successfully replace Na values!")
+grade_code("You've successfully replace Na values!")
 ```
 
 ## Replacement 2 or more conditions
@@ -125,9 +127,9 @@ mutate(
 ```
 
 ```{r case-when-check}
-#grade_code("You've successfully replace how sex variable is reported!")
+grade_code("You've successfully replace how sex variable is reported!")
 ```
 
 ## Wrap up
 
-Congratulations, you've you replaced values using if_else and case_when!
+Congratulations, you've you replaced values using `if_else` and `case_when!

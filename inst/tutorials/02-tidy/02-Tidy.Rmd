@@ -41,7 +41,7 @@ more_penguins<- tibble(
      specie  = c( "Adelia",    "Adelie",     "Adelie",    "Adelie"),
      island  = c( "Biscoe",    "Dream",     "Dream",    "Torgersen"),
      sex= c("male",NA,NA,"female"),
-     measurement = c( "alto_pico_mm",    "alto_pico_mm",     "largo_aleta_mm",    "masa_corporal_g"),
+     measurement = c( "bill_length_mm",    "bill_length_mm",     "flipper_length_mm",    "body_mass_g"),
      observations=c(39.1,27,180,3750))
 
 # hide non-exercise code chunks ------------------------------------------------
@@ -156,6 +156,8 @@ We can use `pivot_longer` and `pivot_wider` consecutively to untidy data and the
 ```{r echo = TRUE}
 new_penguins
 ```
+
+###
 
 We can flatten the data with `pivot_wider()`:
 ```{r}
