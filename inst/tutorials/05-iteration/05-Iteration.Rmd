@@ -59,7 +59,7 @@ We are going to work with some a penguin dataset called `penguin_measures` with 
 ```{r pinguino_medidas1, exercise = TRUE}
 penguins_measurements
 ```
-Suppose you want to average each of the three variables in `penguin_measures`. Calculate the mean of each of the columns separately on the box below:
+Suppose you want to calculate the average each of the three variables in `penguin_measures`. You could calculate the average of each variable individually writing on the box below:
 
 ```{r meansep,exercise = TRUE}
 ___(penguins_measurements$bill)
@@ -93,7 +93,7 @@ mean(penguins_measurements$head)
 
 ###
 
-You can calculate the means in this way, but you would be repeating your code (remember the grule of thumb: never copy and paste more than twice). To avoid this, you could use  **a for loop** 
+You can indeed calculate the mean of each variable in this way, but you would be repeating your code (remember the rule of thumb: never copy and paste your code more than twice). To avoid this, you could use  **a for loop**.
 
 
 ## Iteraction with for loops
@@ -139,7 +139,7 @@ output_median
 
 ###
 
-Although for loops allow us to reduce the code, they are more cumbersome because you have to initialize the output at the beginning, specify the number of times that the loop is to be executed, and write the loop itself. Next we will see how we can use vectorization to simplify this task.
+Although for loops allow reducing repetition on our code, they are more cumbersome because we have to 1) initialize the output at the beginning, 2) specify the number of times that the loop is to be executed, and 3) write the loop itself. Next we will see how we can use vectorization to simplify this task.
 
 ### Vectorization
 
@@ -148,7 +148,7 @@ Instead of writing a for loop, we can make use [the power of vectorization in R]
 ```{r, echo=TRUE}
 colMeans(penguins_measurements)
 ```
-As you can see, `colMeans ()` executes the average of all the columns in the dataset, and in this way we do not need to write a for loop. This function uses the principles of vectorization, which makes code writing more concise, easier to read, and less error prone.
+As you see, `colMeans ()` executes the average of all the columns in the dataset, and in this way we do not need to write a for loop. This function uses the principles of vectorization, which makes code writing more concise, easier to read, and less error prone.
 
 ### Purrr
 
@@ -165,7 +165,7 @@ The diagram below will help you remember how map works. In the `penguins_measure
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio-education/primers/master/iterate/map/www/images/map.png")
 ```
 
-You can use map with the pipe: 
+You can also use map with the pipe: 
 
 ```{r, echo=TRUE}
 penguins_measurements %>% map(mean)
@@ -193,7 +193,7 @@ grade_code("Excellent. In this case the mean and median have the same value.")
 
 ###
 
-You can also pass your own function to map. For example, you can create a function that calculates the mean after removing NAs.
+You can also pass **your own function** to map. For example, you can create a function that calculates the mean after removing NAs.
 
 ```{r, echo= TRUE}
 my_mean_wo_nas <- function(x) {
@@ -209,6 +209,7 @@ penguins %>%
   map(my_mean_wo_nas)
 ```
 
+###
 
 ### Map functions
 
@@ -222,6 +223,7 @@ Map function    | Output                                               | Example
 **map_int**             |  Integer vector                         | `map_int(penguins_measurements, length)`
 **map_lgl**             | Logical vector                         | `map_lgl(penguins_measurements, is.numeric)`
 
+###
 
 How you could get the output of the previous operation as double vector? 
 

@@ -21,6 +21,7 @@ Imports:
     datos,
     gradethis,
     learnr,
+    purrr,
     shinytest
 Remotes:
     rstudio-education/gradethis
