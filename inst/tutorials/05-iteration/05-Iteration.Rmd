@@ -27,6 +27,31 @@ penguins_measurements <- tibble(
   fins= c(200,400,600),
   head = c(400,800,1200))
 
+penguins_list_Torgersen <- list(
+  body_mass_g = c(4433, 4338, 4559),
+  year= c(2017,2018,2019),
+  head = c(450,850,1250))
+
+penguins_list_Biscoe <- list(
+  body_mass_g = c(4868, 3504, 5219),
+  year= c(2017,2018,2019),
+  head = c(903, 1125,  514))
+
+penguins_list_Dream <- list(
+  body_mass_g = c(4280, 5134, 5183),
+  year= c(2017,2018,2019),
+  head = c(588,  718, 1094))
+
+
+penguins_list <- list(
+  penguins_list_Torgersen,
+  penguins_list_Biscoe,
+  penguins_list_Dream
+)
+
+names(penguins_list)<-c("Torgersen","Biscoe","Dream")
+
+
 my_mean_wo_nas <- function(x) {
   x %>%
     mean(na.rm = TRUE)}
@@ -59,7 +84,7 @@ We are going to work with some a penguin dataset called `penguin_measures` with 
 ```{r pinguino_medidas1, exercise = TRUE}
 penguins_measurements
 ```
-Suppose you want to average each of the three variables in `penguin_measures`. Calculate the mean of each of the columns separately on the box below:
+Suppose you want to calculate the average each of the three variables in `penguin_measures`. You could calculate the average of each variable individually writing on the box below:
 
 ```{r meansep,exercise = TRUE}
 ___(penguins_measurements$bill)
@@ -93,7 +118,7 @@ mean(penguins_measurements$head)
 
 ###
 
-You can calculate the means in this way, but you would be repeating your code (remember the grule of thumb: never copy and paste more than twice). To avoid this, you could use  **a for loop** 
+You can indeed calculate the mean of each variable in this way, but you would be repeating your code (remember the rule of thumb: never copy and paste your code more than twice). To avoid this, you could use  **a for loop**.
 
 
 ## Iteraction with for loops
@@ -139,7 +164,7 @@ output_median
 
 ###
 
-Although for loops allow us to reduce the code, they are more cumbersome because you have to initialize the output at the beginning, specify the number of times that the loop is to be executed, and write the loop itself. Next we will see how we can use vectorization to simplify this task.
+Although for loops allow reducing repetition on our code, they are more cumbersome because we have to 1) initialize the output at the beginning, 2) specify the number of times that the loop is to be executed, and 3) write the loop itself. Next we will see how we can use vectorization to simplify this task.
 
 ### Vectorization
 
@@ -148,7 +173,7 @@ Instead of writing a for loop, we can make use [the power of vectorization in R]
 ```{r, echo=TRUE}
 colMeans(penguins_measurements)
 ```
-As you can see, `colMeans ()` executes the average of all the columns in the dataset, and in this way we do not need to write a for loop. This function uses the principles of vectorization, which makes code writing more concise, easier to read, and less error prone.
+As you see, `colMeans ()` executes the average of all the columns in the dataset, and in this way we do not need to write a for loop. This function uses the principles of vectorization, which makes code writing more concise, easier to read, and less error prone.
 
 ### Purrr
 
@@ -165,7 +190,7 @@ The diagram below will help you remember how map works. In the `penguins_measure
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio-education/primers/master/iterate/map/www/images/map.png")
 ```
 
-You can use map with the pipe: 
+You can also use map with the pipe: 
 
 ```{r, echo=TRUE}
 penguins_measurements %>% map(mean)
@@ -193,7 +218,7 @@ grade_code("Excellent. In this case the mean and median have the same value.")
 
 ###
 
-You can also pass your own function to map. For example, you can create a function that calculates the mean after removing NAs.
+You can also pass **your own function** to map. For example, you can create a function that calculates the mean after removing NAs.
 
 ```{r, echo= TRUE}
 my_mean_wo_nas <- function(x) {
@@ -209,6 +234,7 @@ penguins %>%
   map(my_mean_wo_nas)
 ```
 
+###
 
 ### Map functions
 
@@ -222,6 +248,7 @@ Map function    | Output                                               | Example
 **map_int**             |  Integer vector                         | `map_int(penguins_measurements, length)`
 **map_lgl**             | Logical vector                         | `map_lgl(penguins_measurements, is.numeric)`
 
+###
 
 How you could get the output of the previous operation as double vector? 
 
@@ -247,4 +274,152 @@ Well done! You've practice iteration with for loops and with map(), but there is
 
 For example, map have some syntax shortcuts. You can learn how to use map shortcuts in [this tutorial](https://rstudio.cloud/learn/primers/5.3).
 
+
+## Extra
+
+`penguins_list_Torgersen` is a list of penguin measurements from Torgersen Island. You can inspect this list in the exercise below.. 
+
+```{r pinguino_lista-1, exercise = TRUE}
+penguins_list_Torgersen
+```
+
+```{r pinguino_lista-solution}
+penguins_list_Torgersen
+```
+
+###  
+
+Can you calculate the increase in `body_mass_g` from 2017 to 2019 in the list pinguino_list_Torgersen? This may seem like an easy task, and it will be the basis of our iteration exercise.
+
+### Data wrangling
+
+First you have to get `body_mass_g` values. This can be a bit tricky since the values are stored within the `penguins_list_Torgersen` list. 
+
+You can extract the values with the `pluck()` function from the purrr's package.
+
+### pluck() 
+
+`pluck()` extracts an item from a list, by name or by position. Returns the content of the element as is, without surrounding it in a new list.
+
+For example, `pluck()` extracts `body_mass_g` from `penguins_list_Torgersen`.
+
+```{r pluck, exercise = TRUE}
+
+```
+
+```{r pluck-hint-1}
+"The name of the element you want to extract is body_mass_g"
+```
+
+```{r pluck-hint-2}
+"Don't forget to put quotes around body_mass_g when passing it to pluck ()."
+```
+
+```{r pluck-solution}
+penguins_list_Torgersen %>% pluck("body_mass_g")
+```
+
+```{r pluck-check}
+grade_code("pluck() does the same as penguins_list_Torgersen$body_mass_g, but pluck() is easier
+to read (and easier to pass to map ()). `pluck()` returns `body_mass_g` values as a vector, which makes it easier for us to work with vectorization.")
+```
+
+### List of list 
+
+`penguins_list` is a list of penguin measurements from Torgersen, Biscoe and Dream Islands. Select Send reply to view the content of `penguins_list`.
+
+```{r pinguino-lista, exercise = TRUE}
+penguins_list
+```
+
+```{r pinguino-lista-solution}
+penguins_list
+```
+
+```{r pinguino-lista-check}
+grade_code("Each element of penguins_list has the same structure as penguins_list_Torgersen")
+```
+
+### 
+
+We can extract body_mass_g from penguins from each of the lists of the 3 islands with the combination map and pluck:
+
+```{r map-pluck, exercise = TRUE}
+penguins_list %>% ___(___, "body_mass_g")
+```
+
+```{r  map-pluck-hint}
+"Remember that map() takes a vector to iterate over, a function to apply to each element of the vector and then whatever argument the function needs."
+```
+
+```{r map-pluck-solution}
+penguins_list %>% map(pluck, "body_mass_g")
+```
+
+### Shortcuts
+
+You may not yet know how to make a linear model with R. For now, take my word for it that the code below fits a linear model to calculate body mass as a function of year for the list `penguin_list_Torgersen`.  
+
+```{r lm, exercise = TRUE}
+lm(body_mass_g ~ year, data = penguins_list_Torgersen)
+```
+
+```{r lm-hint}
+"Leave the code as is and click Submit reply."
+```
+
+```{r lm-solution}
+lm(body_mass_g ~ year, data = penguins_list_Torgersen)
+```
+
+```{r lm-check}
+grade_code("lm function builds a linear model")
+```
+
+###
+
+Now imagine that you want to make this model for each of the 3 islands included in `penguin_list`. This is not going to be very difficult
+ because we have already done the most complicated thing, which is to write the model. However there are 3 rules that we must know.
+ 
+### Rule 1 - ~
+
+First, put `~` at the beginning of the expression. This alerts `map ()` that you are giving an expression to execute:
+
+For example, `~lm(body_mass_g ~ year, data = penguins_list)`
+
+### Rule 2 - .x
+
+Second, replace the _name of the list to manipulate_ with `.x`
+
+For example,`penguins_list %>% ~lm(body_mass_g ~ year, data = .)`
+
+This tells `map()` where to use the element within your expression. If an expression uses each element multiple times, you will need to insert multiple `.x`s into your expression.
+
+### Rule 3 - map
+
+Third, give the function to map().
+
+For example, `penguins_list %>% map(~lm(body_mass_g ~ year, data = .)`
+
+###
+
+Suppose you want to run a linear model to calculate body mass based on year and head size. I show you an example of how this model would be for the list `pinguino_lista_Torgersen`. Could you implement this model for the `penguin_list` data?
+
+```{r exp_lm, exercise = TRUE}
+lm(body_mass_g ~ year + head, data = penguins_list_Torgersen)
+
+```
+
+```{r exp_lm-hint-1}
+"Remember the three rules for map() expressions: 1) start with a ~, 2) refer to the list with .x and 3) Pass the function to map()."
+```
+
+```{r exp_lm-solution}
+penguins_list %>%
+  map(~ lm(body_mass_g ~ year + cabeza, data = .x))
+```
+
+```{r exp_lm-check}
+grade_code("You have now completed the extra section of the iteration exercises.")
+```
 

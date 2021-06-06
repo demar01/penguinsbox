@@ -41,7 +41,7 @@ Show you the types of exercises available in `penguinsbox`.
 
 ## Filling the blanks
 
-Along the exercises of `penguinsbox` package we will be using two main packages the [tidyverse](https://www.tidyverse.org/) metapackage for data science and [palmerpenguins](https://github.com/allisonhorst/palmerpenguins/) package which contains the penguins dataset. We can load the two packages below (first tidyverse, and then palmerpenguins) by replacing the `___` with the package names. You can type directly on to of `___` in the box below; if you do not know the answer, you can click `Solution`, copy the solution to Clipboard and then Submit the answer.
+Along the exercises of `penguinsbox` package we will be using two main packages the [tidyverse](https://www.tidyverse.org/) metapackage for data science and [palmerpenguins](https://github.com/allisonhorst/palmerpenguins/) package which contains the penguins dataset. We can load the two packages below (first tidyverse, and then palmerpenguins) by replacing the `___` with the package names. You can type directly on to of `___` in the box below; if you do not know the answer, you can click `Solution`, click `Copy to Clipboard`, paste it in the box and then click `Submit Answer`.
 
 ```{r library-tidyverse, exercise=TRUE}
 # load the tidyverse and palmerpenguins packages
@@ -61,7 +61,7 @@ grade_code("You completed the first filling the blanks exercise.")
 
 ## MCQ
 
-In these exercises we will be presented with Multiple choice questions (MCQ) in multiple quizes. Some of the questions may require multiple answers like the one below.
+In these exercises we will be presented with Multiple choice questions (MCQ) in multiple quizes. Some of the questions may require multiple answers like the one below. Tick the correct answers. 
 
 ```{r sentiment-quiz}
 question('What are the first and the last letters of the word Penguins? (select BOTH first and last lettes)',
@@ -72,23 +72,25 @@ question('What are the first and the last letters of the word Penguins? (select 
          allow_retry = TRUE,
          random_answer_order = TRUE,
          incorrect = "Are you sure these are the first and last letters of the word Penguins?",
-         correct = "Correct! These are the first and last letters of the word Penguins"
+         correct = "Correct! P and s first and last letters of the word Penguins respectively"
 )
 ```
 
 ## Parsons problems
+
+Some of the exercises will be Parsons problems. In a Parsons problem you will be presented with the solution, but the lines of code will be jumbled. The task is to arrange these lines in the correct order. 
+For example, to write `Hi penguins!` we need to drag and drop the words from the panel on the left to the panel on the right in the correct order. 
+
 ```{r explain-1, echo =FALSE}
 question_parsons(
   initial = c(
-    "count(...)",
-    "filter(...)",
-    "penguins"
+ "penguins!",
+    "Hi"
   ),
   answer(
     c(
-    "penguins",
-    "filter(...)",
-    "count(...)"
+    "Hi",
+    "penguins!"
     ),
     correct = TRUE
   ),
@@ -99,7 +101,7 @@ question_parsons(
 
 ## Wrap up
 
-In the `penguinsbox` package we will encounter three types of exercises:
+In `penguinsbox` package we will encounter three types of exercises:
 
 - Filling in the blanks or fading exercises. 
 - Multiple choice questions.

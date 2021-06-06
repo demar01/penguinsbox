@@ -14,12 +14,12 @@ description: >
 <script language="JavaScript" src="js/exercise-font-size.js"></script>
 
 ```{r setup, include=FALSE}
-# load packages-----------------------------------------------------------------
-
+# load packages----------------------------------------------------------------
 library(learnr)
 library(tidyverse)
 library(datos)
 library(gradethis)
+library(purrr)
 knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
 
 # set options for exercises and checking ---------------------------------------
@@ -27,6 +27,30 @@ pinguino_medidas <- tibble(
   pico = c(100,200,300),
   aletas= c(200,400,600),
   cabeza = c(400,800,1200))
+
+pinguino_lista_Torgersen <- list(
+  masa_corporal_g = c(4433, 4338, 4559),
+  anio= c(2017,2018,2019),
+  cabeza = c(450,850,1250))
+
+pinguino_lista_Biscoe <- list(
+  masa_corporal_g = c(4868, 3504, 5219),
+  anio= c(2017,2018,2019),
+  cabeza = c(903, 1125,  514))
+
+pinguino_lista_Dream <- list(
+  masa_corporal_g = c(4280, 5134, 5183),
+  anio= c(2017,2018,2019),
+  cabeza = c(588,  718, 1094))
+
+pinguino_lista <- list(
+  pinguino_lista_Torgersen,
+  pinguino_lista_Biscoe,
+  pinguino_lista_Dream
+)
+
+names(pinguino_lista)<-c("Torgersen","Biscoe","Dream")
+
 
 mi_media_sin_nas <- function(x) {
   x %>%
@@ -61,7 +85,7 @@ Vamos a trabajar con unos nuevos datos de pinguinos llamados `pinguino_medidas` 
 pinguino_medidas
 ```
 
-Imagina que quieres hacer la media de cada una de las tres variables de `pinguino_medidas`. Calcula la media de cada una de las columnas por separado:
+Imagina que quieres hacer la media de cada una de las tres variables de `pinguino_medidas`. Puedes calcular la media de cada una de las variables por separado en el espacio de abajo:
 
 ```{r meansep,exercise = TRUE}
 ___(pinguino_medidas$pico)
@@ -98,7 +122,6 @@ mean(pinguino_medidas$cabeza)
 Puedes calcular las medias de esta manera, pero estarías repitiendo tu código (recuerda la norma de oro de no copiar y pegar más de dos veces una misma ejecución). Para evitar esto, podrías usar **un bucle _for_**.
 
 ## Iteración con bucles
-
 
 Recueda las 3 cosas que tiene un bucle _for_:
 
@@ -141,7 +164,7 @@ salida_mediana
 
 ###
 
-A pesar de que los bucles __for__ nos permiten reducir el código, resultan más engorrosos porque hay que inicializar el output al comienzo, especificar el número de veces que el bucle se va a ejecutar, y escribir el bucle en sí. A continuación vamos a ver como podemos usar vectorización para simplificar este trabajo.
+A pesar de que los bucles __for__ permiten reducir el código, resultan más engorrosos porque hay que inicializar el output al comienzo, especificar el número de veces que el bucle se va a ejecutar, y escribir el bucle en sí. A continuación vamos a ver como podemos usar vectorización para simplificar este trabajo.
 
 
 ## Vectorización
@@ -163,7 +186,7 @@ map(pinguino_medidas,mean)
 
 ###
 
-El diagrama de abajo te ayudará a recordar como functiona map. En el ejemplo de `pinguino_medidas.` map aplica la functión `mean()` a todas las variables de pinguino_medidas.
+El diagrama de abajo te ayudará a recordar como functiona `map`. En el ejemplo de `pinguino_medidas` map aplica la functión `mean()` a todas las variables de pinguino_medidas.
 
 ```{r echo=FALSE, out.width = "70%"}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio-education/primers/master/iterate/map/www/images/map.png")
@@ -229,6 +252,10 @@ Función map    | Output                                               | Ejemplo
 pinguinos %>% select_if(is.numeric) %>% ___(mi_media_sin_nas)
 ```
 
+```{r ex3-hint-1}
+"Mira la tabla anterior para ver cual de las funciones map devuelve un vector de dobles."
+```
+
 ```{r ex3-solution}
 pinguinos %>% select_if(is.numeric) %>% map_dbl(mi_media_sin_nas)
 ```
@@ -237,5 +264,154 @@ pinguinos %>% select_if(is.numeric) %>% map_dbl(mi_media_sin_nas)
 
 Enhorabuena. Has practicado iteración con bucles for y con map().
 
-map() tiene más cosas útiles como atajos de sintaxis. Puedes practicar como utilizar tajos de sintaxis en  [este tutorial en ingles](https://rstudio.cloud/learn/primers/5.3).
+map() tiene más cosas útiles como atajos de sintaxis. Puedes practicar como utilizar atajos de sintaxis en la seccion Extra de este tutorial.
+
+## Extra
+
+`pinguino_lista_Torgersen` es una lista con las medidas de pinguinos de la isla Torgersen. Puedes inspeccionar esta lista en el ejercicio de abajo. 
+
+```{r pinguino_lista-1, exercise = TRUE}
+pinguino_lista_Torgersen
+```
+
+```{r pinguino_lista-solution}
+pinguino_lista_Torgersen
+```
+
+###  
+
+¿Puedes calcular el incremento en `masa_corporal_g` desde 2017 hasta 2019 en la lista pinguino_lista_Torgersen? Esta puede parecer una tarea fácil, y va a ser la base de nuestro ejercicio de iteracion. 
+
+### Manejo de datos 
+
+En primer lugar tienes que acceder a los valores de `masa_corporal_g`. Trabajar con estos valores puede resultar difícil porque estan almacenados dentro de la lista `pinguino_lista_Torgersen`. 
+
+Puedes extraer los valores con la función `pluck()` del paquete  purrr's.
+
+### pluck() 
+
+`pluck()` extrae un elemento de una lista, por nombre o por posición. Devuelve el contenido del elemento tal como está, sin rodearlo en una nueva lista.
+
+Por ejemplo, la llamada `pluck()` extrae los valores de `masa_corporal_g` de `pinguino_lista_Torgersen`.
+
+
+```{r pluck, exercise = TRUE}
+
+```
+
+```{r pluck-hint-1}
+"El nombre del elemento que deseas extraer es masa_corporal_g"
+```
+
+```{r pluck-hint-2}
+"No te olvides de poner comillas alrededor de masa_corporal_g cuando lo pases a pluck()."
+```
+
+```{r pluck-solution}
+pinguino_lista_Torgersen %>% pluck("masa_corporal_g")
+```
+
+```{r pluck-check}
+grade_code("Muy bien. pluck() hace lo mismo que pinguino_lista_Torgersen$masa_corporal_g, pero pluck() es más fácil
+de leer (y más fácil de pasar a map()). `pluck()` devuelve los valores de `masa_corporal_g` como vector, lo que nos facilita trabajar con vectorización.")
+```
+
+### Lista de listas
+
+`pinguino_lista` es una lista con las medidas de pinguinos de las islas Torgersen, Biscoe y Dream. Selecciona Enviar respuesta para ver el contenido de `pinguino_lista`.
+
+```{r pinguino-lista, exercise = TRUE}
+pinguino_lista
+```
+
+```{r pinguino-lista-solution}
+pinguino_lista
+```
+
+```{r pinguino-lista-check}
+grade_code("Cada elemento de pinguino_lista tiene la misma estructura que pinguino_lista_Torgersen.")
+```
+
+### 
+
+Podemos extraer la masa_corporal_g de los pinguinos de cada una de las listas de las 3 islas con la combinación map and pluck:
+
+```{r map-pluck, exercise = TRUE}
+pinguino_lista %>% ___(___, "masa_corporal_g")
+```
+
+```{r  map-pluck-hint}
+"Acuerdate que map() toma un vector sobre el que iterar, una función para aplicar a cada elemento del vector y luego cualquier argumento que la función necesite."
+```
+
+```{r map-pluck-solution}
+pinguino_lista %>% map(pluck, "masa_corporal_g")
+```
+
+### Atajos
+
+Puede que todavia no sepas como hacer um modelo lineal con R. Por el momento toma mi palabra que el código de abajo ajusta un modelo lineal para calcular la masa corporal en funcion del año para la lista `pinguino_lista_Torgersen`.  
+
+```{r lm, exercise = TRUE}
+lm(masa_corporal_g ~ anio, data = pinguino_lista_Torgersen)
+```
+
+```{r lm-hint}
+"Deja el código como está y haz clic en Enviar respuesta."
+```
+
+```{r lm-solution}
+lm(masa_corporal_g ~ anio, data = pinguino_lista_Torgersen)
+```
+
+```{r lm-check}
+grade_code("La función lm (linear model en ingles) construye un modelo lineal  ")
+```
+
+###
+
+Imagina ahora que quieres hacer este modelo para cada una de las 3 islas incluidas en `pinguino_lista`. Esto no va a ser muy difícil
+ porque ya hemos hecho lo más complicado que es escribir el modelo. Sin embargo hay 3 reglas que debemos saber. 
+ 
+### Regla 1 - ~
+
+En primer lugar, coloca  `~` al comienzo de la expresión. Esto alerta a `map()` que le estás dando una expresión para que se ejecute:
+
+Por ejemplo, `~lm(masa_corporal_g ~ anio, data = pinguino_lista)`
+
+### Regla 2 - .x
+
+En segundo lugar, reemplaza el _nombre de la lista para manipular_ por `.x` donde la lista aparece en la función.
+
+Por ejemplo,`pinguino_lista %>% ~lm(masa_corporal_g ~ anio, data = .)`
+
+Esto le dice a `map()` dónde usar el elemento dentro de su expresión. Si una expresión usa cada elemento varias veces, deberás insertar varios `.x`.
+
+### Regla 3 - map
+
+En tercer lugar, pasa la funcion a map().
+
+Por ejemplo, `pinguino_lista %>% map(~lm(masa_corporal_g ~ anio, data = .)`
+
+###
+
+Imagina que quieres ejecutar un modelo lineal para calcular la masa corporal en funcion del año y el tamano de la cabeza. Te muestro el ejemplo de como seria este modelo para la lista `pinguino_lista_Torgersen`. ¿Podrías implementar este modelo para los datos `pinguino_lista`? 
+
+```{r exp_lm, exercise = TRUE}
+lm(masa_corporal_g ~ anio + cabeza, data = pinguino_lista_Torgersen)
+
+```
+
+```{r exp_lm-hint-1}
+"Recuerda las tres reglas para las expresiones map(): 1) empieza con a ~, 2) haz referencia a la lista con .x y 3) Pasa la función a mapa ()."
+```
+
+```{r exp_lm-solution}
+pinguino_lista %>%
+  map(~ lm(masa_corporal_g ~ anio + cabeza, data = .x))
+```
+
+```{r exp_lm-check}
+grade_code("Buen trabajo. Has completado as sección extra de los ejercicios de iteración.")
+```
 
