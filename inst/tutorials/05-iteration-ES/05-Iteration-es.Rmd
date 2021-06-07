@@ -79,13 +79,13 @@ Al final de este tutorial habrás practicado con varias herramientas de programa
 
 ## Repetición manual
 
-Vamos a trabajar con unos nuevos datos de pinguinos llamados `pinguino_medidas` con variables, `pico`, `aletas` y `cabeza`. 
+Vamos a trabajar con unos nuevos datos de pinguinos llamados `pinguino_medidas` con variables, `pico`, `aletas` y `cabeza`. Pulsa el botón "Correr código" para ver estos datos.
 
-```{r pinguino-medidas, echo=TRUE}
+```{r pinguino_medidas1, exercise = TRUE}
 pinguino_medidas
 ```
 
-Imagina que quieres hacer la media de cada una de las tres variables de `pinguino_medidas`. Puedes calcular la media de cada una de las variables por separado en el espacio de abajo:
+Imagina que quieres hacer la media de cada una de las tres variables de `pinguino_medidas`. Puedes calcular la media de cada una de las variables por separado escribiendo la funcion para calcular la media en el espacio de abajo:
 
 ```{r meansep,exercise = TRUE}
 ___(pinguino_medidas$pico)
@@ -314,6 +314,7 @@ pinguino_lista_Torgersen %>% pluck("masa_corporal_g")
 ```{r pluck-check}
 grade_code("Muy bien. pluck() hace lo mismo que pinguino_lista_Torgersen$masa_corporal_g, pero pluck() es más fácil
 de leer (y más fácil de pasar a map()). `pluck()` devuelve los valores de `masa_corporal_g` como vector, lo que nos facilita trabajar con vectorización.")
+
 ```
 
 ### Lista de listas
@@ -321,10 +322,6 @@ de leer (y más fácil de pasar a map()). `pluck()` devuelve los valores de `mas
 `pinguino_lista` es una lista con las medidas de pinguinos de las islas Torgersen, Biscoe y Dream. Selecciona Enviar respuesta para ver el contenido de `pinguino_lista`.
 
 ```{r pinguino-lista, exercise = TRUE}
-pinguino_lista
-```
-
-```{r pinguino-lista-solution}
 pinguino_lista
 ```
 
@@ -348,7 +345,11 @@ pinguino_lista %>% ___(___, "masa_corporal_g")
 pinguino_lista %>% map(pluck, "masa_corporal_g")
 ```
 
-### Atajos
+```{r map-pluck-check}
+pinguino_lista %>% map(pluck, "masa_corporal_g")
+```
+
+### Purrr
 
 Puede que todavia no sepas como hacer um modelo lineal con R. Por el momento toma mi palabra que el código de abajo ajusta un modelo lineal para calcular la masa corporal en funcion del año para la lista `pinguino_lista_Torgersen`.  
 
@@ -365,42 +366,42 @@ lm(masa_corporal_g ~ anio, data = pinguino_lista_Torgersen)
 ```
 
 ```{r lm-check}
-grade_code("La función lm (linear model en ingles) construye un modelo lineal  ")
+grade_code("La función lm (linear model en ingles) construye un modelo lineal")
 ```
 
 ###
 
 Imagina ahora que quieres hacer este modelo para cada una de las 3 islas incluidas en `pinguino_lista`. Esto no va a ser muy difícil
- porque ya hemos hecho lo más complicado que es escribir el modelo. Sin embargo hay 3 reglas que debemos saber. 
+ porque ya hemos hecho lo más complicado que es escribir el modelo. Sin embargo hay 3 reglas de purrr que debemos saber. 
  
 ### Regla 1 - ~
 
-En primer lugar, coloca  `~` al comienzo de la expresión. Esto alerta a `map()` que le estás dando una expresión para que se ejecute:
+En primer lugar, debemos colocar  `~` al comienzo de la expresión. Esto alerta a `map()` que le estamos dando una expresión para que la ejecute:
 
 Por ejemplo, `~lm(masa_corporal_g ~ anio, data = pinguino_lista)`
 
 ### Regla 2 - .x
 
-En segundo lugar, reemplaza el _nombre de la lista para manipular_ por `.x` donde la lista aparece en la función.
+En segundo lugar, debemos reemplazar el _nombre de la lista para manipular_ por `.x` donde la lista aparece en la función.
 
 Por ejemplo,`pinguino_lista %>% ~lm(masa_corporal_g ~ anio, data = .)`
 
-Esto le dice a `map()` dónde usar el elemento dentro de su expresión. Si una expresión usa cada elemento varias veces, deberás insertar varios `.x`.
+Esto le dice a `map()` dónde tiene que usar el elemento dentro de su expresión. Si una expresión usa cada elemento varias veces, deberás insertar varios `.x`.
 
 ### Regla 3 - map
 
-En tercer lugar, pasa la funcion a map().
+En tercer lugar, debemos pasa la funcion a map().
 
 Por ejemplo, `pinguino_lista %>% map(~lm(masa_corporal_g ~ anio, data = .)`
 
 ###
 
-Imagina que quieres ejecutar un modelo lineal para calcular la masa corporal en funcion del año y el tamano de la cabeza. Te muestro el ejemplo de como seria este modelo para la lista `pinguino_lista_Torgersen`. ¿Podrías implementar este modelo para los datos `pinguino_lista`? 
+Imagina que quieres ejecutar un modelo lineal para calcular la masa corporal en funcion del año y el tamano de la cabeza. Te muestro el ejemplo de como seria este modelo para la lista `pinguino_lista_Torgersen`.¿Podrías implementar este modelo para los datos `pinguino_lista`? 
 
 ```{r exp_lm, exercise = TRUE}
 lm(masa_corporal_g ~ anio + cabeza, data = pinguino_lista_Torgersen)
-
 ```
+
 
 ```{r exp_lm-hint-1}
 "Recuerda las tres reglas para las expresiones map(): 1) empieza con a ~, 2) haz referencia a la lista con .x y 3) Pasa la función a mapa ()."
@@ -414,4 +415,3 @@ pinguino_lista %>%
 ```{r exp_lm-check}
 grade_code("Buen trabajo. Has completado as sección extra de los ejercicios de iteración.")
 ```
-

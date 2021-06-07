@@ -1,0 +1,291 @@
+---
+title: "Representando pingüinos con ggplot2"
+output:
+  learnr::tutorial:
+    progressive: true
+    language: es
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Exploracion de datos con ggplot2.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+#library(gradethis)
+library(tidyverse)
+library(palmerpenguins)
+library(datos)
+# set options for exercises and checking ---------------------------------------
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introducción
+```{r imagen-peng, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="Dibujo de Allison Horst"}
+knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/lter_penguins.png")
+```
+
+### Objetivo de aprendizaje
+
+Este tutorial te enseñará cómo crear gráficas  para analizar las relaciones , tendencias y características del dataset palmerpenguins  con el paquete de visualización más popular de R, `ggplot2`. 
+
+La visualización es una de las herramientas más importantes para la ciencia de datos y también es una excelente manera de comenzar a aprender R.
+
+El tutorial se centra en tres habilidades básicas:
+
+     - El fundamento del proceso de exploración de datos
+     - Exploración de datos como proceso iterativo
+     - Finalizar con una conclusión reportada en un grafo
+
+¡A Disfrutar! 
+
+###
+
+#### Conoce a los pingüinos
+
+Los datos de palmerpenguins contienen medidas de tamaño de atributos de tres especies de pingüinos observadas en tres islas del archipiélago de Palmer, en la Antártida.
+ Las propiedades de este conjuntos de datos  lo hacen útil para la educación en estadística y ciencia de datos, así como para la documentación y las pruebas de software.
+
+```{r, echo=FALSE, out.width="50%"}
+knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/penguin-expedition.jpg")
+knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png")
+```
+
+###
+
+### Objetivos de aprendizaje:
+Este tutorial te mostrará cómo utilizar el paquete `ggplot2` para explorar tus pingüinos de una manera sistemática, una tarea que en estadísticos llamamos análisis de datos exploratorio, o  para abreviar EDA (del inglés Exploratory Data Analysis). 
+
+En el tutorial podrás:
+
+- Desarrolllar una estrategia para explorar datos.
+- Practicar la búsqueda de patrones en los datos.
+- Obtener sugerencias sobre cómo usar diferentes tipos de gráficos para explorar pingüinos.
+
+## Análisis exploratorio de datos
+
+El analisis exploratorio de datos no es un proceso formal con un conjunto estricto de reglas. Más que nada, EDA es un proceso creativo. 
+
+Durante las fases iniciales de EDA, debes sentirte libre de investigar cada idea que se te ocurra. Algunas de estas ideas se desarrollarán y otras serán callejones sin salida. A medida que continúe su exploración, te concentrarás en líneas de investigación que revelan conocimientos que vale la pena escribir y comunicar a los demás.
+
+**¡Vamos a explorar!**
+
+
+### ¿Descubrimiento o confirmación?
+
+Puede pensarse en la ciencia de datos como un proceso con dos pasos: descubrimiento y confirmación. 
+Los científicos primero observan el mundo para descubrir una hipótesis que probar. Luego, idean una prueba para confirmar las hipótesis frente a nuevos datos. 
+Si la hipótesis sobrevive a muchas pruebas, se podrá  confiar en que es una explicación confiable de los datos.
+
+Como resultado, los científicos de datos primero buscan patrones en el mundo real luego intentan confirmar que los patrones existen.
+
+```{r quiz-1}
+question('¿Es EDA una herramienta de descubrimiento o confirmación?',
+         answer("Descubrimiento", correct = TRUE),
+         answer("Confirmación"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "¿Estás seguro? EDA revela patrones, pero no confirma que esos patrones existan más allá de su conjunto de datos.",
+         
+         correct = "¡Correcto! EDA es una herramienta para el descubrimiento; de hecho, EDA es una de las herramientas más fructíferas para el descubrimiento en la ciencia. Nos centraremos en el descubrimiento a lo largo de este tutorial, pero recuerde que debe probar cualquier patrón que descubra antes de confiar en él."
+)
+```
+
+### Cargando los datos
+
+Comencemos cargando los datos de pingüinos Escribe pinguinos en la caja de abajo y selecciona Enviar Respuesta. 
+
+```{r pinguinos0, exercise = TRUE}
+
+```
+
+```{r pinguinos0-solution}
+pinguinos
+```
+
+```{r pinguinos0-check}
+"¡Buen trabajo! Usaremos fragmentos de código interactivo como este a lo largo de estos tutoriales. Siempre que encuentre uno, puede hacer clic en Enviar respuesta para ejecutar (o volver a ejecutar) el código en el fragmento. Si hay un botón Solución, puede haz clic para ver la respuesta "
+```
+
+###
+
+### Primera pregunta
+
+Todo analisis exploratorio comienza con una pregunta, que sera nuestra hipotesis durante el EDA.
+
+```{r predict, echo = FALSE}
+question("¿Qué piensas? ¿Son los pingüinos más pesados que las pingüinas?", 
+         type = "single",
+         correct = "¡Muy bien!",
+         answer("Los pingüinos machos son más pesados", correct = TRUE, message = "En otras palabras, tu hipotesis es que existe una relación positiva entre el tamaño del de los pingüinos y su género. Ahora probemos tu hipótesis con datos."),
+         answer("El peso depende de la especie", correct = TRUE, message = "En otras palabras, la hipotesis es que existe una relación positiva entre la especie y el tamaño de los pingüinos. Ahora, probemos esta hipótesis con datos.")
+)
+```
+
+
+### Segunda pregunta
+
+Ahora nos preguntamos qué tipos de datos responden a esta pregunta. En este caso los datos estan en la variable `masa_corporal_g`. 
+
+```{r sentiment-quiz}
+question('¿Qué tipo de variables son la masa corporal y el sexo?',
+         answer("`masa_corporal_g` es una variable discreta"),
+         answer("`masa_corporal_g` es una variable continua", correct = TRUE),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "Comprueba que tipo de clase son con class(pinguinos$masa_corporal_g) ",
+         correct = "Correcto! Las variables continuas son propiedades que puedes medir y las varibles discretas son propiedades que puedes contar"
+)
+```
+
+Ahora que sabemos con que tipo de variable estamos trabajando podemos elegir el tipo grafo que vamos a utilizar para representarlas.  
+
+###
+
+### Tercera pregunta
+
+La tercera pregunta es que tipo de grafico es mas apropiado para representar estos datos. 
+Para ello podemos ver la guia de ggplot2:
+
+```{r echo=FALSE, out.width = "100%"}
+knitr::include_graphics("https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/ggplot2-1-es-1.png")
+```
+
+Para visualizar una variable continua podemos escoger `geom_histogram()`; `geom_histogram()` toma el vector de masa_corporal, lo dividide en segmentos y cuenta automaticamente cuantas observaciones hay en cada segmento.
+
+###
+
+### Cuarta pregunta
+
+La siguiente pregunta que nos hacemos es que combinacion de capas de ggplot2 vamos a utilizar para representar estos datos. Recuerda que ggplot funciona agregando capas, un concepto explicado en el libro [La gramatica de grafos](https://www.springer.com/gp/book/9780387245447). Abajo te proporcionamos parte del códigos para representar un `geom_histogram()` para cada uno de los sexos de los pingüinos, pero necesitas rellenar los huecos. 
+
+```{r ggplot2-histogram, exercise = TRUE}
+ggplot(data = ___, aes(x = ___)) +
+  geom_histogram(aes(fill = sexo))
+```
+
+```{r ggplot2-histogram-hint-1}
+ggplot(data = ___, aes(x = masa_corporal_g)) +
+  geom_histogram(aes(fill = sexo)) 
+```
+
+```{r ggplot2-histogram-solution}
+ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
+  geom_histogram(aes(fill = sexo), alpha = 0.5, 
+                 position = "identity") 
+```
+
+```{r ggplot2-histogram-check}
+grade_this_code("Fíjate que hay un par de warnings. Esto se debe a que algunos datos (concretamente 2) de masa_corporal faltan en nuestros datos de pingüinos, y estan codificados como `NA`s. Si no le suministramos a ggplot2 los valores de masa_corporal para algunas entradas, no las puede representar en el grafo, y por tando ggplot2 omite estos datos, pero te avisa de esta omisión")
+```
+
+### Deconstruyendo el código
+
+Deconstruyamos este código:
+
+- `ggplot()` es la función que usamos para construir nuestro gráfico, en capas.
+- Es la primera capa siempre definimos el tibble que estamos utilizando como primer argumento.  Después definimos como vamos a establecer la relacion entre la variable que vamos a representar y la estetica usando *aes* (por **aes**thetics en ingles). En este caso masa_corporal va en el el eje de los x. 
+- En la siguiente capa representamos los datos con **geom**etrias, en este caso con un histogram.  Tenemos que decirle a `geom_histogram()` que queremos un histograma por cada sexo;  especificamos esto con geom_histogram(aes(fill = sexo). 
+
+### Interpretemos el histograma
+
+```{r quiz-histograma}
+question('¿Cuál de las siguentes afirmaciones es correcta sobre lo que nos estan contando los histogramas? Secciona todas las respuestas correctas.',
+         answer("El peso de las pingüinas y los pingüinos parece seguir una distribución binomial ", correct = TRUE),
+           answer("El peso de las pingüinas parece menor que el peso de los pingüinos machos", correct = TRUE),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "Selecciona todas las respuestas correctas",
+         
+         correct = "¡Correcto! Esta primera exploración nos permite continuar seguiendo haciendo preguntas. ¡Continuemos con nuestra EDA!"
+)
+```
+
+
+### Separando los histogramas en facetas
+
+Vamos a separar estos datos un poco mas para ver si podemos entender por que los pesos parecen seguir una ditribución binomial. Por ejemplo puede que las distintas especies tengan pesos muy distintos. Para ello podemos añadir una capa adiciona y a utilizar facetas, es decir, sub-gráficos. Recuerda como funcionan las facetas:
+
+```{r echo=FALSE, out.width = "100%"}
+knitr::include_graphics("https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/ggplot2-1-es-2.png")
+```
+
+Abajo te proporcionamos parte del código para representar un geom_histogram para cada uno de los sexos de los pingüinos y facetas para cada una de las especies, pero necesitas rellenar los huecos.
+
+```{r ggplot2-histogram-facets2, exercise = TRUE}
+ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
+  geom_histogram(aes(fill = sexo), alpha = 0.5, 
+                 position = "identity") +
+  facet_wrap(~___)
+```
+
+```{r ggplot2-histogram-facets2-solution}
+ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
+  geom_histogram(aes(fill = sexo), alpha = 0.5, 
+                 position = "identity") +
+  facet_wrap(~especie)
+```
+
+### Experimentando con los intervalos
+Podemos definir el ancho de los intervalos de los histograma con el argumento binwidth (ancho del contenedor en inglés). Por ejemplo, en el código de abajo elegimos un ancho de 500 para cada segmento del histograma. 
+
+
+```{r, echo = TRUE}
+ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
+    geom_histogram(aes(fill = sexo),binwidth =500, alpha = 0.5, 
+                   position = "identity") +
+    facet_wrap(~especie)
+    
+```
+
+## Grafo de confirmación
+
+Por último, podemos generar un grafo que confirme nuestra hipótesis: los pingüinos son mas pesados que las pingüinas. Para visualizar más claramente este resultado en el grafo, podemos añadir el valor de la media de masa_corporal al grafo. 
+
+Podemos calcular el valor de la masa corporal agrupada por sexo y especie:
+```{r, echo = TRUE}
+vline <- summarise(group_by(pinguinos,sexo,especie ), mean = mean(masa_corporal_g))
+vline
+```
+
+Y podemos anadir eso datos con una capa adicional con geom_vline.
+```{r, echo = TRUE}
+ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
+    geom_histogram(aes(fill = sexo),binwidth =500, alpha = 0.5, 
+                   position = "identity") +
+    facet_wrap(~especie)+
+    geom_vline(data = vline, aes(xintercept = mean))
+```
+
+Añadimos una capa final con etiquetas (labs) para hacer el grafo mas interpretable. 
+```{r, echo = TRUE}
+ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
+    geom_histogram(aes(fill = sexo),binwidth =500, alpha = 0.5, 
+                   position = "identity") +
+    facet_wrap(~especie)+
+    geom_vline(data = vline, aes(xintercept = mean)) +
+    labs(
+        x = "Masa corporal, en g",
+        y = "Frecuencia",
+        title = "Distribución del peso de los pingüinos para cada sexo",
+        subtitle = "Valores para cada especie de pingüino"
+    )
+```
+
+## Conclusión
+
+Enhorabuena, has completado el tutorial de exploración de datos con ggplot2! Esperamos que hayas disfrutado formulando hipótesis, haciendo visualización de datos, practicando tuscapacidades interpretativas y llegando a una conclusión. 
+
+En este ejemplo hemos anadido un total de 5 capas en nuestro grafo de ggplot2. 
+
+Te invitamos a que explores más visualizaciones de pingüinos en el TidyTuesday de 2020-07-28 [explorando este recurso](tiny.cc/notion-dataviz) creado por @SilviaCanelon o en el paquete  [TidyTuesdayAltText](https://github.com/spcanelon/TidyTuesdayAltText) con texto alternativo.
+
+
+
