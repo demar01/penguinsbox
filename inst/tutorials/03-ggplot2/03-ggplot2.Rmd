@@ -1,0 +1,282 @@
+---
+title: "Representing penguins with ggplot2"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+   Exploring data with ggplot2.
+---
+
+<!-- Add JavaScript code for making the exercise code larger -->
+<script language="JavaScript" src="js/exercise-font-size.js"></script>
+
+```{r setup, include=FALSE}
+# load packages-----------------------------------------------------------------
+
+library(learnr)
+library(gradethis)
+library(tidyverse)
+library(palmerpenguins)
+library(datos)
+# set options for exercises and checking ---------------------------------------
+# hide non-exercise code chunks ------------------------------------------------
+tutorial_options(exercise.timelimit = 60)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+```{r imagen-peng, fig.margin = TRUE, echo = FALSE, out.width = "100%", fig.cap="IDibujo de Allison Horst"}
+knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/lter_penguins.png")
+```
+
+### Aim
+
+This tutorial will teach you how to create graphs to analyze the relationships, trends, and characteristics of the palmerpenguins dataset with R's most popular visualization package, `ggplot2`.
+
+Visualization is one of the most important tools for data science, and it's also a great way to start learning R.
+
+The tutorial focuses on three basic skills:
+
+     - The rationale behind data exploration process
+     - Data exploration as an iterative process
+     - Reporting a conclusion as a plot  
+
+Enjoy! 
+
+###
+
+#### Get to know the penguins
+
+The palmerpenguin data contains attribute size measures of three penguin species observed on three islands in the Palmer Archipelago, Antarctica. The properties of this dataset make it useful for statistics and data science education, as well as for software documentation and testing.
+ 
+
+```{r, echo=FALSE, out.width="50%"}
+knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/penguin-expedition.jpg")
+knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png")
+```
+
+###
+
+### Learning objectives:
+Este tutorial te mostrará cómo utilizar el paquete `ggplot2` para explorar tus pingüinos de una manera sistemática, una tarea que en estadísticos llamamos análisis de datos exploratorio, o  para abreviar EDA (del inglés Exploratory Data Analysis). 
+
+In this tutorial you will:
+
+- Develop a strategy for exploring data.
+- Practice finding patterns in your data.
+- Get tips on how to use different types of charts to explore penguins.
+
+## Exploratory data analysis
+
+Exploratory data analysis is not a formal process with a strict set of rules. More than anything, EDA is a creative process.
+
+During the initial phases of EDA, you should feel free to research every idea that comes to mind. Some of these ideas will develop and others will be dead ends. As your exploration continues, you will focus on lines of inquiry that reveal insights worth writing down and communicating to others.
+
+**Let's explore!**
+
+
+### Discovery or confirmation?
+
+You can think of data science as a two-step process: discovery and confirmation.
+Scientists first observe the world to discover a hypothesis to test. Then, they devise a test to confirm the hypotheses against new data.
+If the hypothesis survives many tests, it can be trusted to be a reliable explanation of the data.
+
+As a result, data scientists first look for patterns in the real world then try to confirm that the patterns exist.
+
+```{r quiz-1}
+question('Is EDA a discovery or confirmation tool?',
+         answer("Discovery", correct = TRUE),
+         answer("Confirmation"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "You're sure? EDA reveals patterns, but does not confirm that those patterns exist beyond your data set.",
+         
+         correct = "EDA is a tool for discovery; in fact, EDA is one of the most fruitful tools for discovery in data science. We will focus on discovery throughout this tutorial, but remember to test any pattern you discover before relying on it."
+)
+```
+
+### Loading the data
+
+Let's start by loading the penguin data. Just type penguins on the snippet below and select Submit Answer. 
+
+```{r pinguinos0, exercise = TRUE}
+
+```
+
+```{r pinguinos0-solution}
+penguins
+```
+
+```{r pinguinos0-check}
+"We will use interactive code snippets like this throughout these tutorials. Whenever you find one, you can click Submit Response to run (or rerun) the code in the snippet. If there is a Solution button, you can click to see the answer. "
+```
+
+###
+
+### First question
+
+Every exploratory analysis begins with a question, which will be our hypothesis during the EDA.
+
+```{r predict, echo = FALSE}
+question("What do you think? Are male penguins heavier than female penguins?", 
+         type = "single",
+         correct = "Great",
+         answer("Male penguins heavier than female penguins", correct = TRUE, message = "In other words, your hypothesis is that there is a positive relationship between penguin size and gender. Now let's test your hypothesis with data."),
+         answer("The weight depends on the specie", correct = TRUE, message = "In other words, your hypothesis is that there is a positive relationship between penguin size and gender. Now let's test your hypothesis with data.")
+)
+```
+
+
+### Second question
+
+Now we wonder what types of data answer this question. In this case the data is in the variable `body_mass_g`.
+
+```{r sentiment-quiz}
+question('What type of variables body_mass_g is?',
+         answer("`body_mass_g` is a discrete variable"),
+         answer("`body_mass_g` is a continous variable", correct = TRUE),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "Check what kind of class they are with class(penguins$sex) is",
+         correct = "Continuous variables are properties that you can measure and discrete variables are properties that you can count.")
+```
+
+Now that we know what type of variable we are working with, we can choose the type of graph that we are going to use for plotting.
+
+### Third question
+
+The third question is what type of graph is most appropriate to represent this data.
+For this we can check ggplot2's cheatsheet:
+
+```{r echo=FALSE, out.width = "100%"}
+knitr::include_graphics("https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/data-visualization-2.1-1.png")
+```
+
+### Fourth question
+
+The next question is what combination of layers of ggplot we are going to use to plot these data. Remember that ggplot2 follow the layered [The Grammar of Graphics](https://www.springer.com/gp/book/9780387245447).
+
+Below we provide you with part of the code to represent a geom_histogram for each of the penguin sexes, but you need to fill in the gaps.
+
+```{r ggplot2-histogram, exercise = TRUE}
+ggplot(data = ___, aes(x = ___)) +
+    geom_histogram(aes(fill = sex),binwidth =500, alpha = 0.5, 
+                   position = "identity")
+```
+
+```{r ggplot2-histogram-hint-1}
+ggplot(data = ___, aes(x = body_mass_g)) +
+    geom_histogram(aes(fill = sex),binwidth =500, alpha = 0.5, 
+                   position = "identity") 
+```
+
+```{r ggplot2-histogram-solution}
+ggplot(data = penguins, aes(x = body_mass_g)) +
+    geom_histogram(aes(fill = sex),binwidth =500, alpha = 0.5, 
+                   position = "identity")
+```
+
+```{r ggplot2-histogram-check}
+grade_this_code("Notice there are a couple of warnings. This is because some data (specifically 2 points) of body_mass_g are missing from the penguins dataset, and as a result they are encoded as `NA`s. If some values are not known they cannot be represented in a graph, and therefore ggplot2 omits them.")
+```
+
+### Deconstructing the code
+
+	Let’s deconstruct the ggplot2 code we just wrote:
+
+- `ggplot()` is the function we use to build our plot, in layers.
+- In the first layer we always define the data frame as the first argument. In our case is penguins. Then, we define the mappings between the variables in the dataset and the **aes**thetics of the plot. In this case body_mass_g is on x axis. 
+- In the next layer we represent the data with **geom**etric shapes, in this case with a histogram. We need to tell `geom_histogram()` that we want one histograma for each sex; we do this at geom_histogram(aes(fill = sexo). 
+
+### Interpreting the histograma
+
+```{r quiz-histograma}
+question('Which of the following statements is correct about what the histograms are telling us? Select all the correct answers.',
+         answer("The weight of female penguins and penguins appears to follow a binomial distribution", correct = TRUE),
+           answer("The weight of female penguins seems less than the weight of male penguins", correct = TRUE),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "Select all correct answers",
+         correct = "This first exploration led us to asking more questions. Let's continue with our EDA!"
+)
+```
+
+### Using facets
+
+We are going to separate these data a bit more to see if we can understand why the distribution of the weights has a binomial shape For example, the different species may have different weights. For this we are going to use `facets`, that is, sub-graphs. 
+
+```{r echo=FALSE, out.width = "100%"}
+knitr::include_graphics("https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/data-visualization-2.1-2.png")
+```
+
+Below we provide you with part of the code to represent a geom_histogram for each of the penguin sexes and facets for each of the species, but you need to fill in the gaps.
+
+```{r ggplot2-histogram-facets2, exercise = TRUE}
+ggplot(data = penguins, aes(x = body_mass_g)) +
+    geom_histogram(aes(fill = sex), alpha = 0.5, 
+                   position = "identity") +
+    facet_wrap(~___)
+```
+
+```{r ggplot2-histogram-facets2-solution}
+ggplot(data = penguins, aes(x = body_mass_g)) +
+    geom_histogram(aes(fill = sex), alpha = 0.5, 
+                   position = "identity") +
+    facet_wrap(~species)
+```
+
+### Experimenting with binwidth
+We can define the width of the histogram intervals with the binwidth argument. For example, in the code below we choose a binwidth of 500 for each interval.
+
+```{r, echo = TRUE}
+ggplot(data = penguins, aes(x = body_mass_g)) +
+    geom_histogram(aes(fill = sex),binwidth =500, alpha = 0.5, 
+                   position = "identity") +
+    facet_wrap(~species)
+```
+
+## Confirmation plot
+
+Finally, we can generate a graph that confirms our hypothesis: penguins are heavier than penguins. To clearly visualize this result, we can add the value of the mean to the plot.
+
+We can calculate the value of body mass grouped by sex and species.
+```{r, echo = TRUE}
+vline <- summarise(group_by(penguins,sex,species ), mean = mean(body_mass_g))
+vline
+```
+
+And we can add that data with an additinal layer using `geom_vline()`.
+```{r, echo = TRUE}
+ggplot(data = penguins, aes(x = body_mass_g)) +
+    geom_histogram(aes(fill = sex),binwidth =500, alpha = 0.5, 
+                   position = "identity") +
+    facet_wrap(~species)+
+    geom_vline(data = vline, aes(xintercept = mean))
+```
+
+We add a final layer with `labs` to make the graph more readable.
+```{r, echo = TRUE}
+ggplot(data = penguins, aes(x = body_mass_g)) +
+    geom_histogram(aes(fill = sex),binwidth =500, alpha = 0.5, 
+                   position = "identity") +
+    facet_wrap(~species)+
+    geom_vline(data = vline, aes(xintercept = mean)) +
+    labs(
+        x = "Body mass, in g",
+        y = "Frequency",
+        title = "Weight distribution of penguins for each sex",
+        subtitle = "Values for each penguin species"
+    )
+```
+
+## Wrapping up
+
+Congratulations, you have completed the ggplot2 data exploration tutorial! We hope you've enjoyed hypothesizing, visualizing data, practicing your interpretive skills, and reaching a conclusion. 
+
+In this example we have added a total of 5 layers to our ggplot2 graph.
+
+We invite you to explore more visualizations of penguins from the TidyTuesday of 2020-07-28 [by exploring this resource](tiny.cc/notion-dataviz) created by @SilviaCanelon or in the  [TidyTuesdayAltText](https://github.com/spcanelon/TidyTuesdayAltText) package with alternative text for improved accessibility.
+
+
