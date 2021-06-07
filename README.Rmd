@@ -24,7 +24,11 @@ knitr::opts_chunk$set(
 
 <img src="man/figures/cover.png" align="center" height="500"/>
 
-Presentaremos este [useR! 2021 online tutorial](https://user2021.r-project.org/program/tutorials/) el Miercoles 7 de Julio 2021 2:45-3:45 GMT. 
+Presentaremos este tutorial en [useR! 2021 online tutorial](https://user2021.r-project.org/program/tutorials/) el Miercoles 7 de Julio 2021 2:45-3:45 GMT. 
+
+
+[Link](https://docs.google.com/presentation/d/1LXuVnfO_MPYdrmC9SNBizKg1nyBbP9J8bWNRLGLiX9I/edit) con las diapositivas de nuestra presentación.
+
 
 ## Objetivo
 
@@ -71,6 +75,11 @@ Puedes ver todos los tutoriales displonibles en `penguinsbox` con:
 ```{r, eval=FALSE}
 learnr::available_tutorials("penguinsbox")
 ```
+
+Si estas trabajando en una computadora de Windows, es posible que al producir los ejercicios con learner algunos signos de español (e.g.la ñ) no se generen correctamente. Esto no pasa en shinny app. 
+
+Por eso te damos algunos links para que accedas a traves de Shiny app. Para los ejercicios de iteración puedes accedes [aqui](https://mariadermituser1.shinyapps.io/05-Iteration-es/#) y para los ejercicios de ggplot2 puedes acceder [aqui](https://mariadermituser1.shinyapps.io/03-ggplot2-es/)
+
 
 ## ¿Para quién es este tutorial?
 
@@ -164,6 +173,8 @@ Todo el material de `penguinsbox` tiene licencia Creative Commons Attribution Sh
 
 We will present this [useR! 2021 online tutorial](https://user2021.r-project.org/program/tutorials/) on Wednesday July 7th 2021 at 7:15-8:15 GMT. 
 
+You can find the slides for our presentation  [here](https://docs.google.com/presentation/d/1e5_ZvsR0cxfJxYhXsRQoseuiIO8NAiyEodWoxwoB6gg/edit).
+
 ## Goal 
 The goal of `penguinsbox` package is to supplement the [R for Data Science book](https://r4ds.had.co.nz/) with fading exercises, multiple choice questions and Parsons problems using the palmerpenguins and datasets. The package is built using [learnr](https://github.com/rstudio/learnr) tutorials.
 
@@ -204,6 +215,10 @@ You can check the available tutorials on `penguinsbox` by running:
 ```{r, eval=FALSE}
 learnr::available_tutorials("penguinsbox")
 ```
+
+You can access some of our tutorials through Shiny. You can find get access to the [iteration tutorial](https://mariadermituser1.shinyapps.io/05-Iteration/) and the [ggplot tutorial](https://mariadermituser1.shinyapps.io/03-ggplot2/).
+
+
 
 ## Who is this tutorial for?
 

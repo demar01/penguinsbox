@@ -11,9 +11,12 @@ status](https://img.shields.io/github/issues/demar01/penguinsbox)
 
 <img src="man/figures/cover.png" align="center" height="500"/>
 
-Presentaremos este [useR! 2021 online
+Presentaremos este tutorial en [useR! 2021 online
 tutorial](https://user2021.r-project.org/program/tutorials/) el
 Miercoles 7 de Julio 2021 2:45-3:45 GMT.
+
+[Link](https://docs.google.com/presentation/d/1LXuVnfO_MPYdrmC9SNBizKg1nyBbP9J8bWNRLGLiX9I/edit)
+con las diapositivas de nuestra presentación.
 
 ## Objetivo
 
@@ -70,6 +73,16 @@ Puedes ver todos los tutoriales displonibles en `penguinsbox` con:
 ``` r
 learnr::available_tutorials("penguinsbox")
 ```
+
+Si estas trabajando en una computadora de Windows, es posible que al
+producir los ejercicios con learner algunos signos de español (e.g.ñ) no
+se generen correctamente. Esto no pasa en shinny app.
+
+Por eso te damos algunos links para que accedas a traves de Shiny app.
+Para los ejercicios de iteración puedes accedes
+[aqui](https://mariadermituser1.shinyapps.io/05-Iteration-es/#) y para
+los ejercicios de ggplot2 puedes acceder
+[aqui](https://mariadermituser1.shinyapps.io/03-ggplot2-es/)
 
 ## ¿Para quién es este tutorial?
 
@@ -135,10 +148,10 @@ rstudio::conf 2020 para ver los criterios a tener en cuenta al
 desarroyar un tutorial learnr. También te recomendamos los otros links
 en español para aprender a construir tutoriales de learnr:
 
-📽 [Construyendo tutoriales con
+📺 [Construyendo tutoriales con
 learnr](https://www.youtube.com/watch?v=EBAvQkP9Kycw)
 
-📂 [Aprendiendo learnr](https://learning-learnr.netlify.app/)
+📁 [Aprendiendo learnr](https://learning-learnr.netlify.app/)
 
 🔗 [Taller de learnr](https://github.com/yabellini/curso_learnr)
 
@@ -177,7 +190,7 @@ Attribution Share Alike 4.0 International.
 
 # Penguins in a box in useR2021!
 
-&lt;img <!-- badges: start --> ![R build
+\<img <!-- badges: start --> ![R build
 status](https://img.shields.io/github/issues/demar01/penguinsbox)
 <!-- badges: end -->
 
@@ -302,21 +315,21 @@ so you can see how we did the first types of exercises. Besides that,
 you can check the linksbelow with interesting information about building
 and sharing learnr tutorials:
 
-📜[Learning
+📃[Learning
 learnr](https://education.rstudio.com/blog/2020/07/learning-learnr/)
 
 📜 [Learnr for
 remote](https://education.rstudio.com/blog/2020/05/learnr-for-remote/?utm_content=buffer94d2c&utm_medium=social&utm_source=facebook&utm_campaign=buffer)
 
-📃 [Interactive tutorials with
+📜 [Interactive tutorials with
 learnr](https://desiree.rbind.io/post/2020/learnr-iframes/)
 
 🔗 [Learnr repo](https://rstudio.github.io/learnr/)
 
-📺 [Friendly learnr
+📽 [Friendly learnr
 tutorials](https://www.rstudio.com/resources/rstudioconf-2020/of-teacups-giraffes-r-markdown/)
 
-📹 [Feedback for learnr
+📸 [Feedback for learnr
 tutorials](https://www.rstudio.com/resources/rstudioconf-2018/adaptive-feedback-for-learnr-tutorials-daniel-kaplan/)
 
 ## Questions, bugs, feature requests
