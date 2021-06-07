@@ -1,0 +1,13 @@
+name: 00-Learnr-ES
+title: 00-Learnr-ES
+username:
+account: mariadermituser1
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4295579
+bundleId: 4736592
+url: https://mariadermituser1.shinyapps.io/00-Learnr-ES/
+when: 1624212509.81555
+lastSyncTime: 1624212509.81556
+asMultiple: FALSE
+asStatic: FALSE
