@@ -38,7 +38,7 @@ El paquete está construido con [learnr](https://github.com/rstudio/learnr) para
 `penguinsbox` no está todavia en CRAN. Por ahora, puedes instalarlo desde GitHub con:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
+ install.packages("devtools")
 devtools::install_github("demar01/penguinsbox")
 ```
 
