@@ -1,0 +1,107 @@
+/*****************/
+/*Elementos principales */
+/*****************/
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14;
+}
+
+em {
+    color: #2b2b2b;
+}
+
+h1, h2 {
+  color: #C83737;
+  background-color: #f7f7f7;
+  padding: .5em;
+}
+
+h3, h4, h5{
+  color: #C83737;
+}
+
+a {
+    color: #C83737;
+    text-decoration: none;
+}
+
+.ace-tm {
+    background-color: #ffffff;
+    color: black;
+}
+
+
+/***********************/
+/* tabla de contenidos */
+/***********************/
+.topicsList {
+  padding: .5em;
+}
+
+.topicsHeader {
+  background-color: #f7f7f7;
+  color: #2b2b2b;
+  padding: .5em;
+}
+
+.topicsList #doc-metadata {
+  background-color: #f7f7f7;
+  color: #2b2b2b;
+  padding: .5em;
+}
+
+.topicsList .topic.current {
+  background-color: #f7f7f7;
+  color: #C83737;
+}
+
+.topicsList .topic:hover, .topicsList .topic:active {
+  background-color: #f7f7f7;
+  color: #C83737;
+}
+
+/***********/
+/* Botones */
+/***********/
+
+.btn {
+  background-color: #C83737;
+  color: #fff;
+}
+
+.btn-default {
+    color: #ffffff;
+    background-color: #C83737;
+    border: none;
+}
+
+.btn-light, .btn-danger, .btn-warning {
+  background-color: #aa2f2f;
+  color: #fff;
+}
+
+.btn-primary, .btn-secondary , .btn-success, .btn-dark, .btn-info{
+  background-color: #C83737;
+  color: #fff;
+}
+
+.btn-group, .btn-group-toggle {
+  background-color: #C83737;
+  color: #fff;
+}
+
+.btn:hover, .btn:active, .btn:disabled {
+  background-color: #aa2f2f;
+  color: #fff;
+}
+
+/****************/
+/* Código       */
+/****************/
+
+code {
+    color: #C83737;
+    background-color:  #f7f7f7;
+    font-size: 14px;
+}
+
