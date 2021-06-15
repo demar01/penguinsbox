@@ -245,9 +245,9 @@ ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
     
 ```
 
-## Grafo de confirmación
+## Grafico de confirmación
 
-Por último, podemos generar un grafo que confirme nuestra hipótesis: los pingüinos son mas pesados que las pingüinas. Para visualizar más claramente este resultado en el grafo, podemos añadir el valor de la media de masa_corporal al grafo. 
+Por último, podemos generar un grafico que confirme nuestra hipótesis: los pingüinos son mas pesados que las pingüinas. Para visualizar más claramente este resultado en el grafo, podemos añadir el valor de la media de masa_corporal al grafo. 
 
 Podemos calcular el valor de la masa corporal agrupada por sexo y especie:
 ```{r, echo = TRUE}
