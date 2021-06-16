@@ -31,6 +31,8 @@ tutoriales.
 desde GitHub con:
 
 ``` r
+ 
+# install.packages("remotes")
 # install.packages("devtools")
 devtools::install_github("demar01/penguinsbox")
 ```
@@ -44,8 +46,20 @@ siguientes links:
 ``` r
 remotes::install_github("rstudio/parsons")
 remotes::install_github("rstudio/gradethis")
+remotes::install_github("cienciadedatos/datos") # para los tutoriales en ES (pinguinos)
 ```
 
+la version en desarrollo del paquete datos:
+
+# install.packages("remotes")
+# remotes::install_github("cienciadedatos/datos")
+
+la version de lener en espa;ol
+
+la version de lerner compatible con gradethis
+``` r
+remotes::install_github("rstudio/learnr@1ac35b120f07755e8ad6e7d414a0547bb5c3daae")
+```
 En caso de que no consigas instalar `penguinsbox` en tu computadora, por
 favor [describenos tu
 problema.](https://github.com/rstudio-education/dsbox/issues)
