@@ -31,21 +31,28 @@ tutoriales.
 desde GitHub con:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("demar01/penguinsbox")
+ 
+# install.packages("remotes")
+remotes::install_github("demar01/penguinsbox")
 ```
 
 Esta instalación debería ser suficiente para ejecutar `penguinsbox`. Sin
 embargo, `penguinsbox` depende de paquetes en desarrollo como
-`gradethis` y `parsons`. En caso de que tengas algún problema con la
+`gradethis` , `parsons` y `datos`. En caso de que tengas algún problema con la
 instalación, intenta installar los paquetes individualmente con los
 siguientes links:
 
 ``` r
 remotes::install_github("rstudio/parsons")
 remotes::install_github("rstudio/gradethis")
+remotes::install_github("cienciadedatos/datos") 
 ```
 
+Es posible que debas actualizar la versión de learnr que sea compatible con el paquete gradethis, 
+puedes hacerlo ejecutando el siguiente comando:
+``` r
+remotes::install_github("rstudio/learnr@1ac35b120f07755e8ad6e7d414a0547bb5c3daae")
+```
 En caso de que no consigas instalar `penguinsbox` en tu computadora, por
 favor [describenos tu
 problema.](https://github.com/rstudio-education/dsbox/issues)
