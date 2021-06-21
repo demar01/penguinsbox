@@ -17,7 +17,7 @@ description: >
 # load packages-----------------------------------------------------------------
 
 library(learnr)
-#library(gradethis)
+library(gradethis)
 library(tidyverse)
 library(palmerpenguins)
 library(datos)
@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = FALSE)
 knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/man/figures/lter_penguins.png")
 ```
 
-### Objetivo de aprendizaje
+
 
 Este tutorial te enseñará cómo crear gráficas  para analizar las relaciones , tendencias y características del dataset palmerpenguins  con el paquete de visualización más popular de R, `ggplot2`. 
 
@@ -42,15 +42,16 @@ El tutorial se centra en tres habilidades básicas:
 
      - El fundamento del proceso de exploración de datos
      - Exploración de datos como proceso iterativo
-     - Finalizar con una conclusión reportada en un grafo
+     - Finalizar con una conclusión reportada en un gráfico
 
 ¡A Disfrutar! 
 
+
 ###
 
-#### Conoce a los pingüinos
+### Conoce a los pingüinos
 
-Los datos de palmerpenguins contienen medidas de tamaño de atributos de tres especies de pingüinos observadas en tres islas del archipiélago de Palmer, en la Antártida.
+Los datos de palmerpenguins contienen medidas del tamaño de atributos de tres especies de pingüinos observadas en tres islas del archipiélago de Palmer, en la Antártida.
  Las propiedades de este conjuntos de datos  lo hacen útil para la educación en estadística y ciencia de datos, así como para la documentación y las pruebas de software.
 
 ```{r, echo=FALSE, out.width="50%"}
@@ -58,7 +59,7 @@ knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpengui
 knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png")
 ```
 
-###
+
 
 ### Objetivos de aprendizaje:
 Este tutorial te mostrará cómo utilizar el paquete `ggplot2` para explorar tus pingüinos de una manera sistemática, una tarea que en estadísticos llamamos análisis de datos exploratorio, o  para abreviar EDA (del inglés Exploratory Data Analysis). 
@@ -100,7 +101,7 @@ question('¿Es EDA una herramienta de descubrimiento o confirmación?',
 
 ### Cargando los datos
 
-Comencemos cargando los datos de pingüinos Escribe pinguinos en la caja de abajo y selecciona Enviar Respuesta. 
+Comencemos cargando los datos de pingüinos Escribe 'pinguinos' de abajo y selecciona Enviar Respuesta. 
 
 ```{r pinguinos0, exercise = TRUE}
 
@@ -114,7 +115,7 @@ pinguinos
 "¡Buen trabajo! Usaremos fragmentos de código interactivo como este a lo largo de estos tutoriales. Siempre que encuentre uno, puede hacer clic en Enviar respuesta para ejecutar (o volver a ejecutar) el código en el fragmento. Si hay un botón Solución, puede haz clic para ver la respuesta "
 ```
 
-###
+
 
 ### Primera pregunta
 
@@ -125,14 +126,14 @@ question("¿Qué piensas? ¿Son los pingüinos más pesados que las pingüinas?"
          type = "single",
          correct = "¡Muy bien!",
          answer("Los pingüinos machos son más pesados", correct = TRUE, message = "En otras palabras, tu hipotesis es que existe una relación positiva entre el tamaño del de los pingüinos y su género. Ahora probemos tu hipótesis con datos."),
-         answer("El peso depende de la especie", correct = TRUE, message = "En otras palabras, la hipotesis es que existe una relación positiva entre la especie y el tamaño de los pingüinos. Ahora, probemos esta hipótesis con datos.")
+         answer("El peso depende de la especie", correct = TRUE, message = "En otras palabras, la hipótesis es que existe una relación positiva entre la especie y el tamaño de los pingüinos. Ahora, probemos esta hipótesis con datos.")
 )
 ```
 
 
 ### Segunda pregunta
 
-Ahora nos preguntamos qué tipos de datos responden a esta pregunta. En este caso los datos estan en la variable `masa_corporal_g`. 
+Ahora nos preguntamos qué tipos de datos responden a esta hipótesis. En este caso los datos estan en la variable `masa_corporal_g`. 
 
 ```{r sentiment-quiz}
 question('¿Qué tipo de variables son la masa corporal y el sexo?',
@@ -145,9 +146,9 @@ question('¿Qué tipo de variables son la masa corporal y el sexo?',
 )
 ```
 
-Ahora que sabemos con que tipo de variable estamos trabajando podemos elegir el tipo grafo que vamos a utilizar para representarlas.  
+Ahora que sabemos con que tipo de variable estamos trabajando podemos elegir el tipo gráfico que vamos a utilizar para representarlas.  
 
-###
+
 
 ### Tercera pregunta
 
@@ -160,11 +161,11 @@ knitr::include_graphics("https://raw.githubusercontent.com/demar01/penguinsbox/m
 
 Para visualizar una variable continua podemos escoger `geom_histogram()`; `geom_histogram()` toma el vector de masa_corporal, lo dividide en segmentos y cuenta automaticamente cuantas observaciones hay en cada segmento.
 
-###
+
 
 ### Cuarta pregunta
 
-La siguiente pregunta que nos hacemos es que combinacion de capas de ggplot2 vamos a utilizar para representar estos datos. Recuerda que ggplot funciona agregando capas, un concepto explicado en el libro [La gramatica de grafos](https://www.springer.com/gp/book/9780387245447). Abajo te proporcionamos parte del códigos para representar un `geom_histogram()` para cada uno de los sexos de los pingüinos, pero necesitas rellenar los huecos. 
+La siguiente pregunta que nos hacemos es que combinacion de capas de ggplot2 vamos a utilizar para representar estos datos. Recuerda que ggplot funciona agregando capas, un concepto explicado en el libro [La gramatica de gráficos](https://www.springer.com/gp/book/9780387245447). Abajo te proporcionamos parte del códigos para representar un `geom_histogram()` para cada uno de los sexos de los pingüinos, pero necesitas rellenar los huecos. 
 
 ```{r ggplot2-histogram, exercise = TRUE}
 ggplot(data = ___, aes(x = ___)) +
@@ -183,7 +184,7 @@ ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
 ```
 
 ```{r ggplot2-histogram-check}
-grade_this_code("Fíjate que hay un par de warnings. Esto se debe a que algunos datos (concretamente 2) de masa_corporal faltan en nuestros datos de pingüinos, y estan codificados como `NA`s. Si no le suministramos a ggplot2 los valores de masa_corporal para algunas entradas, no las puede representar en el grafo, y por tando ggplot2 omite estos datos, pero te avisa de esta omisión")
+grade_this_code("Fíjate que hay un par de warnings. Esto se debe a que algunos datos (concretamente 2) de masa_corporal faltan en nuestros datos de pingüinos, y estan codificados como `NA`s. Si no le suministramos a ggplot2 los valores de masa_corporal para algunas entradas, no las puede representar en el gráfico, y por tando ggplot2 omite estos datos, pero te avisa de esta omisión")
 ```
 
 ### Deconstruyendo el código
@@ -247,7 +248,7 @@ ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
 
 ## Grafico de confirmación
 
-Por último, podemos generar un grafico que confirme nuestra hipótesis: los pingüinos son mas pesados que las pingüinas. Para visualizar más claramente este resultado en el grafo, podemos añadir el valor de la media de masa_corporal al grafo. 
+Por último, podemos generar un grafico que confirme nuestra hipótesis: los pingüinos son mas pesados que las pingüinas. Para visualizar más claramente este resultado en el gráfico, podemos añadir el valor de la media de masa_corporal al gráfico. 
 
 Podemos calcular el valor de la masa corporal agrupada por sexo y especie:
 ```{r, echo = TRUE}
@@ -264,7 +265,7 @@ ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
     geom_vline(data = vline, aes(xintercept = mean))
 ```
 
-Añadimos una capa final con etiquetas (labs) para hacer el grafo mas interpretable. 
+Añadimos una capa final con etiquetas (labs) para hacer el gráfico mas interpretable. 
 ```{r, echo = TRUE}
 ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
     geom_histogram(aes(fill = sexo),binwidth =500, alpha = 0.5, 
@@ -283,7 +284,7 @@ ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
 
 Enhorabuena, has completado el tutorial de exploración de datos con ggplot2! Esperamos que hayas disfrutado formulando hipótesis, haciendo visualización de datos, practicando tuscapacidades interpretativas y llegando a una conclusión. 
 
-En este ejemplo hemos anadido un total de 5 capas en nuestro grafo de ggplot2. 
+En este ejemplo hemos anadido un total de 5 capas en nuestro gráfico de ggplot2. 
 
 Te invitamos a que explores más visualizaciones de pingüinos en el TidyTuesday de 2020-07-28 [explorando este recurso](tiny.cc/notion-dataviz) creado por @SilviaCanelon o en el paquete  [TidyTuesdayAltText](https://github.com/spcanelon/TidyTuesdayAltText) con texto alternativo.
 
