@@ -48,7 +48,7 @@ remotes::install_github("rstudio/gradethis")
 remotes::install_github("cienciadedatos/datos") 
 ```
 
-Es posible que debas actualizar la versión de lernr que sea compatible con el paquete gradethis, 
+Es posible que debas actualizar la versión de learnr que sea compatible con el paquete gradethis, 
 puedes hacerlo ejecutando el siguiente comando:
 ``` r
 remotes::install_github("rstudio/learnr@1ac35b120f07755e8ad6e7d414a0547bb5c3daae")
