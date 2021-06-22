@@ -321,7 +321,7 @@ so you can see how we did the first types of exercises. Besides that,
 you can check the linksbelow with interesting information about building
 and sharing learnr tutorials:
 
-📃[Learning
+📜[Learning
 learnr](https://education.rstudio.com/blog/2020/07/learning-learnr/)
 
 📜 [Learnr for
@@ -335,8 +335,10 @@ learnr](https://desiree.rbind.io/post/2020/learnr-iframes/)
 📽 [Friendly learnr
 tutorials](https://www.rstudio.com/resources/rstudioconf-2020/of-teacups-giraffes-r-markdown/)
 
-📸 [Feedback for learnr
+📽 [Feedback for learnr
 tutorials](https://www.rstudio.com/resources/rstudioconf-2018/adaptive-feedback-for-learnr-tutorials-daniel-kaplan/)
+
+📽 [Creating lernr tutorials from templates](https://www.youtube.com/watch?v=gwu63_WO7O8&t=1728s)
 
 ## Questions, bugs, feature requests
 
