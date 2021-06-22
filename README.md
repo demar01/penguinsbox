@@ -155,6 +155,12 @@ learnr](https://www.youtube.com/watch?v=EBAvQkP9Kycw)
 
 🔗 [Taller de learnr](https://github.com/yabellini/curso_learnr)
 
+
+Aqui te mostramos como puedes hacer tutoriales learnr a traves de la plantilla de learnr.
+
+https://user-images.githubusercontent.com/5008157/122995604-b6807780-d3a1-11eb-8641-b96c97bbf967.mp4
+
+
 ## Preguntas, errores, solicitudes de funciones
 
 Puedes abrir un problema para obtener ayuda, informar un error o
