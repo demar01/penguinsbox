@@ -33,7 +33,6 @@ knitr::include_graphics("https://raw.githubusercontent.com/allisonhorst/palmerpe
 ```
 
 
-
 Este tutorial te enseñará cómo crear gráficas  para analizar las relaciones , tendencias y características del dataset palmerpenguins  con el paquete de visualización más popular de R, `ggplot2`. 
 
 La visualización es una de las herramientas más importantes para la ciencia de datos y también es una excelente manera de comenzar a aprender R.
@@ -58,7 +57,6 @@ Los datos de palmerpenguins contienen medidas del tamaño de atributos de tres e
 knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/penguin-expedition.jpg")
 knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png")
 ```
-
 
 
 ### Objetivos de aprendizaje:
@@ -114,7 +112,6 @@ pinguinos
 ```{r pinguinos0-check}
 "¡Buen trabajo! Usaremos fragmentos de código interactivo como este a lo largo de estos tutoriales. Siempre que encuentre uno, puede hacer clic en Enviar respuesta para ejecutar (o volver a ejecutar) el código en el fragmento. Si hay un botón Solución, puede haz clic para ver la respuesta "
 ```
-
 
 
 ### Primera pregunta

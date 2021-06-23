@@ -16,7 +16,7 @@ description: >
 # load packages-----------------------------------------------------------------
 
 library(learnr)
-#library(gradethis)
+library(gradethis)
 library(tidyverse)
 library(palmerpenguins)
 library(datos)

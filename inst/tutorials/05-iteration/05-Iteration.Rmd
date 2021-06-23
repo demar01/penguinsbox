@@ -119,10 +119,11 @@ mean(penguins_measurements$fins)
 mean(penguins_measurements$head)
 ```
 
+```{r meansep-check}
+grade_code("You can indeed calculate the mean of each variable in this way, but you would be repeating your code (remember the rule of thumb: never copy and paste your code more than twice). To avoid this, you could use  **a for loop**.")
+```
+
 ###
-
-You can indeed calculate the mean of each variable in this way, but you would be repeating your code (remember the rule of thumb: never copy and paste your code more than twice). To avoid this, you could use  **a for loop**.
-
 
 ## Iteraction with for loops
 
