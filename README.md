@@ -227,8 +227,10 @@ datasets. The package is built using
 GitHub with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("demar01/penguinsbox")
+ 
+# install.packages("remotes")
+remotes::install_github("demar01/penguinsbox")
+
 ```
 
 This installation should be enough to run `penguinsbox`. However,
@@ -245,6 +247,10 @@ remotes::install_github("rstudio/gradethis")
 In case you cannot install `penguinsbox` on your computer, [please
 describe your problem in the issues
 page.](https://github.com/rstudio-education/dsbox/issues)
+
+``` r
+remotes::install_github("rstudio/learnr@1ac35b120f07755e8ad6e7d414a0547bb5c3daae")
+```
 
 ## How to run each individual tutorial?
 
