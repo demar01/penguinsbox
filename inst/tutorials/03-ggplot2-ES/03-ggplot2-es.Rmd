@@ -48,16 +48,15 @@ El tutorial se centra en tres habilidades básicas:
 
 ###
 
-### Conoce a los pingüinos
+#### Conoce a los pingüinos
 
-Los datos de palmerpenguins contienen medidas del tamaño de atributos de tres especies de pingüinos observadas en tres islas del archipiélago de Palmer, en la Antártida.
- Las propiedades de este conjuntos de datos  lo hacen útil para la educación en estadística y ciencia de datos, así como para la documentación y las pruebas de software.
+Los datos de palmerpenguins contienen medidas de tamaño de atributos de tres especies de pingüinos observadas en tres islas del archipiélago de Palmer, en la Antártida.
+Las propiedades de este conjuntos de datos  lo hacen útil para la educación en estadística y ciencia de datos, así como para la documentación y las pruebas de software.
 
 ```{r, echo=FALSE, out.width="50%"}
 knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/penguin-expedition.jpg")
 knitr::include_graphics("https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png")
 ```
-
 
 ### Objetivos de aprendizaje:
 Este tutorial te mostrará cómo utilizar el paquete `ggplot2` para explorar tus pingüinos de una manera sistemática, una tarea que en estadísticos llamamos análisis de datos exploratorio, o  para abreviar EDA (del inglés Exploratory Data Analysis). 
@@ -99,7 +98,9 @@ question('¿Es EDA una herramienta de descubrimiento o confirmación?',
 
 ### Cargando los datos
 
-Comencemos cargando los datos de pingüinos Escribe 'pinguinos' de abajo y selecciona Enviar Respuesta. 
+
+Comencemos cargando los datos de pingüinos. Escribe 'pinguinos' abajo y selecciona Enviar Respuesta.
+
 
 ```{r pinguinos0, exercise = TRUE}
 
@@ -112,6 +113,8 @@ pinguinos
 ```{r pinguinos0-check}
 "¡Buen trabajo! Usaremos fragmentos de código interactivo como este a lo largo de estos tutoriales. Siempre que encuentre uno, puede hacer clic en Enviar respuesta para ejecutar (o volver a ejecutar) el código en el fragmento. Si hay un botón Solución, puede haz clic para ver la respuesta "
 ```
+
+###
 
 
 ### Primera pregunta
@@ -146,6 +149,8 @@ question('¿Qué tipo de variables son la masa corporal y el sexo?',
 Ahora que sabemos con que tipo de variable estamos trabajando podemos elegir el tipo gráfico que vamos a utilizar para representarlas.  
 
 
+###
+
 
 ### Tercera pregunta
 
@@ -158,6 +163,8 @@ knitr::include_graphics("https://raw.githubusercontent.com/demar01/penguinsbox/m
 
 Para visualizar una variable continua podemos escoger `geom_histogram()`; `geom_histogram()` toma el vector de masa_corporal, lo dividide en segmentos y cuenta automaticamente cuantas observaciones hay en cada segmento.
 
+
+###
 
 
 ### Cuarta pregunta
@@ -243,9 +250,14 @@ ggplot(data = pinguinos, aes(x = masa_corporal_g)) +
     
 ```
 
+
 ## Grafico de confirmación
 
 Por último, podemos generar un grafico que confirme nuestra hipótesis: los pingüinos son mas pesados que las pingüinas. Para visualizar más claramente este resultado en el gráfico, podemos añadir el valor de la media de masa_corporal al gráfico. 
+
+
+Por último, podemos generar un gráfico que confirme nuestra hipótesis: los pingüinos son mas pesados que las pingüinas. Para visualizar más claramente este resultado en el gráfico, podemos añadir el valor de la media de masa_corporal al gráfico. 
+
 
 Podemos calcular el valor de la masa corporal agrupada por sexo y especie:
 ```{r, echo = TRUE}
