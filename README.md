@@ -55,6 +55,15 @@ remotes::install_github("rstudio/parsons")
 remotes::install_github("rstudio/gradethis")
 ```
 
+Es posible que debas actualizar la versión de learnr que sea compatible con el paquete gradethis,
+puedes hacer esto ejecutando el siguiente comando:
+
+``` r
+remotes::install_github("rstudio/learnr@1ac35b120f07755e8ad6e7d414a0547bb5c3daae")
+```
+
+
+
 En caso de que no consigas instalar `penguinsbox` en tu computadora, por
 favor [describenos tu
 problema.](https://github.com/rstudio-education/dsbox/issues)
@@ -239,6 +248,13 @@ following links:
 ``` r
 remotes::install_github("rstudio/parsons")
 remotes::install_github("rstudio/gradethis")
+```
+
+You may need to update the version of learnr that is compatible with the gradethis package,
+you can do this by running the following command:
+
+``` r
+remotes::install_github("rstudio/learnr@1ac35b120f07755e8ad6e7d414a0547bb5c3daae")
 ```
 
 In case you cannot install `penguinsbox` on your computer, [please
