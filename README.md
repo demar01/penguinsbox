@@ -30,6 +30,12 @@ tutoriales.
 
 ## Instalación
 
+Puedes ver como instalar el paquete en este video:
+
+[![Puedes ver como instalar el paquete en este link ](https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/yt_pin_ins.png
+)](https://www.youtube.com/watch?v=tkEU9oZpaPw)
+
+
 `penguinsbox` no está todavia en CRAN. Por ahora, puedes instalarlo
 desde GitHub con:
 
@@ -54,6 +60,7 @@ favor [describenos tu
 problema.](https://github.com/rstudio-education/dsbox/issues)
 
 ## ¿Cómo ejecutar cada tutorial?
+
 
 Una vez que te hayas instalado el paquete `penguinsbox`, puedes correr
 cada tutorial por separado, especificando el nombre del tutorial.
@@ -140,7 +147,12 @@ documentación sobre como desarrollar learnr.
 
 ## ¿Cómo hacer ejercicios de learnr?
 
-Puedes ver el el código fuente de el tutorial piloto
+Puedes ver como crear tutoriales learnr utilizando plantillas en este video:
+
+[![Puedes ver como crear tutoriales learnr utilizando plantillas en este video ](https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/yt_learnr.png
+)](https://youtu.be/rVHl-bHkvoE)
+
+También puedes ver el el código fuente de el tutorial piloto
 [00-learnr](https://github.com/demar01/penguinsbox/blob/master/inst/tutorials/00-learnr-ES/00-Learnr-ES.Rmd)
 para ver cómo hicimos los tres tipos de ejercicios. Además, te
 recomendamos que veas el video Construyendo tutoriales con learn de
