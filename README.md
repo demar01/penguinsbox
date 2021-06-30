@@ -229,7 +229,7 @@ choice questions and Parsons problems using the palmerpenguins and
 datasets. The package is built using
 [learnr](https://github.com/rstudio/learnr) tutorials.
 
-## Instalation
+## Installation
 
 `penguinsbox` is not yet on CRAN. For now, you can install it from
 GitHub with:
