@@ -231,6 +231,12 @@ datasets. The package is built using
 
 ## Installation
 
+
+[![You can check this video where we show you how to install the package](https://raw.githubusercontent.com/demar01/penguinsbox/master/man/figures/yt_pin_ins.png
+)](https://www.youtube.com/watch?v=CSkhnaQjujQ)
+
+
+
 `penguinsbox` is not yet on CRAN. For now, you can install it from
 GitHub with:
 
