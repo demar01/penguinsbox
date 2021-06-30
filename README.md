@@ -40,8 +40,8 @@ Puedes ver como instalar el paquete en este video:
 desde GitHub con:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("demar01/penguinsbox")
+# install.packages("remotes")
+remotes::install_github("demar01/penguinsbox")
 ```
 
 Esta instalación debería ser suficiente para ejecutar `penguinsbox`. Sin
@@ -235,8 +235,8 @@ datasets. The package is built using
 GitHub with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("demar01/penguinsbox")
+# install.packages("remotes")
+remotes::install_github("demar01/penguinsbox")
 ```
 
 This installation should be enough to run `penguinsbox`. However,
