@@ -243,6 +243,8 @@ GitHub with:
 ``` r
 # install.packages("remotes")
 remotes::install_github("demar01/penguinsbox")
+
+install.packages("palmerpenguins")
 ```
 
 This installation should be enough to run `penguinsbox`. However,
